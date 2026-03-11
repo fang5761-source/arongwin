@@ -1,22 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<!-- iPhone 主畫面 ICON -->
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-
-<!-- Android / PWA ICON -->
-<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-
-<!-- 一般瀏覽器 favicon -->
-<link rel="icon" type="image/png" href="icon-192.png">
-
-<!-- iOS Web App -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="明日挑戰">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>明日挑戰</title>
@@ -525,7 +509,6 @@
         </div>
 
         <div class="toolbar">
-          <button class="btn-soft" id="sampleBtn" type="button">加入範例任務</button>
           <button class="btn-soft" id="clearDoneBtn" type="button">清除已完成</button>
           <button class="btn-danger" id="resetTodayBtn" type="button">清空今天任務</button>
         </div>
@@ -575,7 +558,27 @@
         <div class="toolbar">
           <button class="btn-main" id="settleBtn" type="button">今晚結算今天</button>
           <button class="btn-soft" id="newDayBtn" type="button">開始新的一天</button>
-          <button class="btn-soft" id="settingsBtn" type="button">重設設定</button>
+          <button class="btn-soft" id="settingsBtn" type="button">⚙ 設定</button>
+        </div>
+
+        <div class="section-box" id="settingsPanel" style="display:none; margin-bottom:16px;">
+          <div style="padding:14px 16px; font-weight:800; color:#2f5d3a;">設定</div>
+
+          <div style="padding:0 16px 16px 16px;">
+            <div class="toolbar" style="margin-bottom:10px;">
+              <button class="btn-soft" id="exportBackupBtn" type="button">匯出備份</button>
+              <button class="btn-soft" id="importBackupBtn" type="button">匯入備份</button>
+              <button class="btn-soft" id="toggleHiddenDoneBtn" type="button">打開隱藏完成項目</button>
+              <button class="btn-danger" id="resetAllBtn" type="button">重設設定</button>
+            </div>
+
+            <input id="importFileInput" type="file" accept="application/json" style="display:none;">
+
+            <div id="hiddenDonePanel" style="display:none; margin-top:10px;">
+              <div class="sub" style="margin-bottom:8px;">這裡是今天先收起來的已完成項目。</div>
+              <div id="hiddenDoneList"></div>
+            </div>
+          </div>
         </div>
 
         <h2 style="margin-top:18px;">本月統計</h2>
@@ -675,7 +678,6 @@ APP互動介面與設計：吳佩芳
         presetContent: document.getElementById("presetContent"),
         celebrateLayer: document.getElementById("celebrateLayer"),
         addBtn: document.getElementById("addBtn"),
-        sampleBtn: document.getElementById("sampleBtn"),
         clearDoneBtn: document.getElementById("clearDoneBtn"),
         resetTodayBtn: document.getElementById("resetTodayBtn"),
         settleBtn: document.getElementById("settleBtn"),
@@ -686,7 +688,15 @@ APP互動介面與設計：吳佩芳
         monthScore: document.getElementById("monthScore"),
         monthDone: document.getElementById("monthDone"),
         monthDays: document.getElementById("monthDays"),
-        monthAvg: document.getElementById("monthAvg")
+        monthAvg: document.getElementById("monthAvg"),
+        settingsPanel: document.getElementById("settingsPanel"),
+        exportBackupBtn: document.getElementById("exportBackupBtn"),
+        importBackupBtn: document.getElementById("importBackupBtn"),
+        toggleHiddenDoneBtn: document.getElementById("toggleHiddenDoneBtn"),
+        resetAllBtn: document.getElementById("resetAllBtn"),
+        importFileInput: document.getElementById("importFileInput"),
+        hiddenDonePanel: document.getElementById("hiddenDonePanel"),
+        hiddenDoneList: document.getElementById("hiddenDoneList")
       };
 
       function clone(obj) {
@@ -821,15 +831,6 @@ APP互動介面與設計：吳佩芳
         els.taskInput.focus();
       }
 
-      function addSampleTasks() {
-        if (state.tasks.length > 0) {
-          if (!confirm("目前已經有任務了，還要再加入一批範例嗎？")) return;
-        }
-        state.presets.slice(0, 6).forEach(item => addTaskObject({ ...item, carryover: false }));
-        saveState();
-        render();
-      }
-
       function addPresetToToday(index) {
         const item = state.presets[index];
         if (!item) return;
@@ -938,6 +939,129 @@ APP互動介面與設計：吳佩芳
         saveState();
         render();
         alert("已完成重設。");
+      }
+
+      function exportBackup() {
+        const backupData = {
+          appName: "明日挑戰",
+          version: "V1.0",
+          storageKey: STORAGE_KEY,
+          exportedAt: new Date().toISOString(),
+          data: state
+        };
+
+        const blob = new Blob(
+          [JSON.stringify(backupData, null, 2)],
+          { type: "application/json" }
+        );
+
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `mingri-tiaozhan-backup-${state.today}.json`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      }
+
+      function importBackup() {
+        els.importFileInput.click();
+      }
+
+      function handleImportFile(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          try {
+            const json = JSON.parse(e.target.result);
+            const imported = json.data ? json.data : json;
+
+            state = {
+              ...clone(defaultState),
+              ...imported,
+              tasks: Array.isArray(imported.tasks) ? imported.tasks : [],
+              archivedDoneToday: Array.isArray(imported.archivedDoneToday) ? imported.archivedDoneToday : [],
+              presets: Array.isArray(imported.presets) && imported.presets.length ? imported.presets : clone(defaultPresets),
+              history: Array.isArray(imported.history) ? imported.history : [],
+              monthlyHistory: Array.isArray(imported.monthlyHistory) ? imported.monthlyHistory : [],
+              shownQuotesByDate: imported.shownQuotesByDate && typeof imported.shownQuotesByDate === "object" ? imported.shownQuotesByDate : {},
+              presetOpen: Boolean(imported.presetOpen)
+            };
+
+            saveState();
+            render();
+            alert("備份匯入完成。");
+          } catch (err) {
+            alert("匯入失敗，請確認妳選的是正確的備份檔。");
+          }
+        };
+        reader.readAsText(file, "utf-8");
+        event.target.value = "";
+      }
+
+      function toggleHiddenDonePanel() {
+        const isOpen = els.hiddenDonePanel.style.display === "block";
+        els.hiddenDonePanel.style.display = isOpen ? "none" : "block";
+        if (!isOpen) renderHiddenDoneList();
+      }
+
+      function renderHiddenDoneList() {
+        if (!state.archivedDoneToday.length) {
+          els.hiddenDoneList.innerHTML = `<div class="empty">目前沒有隱藏完成項目。</div>`;
+          return;
+        }
+
+        els.hiddenDoneList.innerHTML = state.archivedDoneToday.map((item, index) => `
+          <div class="preset-item">
+            <div>
+              <strong>${escapeHtml(item.title)}</strong>
+              <div class="meta">
+                <span class="pill">${item.type}</span>
+                <span class="pill">${item.point} 分</span>
+              </div>
+            </div>
+            <div class="task-actions">
+              <button class="btn-soft mini" type="button" data-action="restore-hidden-done" data-index="${index}">放回今日任務</button>
+              <button class="btn-danger mini" type="button" data-action="delete-hidden-done" data-index="${index}">刪除</button>
+            </div>
+          </div>
+        `).join("");
+      }
+
+      function restoreHiddenDone(index) {
+        const item = state.archivedDoneToday[index];
+        if (!item) return;
+
+        state.tasks.push({
+          ...item,
+          id: makeId(),
+          done: false,
+          carryover: false
+        });
+
+        state.archivedDoneToday.splice(index, 1);
+        saveState();
+        render();
+        renderHiddenDoneList();
+      }
+
+      function deleteHiddenDone(index) {
+        const item = state.archivedDoneToday[index];
+        if (!item) return;
+        if (!confirm(`要刪除「${item.title}」嗎？`)) return;
+
+        state.archivedDoneToday.splice(index, 1);
+        saveState();
+        render();
+        renderHiddenDoneList();
+      }
+
+      function toggleSettingsPanel() {
+        const isOpen = els.settingsPanel.style.display === "block";
+        els.settingsPanel.style.display = isOpen ? "none" : "block";
       }
 
       function playJackpotGameSound() {
@@ -1253,13 +1377,19 @@ APP互動介面與設計：吳佩芳
       }
 
       els.addBtn.addEventListener("click", addTask);
-      els.sampleBtn.addEventListener("click", addSampleTasks);
       els.clearDoneBtn.addEventListener("click", clearDoneTasks);
       els.resetTodayBtn.addEventListener("click", resetToday);
       els.settleBtn.addEventListener("click", settleToday);
       els.newDayBtn.addEventListener("click", startNewDay);
       els.savePresetBtn.addEventListener("click", savePreset);
-      els.settingsBtn.addEventListener("click", resetAll);
+
+      els.settingsBtn.addEventListener("click", toggleSettingsPanel);
+      els.exportBackupBtn.addEventListener("click", exportBackup);
+      els.importBackupBtn.addEventListener("click", importBackup);
+      els.toggleHiddenDoneBtn.addEventListener("click", toggleHiddenDonePanel);
+      els.resetAllBtn.addEventListener("click", resetAll);
+      els.importFileInput.addEventListener("change", handleImportFile);
+
       els.presetToggleBtn.addEventListener("click", togglePresetPanel);
 
       els.taskInput.addEventListener("keydown", e => {
@@ -1284,6 +1414,8 @@ APP互動介面與設計：吳佩芳
         else if (action === "add-preset-to-today") addPresetToToday(index);
         else if (action === "copy-preset-to-form") loadPresetToForm(index);
         else if (action === "delete-preset") deletePreset(index);
+        else if (action === "restore-hidden-done") restoreHiddenDone(index);
+        else if (action === "delete-hidden-done") deleteHiddenDone(index);
       });
 
       document.addEventListener("change", function (e) {
