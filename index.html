@@ -12,6 +12,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>明日成就任務板 V6</title>
   <style>
+
+.version-box{
+margin-top:40px;
+padding:15px;
+border-top:1px solid #ddd;
+font-size:14px;
+color:#666;
+}
+
+.version-title{
+cursor:pointer;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.version-content{
+display:none;
+line-height:1.6;
+}
+
+
+
     :root {
       --bg1:#f6fbf7;
       --bg2:#eef6f0;
@@ -509,5 +531,55 @@
       render();
     });
   </script>
+
+function toggleVersion() {
+
+const box = document.getElementById("versionInfo")
+const title = document.querySelector(".version-title")
+
+if (box.style.display === "block") {
+
+box.style.display = "none"
+title.innerHTML = "▶ 開發與版本資訊"
+
+} else {
+
+box.style.display = "block"
+title.innerHTML = "▼ 開發與版本資訊"
+
+}
+
+}
+
+</script>
+
+<div class="version-box">
+
+<div class="version-title" onclick="toggleVersion()">
+▶ 開發與版本資訊
+</div>
+
+<div id="versionInfo" class="version-content">
+
+版本：V1.0 
+名稱：明日挑戰  
+
+創意發想：吳佩蓉
+APP互動介面與設計：吳佩芳
+技術協作：ChatGPT
+上線日期：2026.3.11
+
+說明：
+這是一個每日任務與成長追蹤工具  
+資料僅儲存在使用者自己的瀏覽器  
+
+</div>
+</div>
+
+</body>
+</html>
+
+
+
 </body>
 </html>
