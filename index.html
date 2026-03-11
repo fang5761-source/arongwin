@@ -1,114 +1,494 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-
-<link rel="icon" href="icon.png">
-
-<link rel="apple-touch-icon" href="icon.png">
-
-<link rel="manifest" href="manifest.json">
-
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>明日成就任務板 V6</title>
+  <title>明日挑戰</title>
+
   <style>
     :root {
-      --bg1:#f6fbf7;
-      --bg2:#eef6f0;
-      --card:#ffffff;
-      --line:#d9e7db;
-      --text:#243428;
-      --muted:#6c7d71;
-      --green:#4f8a63;
-      --green-dark:#2f5d3a;
-      --red:#c96c5b;
-      --gold:#d9a441;
-      --purple:#6f6ad8;
-      --shadow:0 10px 30px rgba(50,80,60,.08);
-      --radius:18px;
+      --bg1: #f6fbf7;
+      --bg2: #eef6f0;
+      --card: #ffffff;
+      --line: #d9e7db;
+      --text: #243428;
+      --muted: #6c7d71;
+      --green: #4f8a63;
+      --green-dark: #2f5d3a;
+      --red: #c96c5b;
+      --gold: #d9a441;
+      --purple: #6f6ad8;
+      --shadow: 0 10px 30px rgba(50, 80, 60, 0.08);
+      --radius: 18px;
+      --arrow-blue: #2f6fd6;
     }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;
-      color:var(--text);
-      background:radial-gradient(circle at top left,#fff 0%,var(--bg1) 45%,var(--bg2) 100%);
-      min-height:100vh;
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      color: var(--text);
+      background: radial-gradient(circle at top left, #ffffff 0%, var(--bg1) 45%, var(--bg2) 100%);
+      min-height: 100vh;
     }
-    .wrap{max-width:1180px;margin:0 auto;padding:24px 16px 48px}
-    .hero,.card{
-      background:#fff;
-      border:1px solid #e5efe6;
-      border-radius:24px;
-      box-shadow:var(--shadow);
+
+    .wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 24px 16px 48px;
     }
-    .hero{padding:22px;margin-bottom:20px;background:linear-gradient(135deg,#fff 0%,#eef8f0 100%)}
-    .hero h1{margin:0 0 8px;font-size:30px;line-height:1.2;color:var(--green-dark)}
-    .hero p{margin:0;color:var(--muted);line-height:1.7;font-size:15px}
-    .grid{display:grid;grid-template-columns:1.15fr .85fr;gap:18px}
-    .card{padding:18px;border-radius:20px}
-    .card h2{margin:0 0 14px;font-size:20px;color:var(--green-dark)}
-    .sub{margin:-4px 0 14px;color:var(--muted);font-size:14px;line-height:1.7}
-    .form-grid{display:grid;grid-template-columns:1.2fr .8fr .7fr auto;gap:10px;margin-bottom:12px}
-    input,select,button{font:inherit;border-radius:12px}
-    input,select{width:100%;padding:11px 12px;border:1px solid var(--line);background:#fff;color:var(--text)}
-    button{border:none;cursor:pointer;padding:11px 14px;transition:transform .12s ease}
-    button:hover{transform:translateY(-1px)}
-    .btn-main{background:var(--green);color:#fff;font-weight:700}
-    .btn-soft{background:#edf6ef;color:var(--green-dark);border:1px solid #d7e8da;font-weight:700}
-    .btn-danger{background:#fff3f0;color:var(--red);border:1px solid #f2d5cf;font-weight:700}
-    .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
-    .summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
-    .stat{background:linear-gradient(180deg,#fbfefb 0%,#f1f8f2 100%);border:1px solid #e0ece2;border-radius:16px;padding:14px}
-    .stat .label{font-size:13px;color:var(--muted);margin-bottom:6px}
-    .stat .value{font-size:28px;font-weight:800;color:var(--green-dark);line-height:1}
-    .section-box{background:linear-gradient(180deg,#fbfefb 0%,#f7fbf8 100%);border:1px solid #e2ece4;border-radius:18px;overflow:hidden;margin-top:12px}
-    .section-head{display:flex;align-items:center;justify-content:space-between;width:100%;padding:14px 16px;background:transparent;color:var(--green-dark);font-weight:800}
-    .section-content{padding:0 14px 14px;display:none}
-    .section-content.open{display:block}
-    .arrow{
-  font-size:18px;
-  transition:transform .18s ease;
-  color:#2f6fd6;
-  font-weight:700;
-}
-    .arrow.open{transform:rotate(90deg)}
-    .task-list{display:flex;flex-direction:column;gap:10px;margin-top:12px}
-    .task{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;border:1px solid #e5eee6;border-radius:16px;padding:12px;background:#fff}
-    .task.done{background:#f3faf4;border-color:#d4e8d8}
-    .task.carryover{border-left:6px solid var(--gold)}
-    .check{width:24px;height:24px;accent-color:var(--green);cursor:pointer}
-    .task-title{font-weight:700;font-size:16px;margin-bottom:5px}
-    .task.done .task-title{text-decoration:line-through;color:#69826e}
-    .meta{display:flex;gap:8px;flex-wrap:wrap;color:var(--muted);font-size:13px}
-    .pill{display:inline-flex;align-items:center;gap:4px;padding:5px 9px;border-radius:999px;border:1px solid #dbe7dd;background:#fafdfa;white-space:nowrap}
-    .pill.must{background:#eef7f0}.pill.plus{background:#fff8eb}.pill.flex{background:#f3f5ff}.pill.carry{background:#fff5df;border-color:#ecd49a}
-    .task-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.mini{padding:8px 10px;font-size:13px}
-    .message-box{background:linear-gradient(135deg,#f9fdf9 0%,#eef8f0 100%);border:1px solid #ddebdd;border-radius:18px;padding:16px;line-height:1.8;margin-bottom:12px}
-    .message-title{font-weight:800;color:var(--green-dark);margin-bottom:6px}
-    .progress{height:14px;border-radius:999px;background:#edf3ee;overflow:hidden;margin-top:10px;border:1px solid #e2ebe4}
-    .bar{height:100%;width:0;background:linear-gradient(90deg,#84c193 0%,#4f8a63 100%);transition:width .25s ease}
-    .history{display:grid;gap:8px;margin-top:10px}
-    .history-item{display:flex;justify-content:space-between;gap:10px;border:1px solid #e7efe8;border-radius:14px;padding:10px 12px;background:#fcfefc;font-size:14px}
-    .empty{text-align:center;color:var(--muted);padding:22px 12px;border:1px dashed #d6e4d8;border-radius:16px;background:#fbfdfb}
-    .preset-grid{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-    .preset-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border:1px solid #dce9de;border-radius:14px;background:#fff;margin-top:8px}
-    .footer-note{margin-top:18px;color:var(--muted);font-size:13px;line-height:1.7}
-    .celebrate{position:fixed;inset:0;display:none;align-items:center;justify-content:center;pointer-events:none;z-index:999;background:rgba(255,255,255,.12)}
-    .celebrate.show{display:flex}
-    .celebrate-card{position:relative;text-align:center;background:linear-gradient(135deg,#fff 0%,#f7f4ff 100%);border:1px solid #e6defa;border-radius:28px;padding:28px 24px;min-width:280px;box-shadow:0 20px 45px rgba(90,80,160,.18)}
-    .celebrate-title{font-size:30px;font-weight:900;color:var(--purple);margin-bottom:8px}
-    .celebrate-sub{font-size:17px;color:#4d5870;line-height:1.7}
-    .confetti{position:fixed;opacity:0;pointer-events:none;animation:burst 1.2s ease-out forwards}
-    @keyframes burst{0%{transform:translate(0,0) scale(.6);opacity:1}100%{transform:translate(var(--x),var(--y)) rotate(var(--r));opacity:0}}
-    @media (max-width:980px){.grid{grid-template-columns:1fr}.summary{grid-template-columns:repeat(2,1fr)}.form-grid{grid-template-columns:1fr 1fr}}
-    @media (max-width:560px){.wrap{padding:14px 10px 30px}.hero h1{font-size:24px}.summary{grid-template-columns:1fr 1fr}.form-grid{grid-template-columns:1fr}.task{grid-template-columns:auto 1fr}.task-actions{grid-column:1 / -1;justify-content:flex-start}.preset-item{flex-direction:column;align-items:flex-start}.celebrate-card{min-width:unset;width:calc(100vw - 28px)}}
+
+    .hero, .card {
+      background: #fff;
+      border: 1px solid #e5efe6;
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      padding: 22px;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #ffffff 0%, #eef8f0 100%);
+    }
+
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: 30px;
+      line-height: 1.2;
+      color: var(--green-dark);
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 18px;
+    }
+
+    .card {
+      padding: 18px;
+      border-radius: 20px;
+    }
+
+    .card h2 {
+      margin: 0 0 14px;
+      font-size: 20px;
+      color: var(--green-dark);
+    }
+
+    .sub {
+      margin: -4px 0 14px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr 0.7fr auto;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    input, select, button {
+      font: inherit;
+      border-radius: 12px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      padding: 11px 14px;
+      transition: transform .12s ease;
+    }
+
+    button:hover { transform: translateY(-1px); }
+
+    .btn-main {
+      background: var(--green);
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .btn-soft {
+      background: #edf6ef;
+      color: var(--green-dark);
+      border: 1px solid #d7e8da;
+      font-weight: 700;
+    }
+
+    .btn-danger {
+      background: #fff3f0;
+      color: var(--red);
+      border: 1px solid #f2d5cf;
+      font-weight: 700;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .stat {
+      background: linear-gradient(180deg, #fbfefb 0%, #f1f8f2 100%);
+      border: 1px solid #e0ece2;
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    .stat .label {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .stat .value {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--green-dark);
+      line-height: 1;
+    }
+
+    .section-box {
+      background: linear-gradient(180deg, #fbfefb 0%, #f7fbf8 100%);
+      border: 1px solid #e2ece4;
+      border-radius: 18px;
+      overflow: hidden;
+      margin-top: 12px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 14px 16px;
+      background: transparent;
+      color: var(--green-dark);
+      font-weight: 800;
+    }
+
+    .section-content {
+      padding: 0 14px 14px;
+      display: none;
+    }
+
+    .section-content.open {
+      display: block;
+    }
+
+    .arrow {
+      font-size: 18px;
+      transition: transform .18s ease;
+      color: var(--arrow-blue);
+      font-weight: 700;
+    }
+
+    .arrow.open {
+      transform: rotate(90deg);
+    }
+
+    .task-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .task {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 12px;
+      align-items: center;
+      border: 1px solid #e5eee6;
+      border-radius: 16px;
+      padding: 12px;
+      background: #fff;
+    }
+
+    .task.done {
+      background: #f3faf4;
+      border-color: #d4e8d8;
+    }
+
+    .task.carryover {
+      border-left: 6px solid var(--gold);
+    }
+
+    .check {
+      width: 24px;
+      height: 24px;
+      accent-color: var(--green);
+      cursor: pointer;
+    }
+
+    .task-title {
+      font-weight: 700;
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+
+    .task.done .task-title {
+      text-decoration: line-through;
+      color: #69826e;
+    }
+
+    .meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      border: 1px solid #dbe7dd;
+      background: #fafdfa;
+      white-space: nowrap;
+    }
+
+    .pill.must { background: #eef7f0; }
+    .pill.plus { background: #fff8eb; }
+    .pill.flex { background: #f3f5ff; }
+    .pill.carry { background: #fff5df; border-color: #ecd49a; }
+
+    .task-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .mini {
+      padding: 8px 10px;
+      font-size: 13px;
+    }
+
+    .message-box {
+      background: linear-gradient(135deg, #f9fdf9 0%, #eef8f0 100%);
+      border: 1px solid #ddebdd;
+      border-radius: 18px;
+      padding: 16px;
+      line-height: 1.8;
+      margin-bottom: 12px;
+    }
+
+    .message-title {
+      font-weight: 800;
+      color: var(--green-dark);
+      margin-bottom: 6px;
+    }
+
+    .progress {
+      height: 14px;
+      border-radius: 999px;
+      background: #edf3ee;
+      overflow: hidden;
+      margin-top: 10px;
+      border: 1px solid #e2ebe4;
+    }
+
+    .bar {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, #84c193 0%, #4f8a63 100%);
+      transition: width .25s ease;
+    }
+
+    .history {
+      display: grid;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .history-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      border: 1px solid #e7efe8;
+      border-radius: 14px;
+      padding: 10px 12px;
+      background: #fcfefc;
+      font-size: 14px;
+    }
+
+    .empty {
+      text-align: center;
+      color: var(--muted);
+      padding: 22px 12px;
+      border: 1px dashed #d6e4d8;
+      border-radius: 16px;
+      background: #fbfdfb;
+    }
+
+    .preset-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .preset-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 1px solid #dce9de;
+      border-radius: 14px;
+      background: #fff;
+      margin-top: 8px;
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .celebrate {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      z-index: 999;
+      background: rgba(255,255,255,.12);
+    }
+
+    .celebrate.show {
+      display: flex;
+    }
+
+    .celebrate-card {
+      position: relative;
+      text-align: center;
+      background: linear-gradient(135deg, #fff 0%, #f7f4ff 100%);
+      border: 1px solid #e6defa;
+      border-radius: 28px;
+      padding: 28px 24px;
+      min-width: 280px;
+      box-shadow: 0 20px 45px rgba(90,80,160,.18);
+    }
+
+    .celebrate-title {
+      font-size: 30px;
+      font-weight: 900;
+      color: var(--purple);
+      margin-bottom: 8px;
+    }
+
+    .celebrate-sub {
+      font-size: 17px;
+      color: #4d5870;
+      line-height: 1.7;
+    }
+
+    .confetti {
+      position: fixed;
+      opacity: 0;
+      pointer-events: none;
+      animation: burst 1.2s ease-out forwards;
+    }
+
+    @keyframes burst {
+      0% { transform: translate(0,0) scale(.6); opacity: 1; }
+      100% { transform: translate(var(--x), var(--y)) rotate(var(--r)); opacity: 0; }
+    }
+
+    .version-box {
+      margin-top: 24px;
+      background: linear-gradient(180deg, #fbfefb 0%, #f7fbf8 100%);
+      border: 1px solid #e2ece4;
+      border-radius: 18px;
+      overflow: hidden;
+    }
+
+    .version-box summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 14px 16px;
+      font-weight: 800;
+      color: var(--arrow-blue);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .version-box summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .version-arrow {
+      color: var(--arrow-blue);
+      font-weight: 700;
+      transition: transform .18s ease;
+    }
+
+    .version-box[open] .version-arrow {
+      transform: rotate(90deg);
+    }
+
+    .version-content {
+      padding: 0 16px 16px 16px;
+      color: #6c7d71;
+      line-height: 1.8;
+      white-space: pre-line;
+    }
+
+    @media (max-width: 980px) {
+      .grid { grid-template-columns: 1fr; }
+      .summary { grid-template-columns: repeat(2, 1fr); }
+      .form-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      .wrap { padding: 14px 10px 30px; }
+      .hero h1 { font-size: 24px; }
+      .summary { grid-template-columns: 1fr 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+      .task { grid-template-columns: auto 1fr; }
+      .task-actions { grid-column: 1 / -1; justify-content: flex-start; }
+      .preset-item { flex-direction: column; align-items: flex-start; }
+      .celebrate-card { min-width: unset; width: calc(100vw - 28px); }
+    }
   </style>
 </head>
 <body>
   <div class="wrap">
     <section class="hero">
-      <h1>🌿 明日成就任務板 V6</h1>
+      <h1>🌿 明日挑戰</h1>
       <p id="heroQuote"></p>
     </section>
 
@@ -141,6 +521,7 @@
           </button>
           <div class="section-content" id="presetContent">
             <div class="sub" style="margin-top:10px;margin-bottom:10px;">需要時再展開，不會一直把頁面拉長。</div>
+
             <div class="form-grid" style="margin-bottom:8px;">
               <input id="presetTitleInput" type="text" placeholder="新增常用任務，例如：喝水 1500ml" />
               <select id="presetTypeInput">
@@ -151,6 +532,7 @@
               <input id="presetPointInput" type="number" min="1" max="20" value="3" placeholder="分數" />
               <button class="btn-main" id="savePresetBtn" type="button">加入常用</button>
             </div>
+
             <div id="quickPresetButtons" class="preset-grid"></div>
             <div id="presetManageList"></div>
           </div>
@@ -196,6 +578,27 @@
         </div>
       </aside>
     </div>
+
+    <details class="version-box">
+      <summary>
+        <span>開發與版本資訊</span>
+        <span class="version-arrow">▶</span>
+      </summary>
+
+      <div class="version-content">
+版本：V1.0
+名稱：明日挑戰
+
+創意發想：吳佩蓉
+APP互動介面與設計：吳佩芳
+技術協作：ChatGPT
+上線日期：2026.3.11
+
+說明：
+這是一個每日任務與成長追蹤工具
+資料僅儲存在使用者自己的瀏覽器
+      </div>
+    </details>
   </div>
 
   <div id="celebrateLayer" class="celebrate" aria-hidden="true">
@@ -208,7 +611,8 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const STORAGE_KEY = "pengrong_forest_task_app_v6";
+      const STORAGE_KEY = "pengrong_tomorrow_challenge_v1";
+
       const dailyQuotes = [
         "今天先把自己安頓好，明天做事就不會像在追火車。",
         "妳不是要一次變厲害，只要每天都比昨天更靠近一點點。",
@@ -219,6 +623,7 @@
         "別急著完美，先讓自己持續前進，就很了不起。",
         "當生活有秩序，心也會慢慢長出底氣。"
       ];
+
       const defaultPresets = [
         { title: "回覆重要訊息", type: "必做", point: 4 },
         { title: "整理桌面 10 分鐘", type: "加分", point: 2 },
@@ -231,6 +636,7 @@
         { title: "早睡", type: "必做", point: 4 },
         { title: "完成 1 件工作重點", type: "必做", point: 5 }
       ];
+
       const els = {
         taskInput: document.getElementById("taskInput"),
         typeInput: document.getElementById("typeInput"),
@@ -265,244 +671,571 @@
         monthDone: document.getElementById("monthDone"),
         monthDays: document.getElementById("monthDays"),
         monthAvg: document.getElementById("monthAvg")
-
-        versionToggleBtn: document.getElementById("versionToggleBtn"),
-        versionArrow: document.getElementById("versionArrow"),
-        versionContent: document.getElementById("versionContent"),
-
       };
-      function clone(obj){return JSON.parse(JSON.stringify(obj));}
 
-      function toggleVersionPanel(){
-  const isOpen = els.versionContent.classList.contains("open");
-  els.versionContent.classList.toggle("open", !isOpen);
-  els.versionArrow.classList.toggle("open", !isOpen);
-  els.versionToggleBtn.setAttribute("aria-expanded", !isOpen ? "true" : "false");
-}
+      function clone(obj) {
+        return JSON.parse(JSON.stringify(obj));
+      }
 
+      function getTodayStr() {
+        const d = new Date();
+        return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+      }
 
+      function getMonthKey(dateStr) {
+        return dateStr.slice(0, 7);
+      }
 
-      function getTodayStr(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;}
-      function getMonthKey(dateStr){return dateStr.slice(0,7);}
-      function formatDate(str){const [y,m,d]=str.split("-");return `${y}/${m}/${d}`;}
+      function formatDate(str) {
+        const [y, m, d] = str.split("-");
+        return `${y}/${m}/${d}`;
+      }
+
       const defaultState = {
-        today:getTodayStr(),
-        tasks:[],
-        archivedDoneToday:[],
-        presets:clone(defaultPresets),
-        streak:0,
-        lastSettledDate:"",
-        history:[],
-        presetOpen:false,
-        shownQuotesByDate:{},
-        monthlyHistory:[]
+        today: getTodayStr(),
+        tasks: [],
+        archivedDoneToday: [],
+        presets: clone(defaultPresets),
+        streak: 0,
+        lastSettledDate: "",
+        history: [],
+        presetOpen: false,
+        shownQuotesByDate: {},
+        monthlyHistory: []
       };
-      function loadState(){
-        try{
-          const raw=localStorage.getItem(STORAGE_KEY);
-          if(!raw) return clone(defaultState);
-          const parsed=JSON.parse(raw);
+
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return clone(defaultState);
+          const parsed = JSON.parse(raw);
           return {
             ...clone(defaultState),
             ...parsed,
-            tasks:Array.isArray(parsed.tasks)?parsed.tasks:[],
-            archivedDoneToday:Array.isArray(parsed.archivedDoneToday)?parsed.archivedDoneToday:[],
-            presets:Array.isArray(parsed.presets)&&parsed.presets.length?parsed.presets:clone(defaultPresets),
-            history:Array.isArray(parsed.history)?parsed.history:[],
-            presetOpen:Boolean(parsed.presetOpen),
-            shownQuotesByDate:parsed.shownQuotesByDate&&typeof parsed.shownQuotesByDate==="object"?parsed.shownQuotesByDate:{},
-            monthlyHistory:Array.isArray(parsed.monthlyHistory)?parsed.monthlyHistory:[]
+            tasks: Array.isArray(parsed.tasks) ? parsed.tasks : [],
+            archivedDoneToday: Array.isArray(parsed.archivedDoneToday) ? parsed.archivedDoneToday : [],
+            presets: Array.isArray(parsed.presets) && parsed.presets.length ? parsed.presets : clone(defaultPresets),
+            history: Array.isArray(parsed.history) ? parsed.history : [],
+            presetOpen: Boolean(parsed.presetOpen),
+            shownQuotesByDate: parsed.shownQuotesByDate && typeof parsed.shownQuotesByDate === "object" ? parsed.shownQuotesByDate : {},
+            monthlyHistory: Array.isArray(parsed.monthlyHistory) ? parsed.monthlyHistory : []
           };
-        }catch(e){return clone(defaultState);}
+        } catch (e) {
+          return clone(defaultState);
+        }
       }
+
       let state = loadState();
-      function saveState(){localStorage.setItem(STORAGE_KEY, JSON.stringify(state));}
-      function makeId(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8);}
-      function escapeHtml(str){return String(str).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");}
-      function getDailyQuote(dateStr){
-        if (state.shownQuotesByDate[dateStr] !== undefined) return dailyQuotes[state.shownQuotesByDate[dateStr]];
+
+      function saveState() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      }
+
+      function makeId() {
+        return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+      }
+
+      function escapeHtml(str) {
+        return String(str)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
+      function getDailyQuote(dateStr) {
+        if (state.shownQuotesByDate[dateStr] !== undefined) {
+          return dailyQuotes[state.shownQuotesByDate[dateStr]];
+        }
         const used = Object.values(state.shownQuotesByDate).slice(-7);
-        const pool = dailyQuotes.map((_,i)=>i).filter(i=>!used.includes(i));
-        const available = pool.length ? pool : dailyQuotes.map((_,i)=>i);
-        const seed = Array.from(dateStr).reduce((s,ch)=>s+ch.charCodeAt(0),0);
+        const pool = dailyQuotes.map((_, i) => i).filter(i => !used.includes(i));
+        const available = pool.length ? pool : dailyQuotes.map((_, i) => i);
+        const seed = Array.from(dateStr).reduce((s, ch) => s + ch.charCodeAt(0), 0);
         const idx = available[seed % available.length];
-        state.shownQuotesByDate[dateStr]=idx;
+        state.shownQuotesByDate[dateStr] = idx;
         saveState();
         return dailyQuotes[idx];
       }
-      function checkDateRollover(){
-        const today=getTodayStr();
-        if(state.today!==today){
-          state.today=today;
-          state.tasks=state.tasks.map(t=>({...t,done:false,carryover:true}));
-          state.archivedDoneToday=[];
+
+      function checkDateRollover() {
+        const today = getTodayStr();
+        if (state.today !== today) {
+          state.today = today;
+          state.tasks = state.tasks.map(t => ({ ...t, done: false, carryover: true }));
+          state.archivedDoneToday = [];
           saveState();
         }
       }
-      function addTaskObject(item){
-        state.tasks.push({id:makeId(),title:item.title,type:item.type,point:Number(item.point),done:false,carryover:Boolean(item.carryover),createdAt:new Date().toISOString()});
+
+      function addTaskObject(item) {
+        state.tasks.push({
+          id: makeId(),
+          title: item.title,
+          type: item.type,
+          point: Number(item.point),
+          done: false,
+          carryover: Boolean(item.carryover),
+          createdAt: new Date().toISOString()
+        });
       }
-      function addTask(){
-        const title=els.taskInput.value.trim();
-        const type=els.typeInput.value;
-        const point=Number(els.pointInput.value);
-        if(!title){alert("請先輸入任務內容。");els.taskInput.focus();return;}
-        if(!point||point<1){alert("分數至少要 1 分。");els.pointInput.focus();return;}
-        addTaskObject({title,type,point,carryover:false});
-        els.taskInput.value=""; els.pointInput.value="3";
-        saveState(); render(); els.taskInput.focus();
+
+      function addTask() {
+        const title = els.taskInput.value.trim();
+        const type = els.typeInput.value;
+        const point = Number(els.pointInput.value);
+
+        if (!title) {
+          alert("請先輸入任務內容。");
+          els.taskInput.focus();
+          return;
+        }
+
+        if (!point || point < 1) {
+          alert("分數至少要 1 分。");
+          els.pointInput.focus();
+          return;
+        }
+
+        addTaskObject({ title, type, point, carryover: false });
+        els.taskInput.value = "";
+        els.pointInput.value = "3";
+        saveState();
+        render();
+        els.taskInput.focus();
       }
-      function addSampleTasks(){
-        if(state.tasks.length>0){if(!confirm("目前已經有任務了，還要再加入一批範例嗎？")) return;}
-        state.presets.slice(0,6).forEach(item=>addTaskObject({...item,carryover:false}));
-        saveState(); render();
+
+      function addSampleTasks() {
+        if (state.tasks.length > 0) {
+          if (!confirm("目前已經有任務了，還要再加入一批範例嗎？")) return;
+        }
+        state.presets.slice(0, 6).forEach(item => addTaskObject({ ...item, carryover: false }));
+        saveState();
+        render();
       }
-      function addPresetToToday(index){const item=state.presets[index]; if(!item) return; addTaskObject({...item,carryover:false}); saveState(); render();}
-      function savePreset(){
-        const title=els.presetTitleInput.value.trim();
-        const type=els.presetTypeInput.value;
-        const point=Number(els.presetPointInput.value);
-        if(!title){alert("請先輸入常用任務名稱。");els.presetTitleInput.focus();return;}
-        if(!point||point<1){alert("分數至少要 1 分。");els.presetPointInput.focus();return;}
-        state.presets.push({title,type,point});
-        els.presetTitleInput.value=""; els.presetPointInput.value="3";
-        saveState(); render();
+
+      function addPresetToToday(index) {
+        const item = state.presets[index];
+        if (!item) return;
+        addTaskObject({ ...item, carryover: false });
+        saveState();
+        render();
       }
-      function deletePreset(index){const item=state.presets[index]; if(!item) return; if(!confirm(`要刪除「${item.title}」嗎？`)) return; state.presets.splice(index,1); saveState(); render();}
-      function loadPresetToForm(index){const item=state.presets[index]; if(!item) return; els.presetTitleInput.value=item.title; els.presetTypeInput.value=item.type; els.presetPointInput.value=item.point; els.presetTitleInput.focus();}
-      function toggleTask(id){const task=state.tasks.find(t=>t.id===id); if(!task) return; task.done=!task.done; saveState(); render();}
-      function deleteTask(id){state.tasks=state.tasks.filter(t=>t.id!==id); saveState(); render();}
-      function moveTask(id,direction){const i=state.tasks.findIndex(t=>t.id===id); if(i<0) return; const t=direction==="up"?i-1:i+1; if(t<0||t>=state.tasks.length) return; [state.tasks[i],state.tasks[t]]=[state.tasks[t],state.tasks[i]]; saveState(); render();}
-      function clearDoneTasks(){
-        const doneTasks=state.tasks.filter(t=>t.done);
-        if(!doneTasks.length){alert("目前沒有已完成任務可清除。");return;}
-        state.archivedDoneToday = state.archivedDoneToday.concat(doneTasks.map(t=>({...t,archivedAt:new Date().toISOString()})));
-        state.tasks=state.tasks.filter(t=>!t.done);
-        saveState(); render();
+
+      function savePreset() {
+        const title = els.presetTitleInput.value.trim();
+        const type = els.presetTypeInput.value;
+        const point = Number(els.presetPointInput.value);
+
+        if (!title) {
+          alert("請先輸入常用任務名稱。");
+          els.presetTitleInput.focus();
+          return;
+        }
+
+        if (!point || point < 1) {
+          alert("分數至少要 1 分。");
+          els.presetPointInput.focus();
+          return;
+        }
+
+        state.presets.push({ title, type, point });
+        els.presetTitleInput.value = "";
+        els.presetPointInput.value = "3";
+        saveState();
+        render();
+      }
+
+      function deletePreset(index) {
+        const item = state.presets[index];
+        if (!item) return;
+        if (!confirm(`要刪除「${item.title}」嗎？`)) return;
+        state.presets.splice(index, 1);
+        saveState();
+        render();
+      }
+
+      function loadPresetToForm(index) {
+        const item = state.presets[index];
+        if (!item) return;
+        els.presetTitleInput.value = item.title;
+        els.presetTypeInput.value = item.type;
+        els.presetPointInput.value = item.point;
+        els.presetTitleInput.focus();
+      }
+
+      function toggleTask(id) {
+        const task = state.tasks.find(t => t.id === id);
+        if (!task) return;
+        task.done = !task.done;
+        saveState();
+        render();
+      }
+
+      function deleteTask(id) {
+        state.tasks = state.tasks.filter(t => t.id !== id);
+        saveState();
+        render();
+      }
+
+      function moveTask(id, direction) {
+        const i = state.tasks.findIndex(t => t.id === id);
+        if (i < 0) return;
+        const t = direction === "up" ? i - 1 : i + 1;
+        if (t < 0 || t >= state.tasks.length) return;
+        [state.tasks[i], state.tasks[t]] = [state.tasks[t], state.tasks[i]];
+        saveState();
+        render();
+      }
+
+      function clearDoneTasks() {
+        const doneTasks = state.tasks.filter(t => t.done);
+        if (!doneTasks.length) {
+          alert("目前沒有已完成任務可清除。");
+          return;
+        }
+        state.archivedDoneToday = state.archivedDoneToday.concat(
+          doneTasks.map(t => ({ ...t, archivedAt: new Date().toISOString() }))
+        );
+        state.tasks = state.tasks.filter(t => !t.done);
+        saveState();
+        render();
         alert("已完成項目已先收起來，晚上結算還是會算進去。");
       }
-      function resetToday(){
-        if(state.tasks.length===0&&state.archivedDoneToday.length===0){alert("今天本來就還沒有任務。");return;}
-        if(!confirm("要清空今天全部任務嗎？")) return;
-        state.tasks=[]; state.archivedDoneToday=[]; saveState(); render();
+
+      function resetToday() {
+        if (state.tasks.length === 0 && state.archivedDoneToday.length === 0) {
+          alert("今天本來就還沒有任務。");
+          return;
+        }
+        if (!confirm("要清空今天全部任務嗎？")) return;
+        state.tasks = [];
+        state.archivedDoneToday = [];
+        saveState();
+        render();
       }
-      function resetAll(){
-        if(!confirm("確定要重設設定嗎？這會清空任務、常用任務與統計紀錄。")) return;
+
+      function resetAll() {
+        if (!confirm("確定要重設設定嗎？這會清空任務、常用任務與統計紀錄。")) return;
         localStorage.removeItem(STORAGE_KEY);
         state = clone(defaultState);
         saveState();
         render();
         alert("已完成重設。");
       }
-      function playJackpotGameSound(){
-        try{const AC=window.AudioContext||window.webkitAudioContext; if(!AC) return; const ctx=new AC(); const now=ctx.currentTime; const notes=[{f:659.25,t:0,d:.11,type:"square"},{f:659.25,t:.14,d:.11,type:"square"},{f:783.99,t:.32,d:.14,type:"triangle"},{f:1046.5,t:.52,d:.16,type:"triangle"},{f:1318.51,t:.72,d:.22,type:"sine"},{f:1567.98,t:.98,d:.26,type:"sine"}]; notes.forEach(n=>{const o=ctx.createOscillator(); const g=ctx.createGain(); o.type=n.type; o.frequency.setValueAtTime(n.f,now+n.t); g.gain.setValueAtTime(.0001,now+n.t); g.gain.exponentialRampToValueAtTime(.18,now+n.t+.02); g.gain.exponentialRampToValueAtTime(.0001,now+n.t+n.d); o.connect(g); g.connect(ctx.destination); o.start(now+n.t); o.stop(now+n.t+n.d+.02);});}catch(e){}
+
+      function playJackpotGameSound() {
+        try {
+          const AC = window.AudioContext || window.webkitAudioContext;
+          if (!AC) return;
+          const ctx = new AC();
+          const now = ctx.currentTime;
+          const notes = [
+            { f: 659.25, t: 0, d: .11, type: "square" },
+            { f: 659.25, t: .14, d: .11, type: "square" },
+            { f: 783.99, t: .32, d: .14, type: "triangle" },
+            { f: 1046.5, t: .52, d: .16, type: "triangle" },
+            { f: 1318.51, t: .72, d: .22, type: "sine" },
+            { f: 1567.98, t: .98, d: .26, type: "sine" }
+          ];
+          notes.forEach(n => {
+            const o = ctx.createOscillator();
+            const g = ctx.createGain();
+            o.type = n.type;
+            o.frequency.setValueAtTime(n.f, now + n.t);
+            g.gain.setValueAtTime(.0001, now + n.t);
+            g.gain.exponentialRampToValueAtTime(.18, now + n.t + .02);
+            g.gain.exponentialRampToValueAtTime(.0001, now + n.t + n.d);
+            o.connect(g);
+            g.connect(ctx.destination);
+            o.start(now + n.t);
+            o.stop(now + n.t + n.d + .02);
+          });
+        } catch (e) {}
       }
-      function playMissSound(){
-        try{const AC=window.AudioContext||window.webkitAudioContext; if(!AC) return; const ctx=new AC(); const now=ctx.currentTime; const notes=[{f:392,t:0,d:.14,type:"sawtooth"},{f:349.23,t:.16,d:.14,type:"sawtooth"},{f:293.66,t:.34,d:.22,type:"triangle"}]; notes.forEach(n=>{const o=ctx.createOscillator(); const g=ctx.createGain(); o.type=n.type; o.frequency.setValueAtTime(n.f,now+n.t); g.gain.setValueAtTime(.0001,now+n.t); g.gain.exponentialRampToValueAtTime(.1,now+n.t+.02); g.gain.exponentialRampToValueAtTime(.0001,now+n.t+n.d); o.connect(g); g.connect(ctx.destination); o.start(now+n.t); o.stop(now+n.t+n.d+.02);});}catch(e){}
+
+      function playMissSound() {
+        try {
+          const AC = window.AudioContext || window.webkitAudioContext;
+          if (!AC) return;
+          const ctx = new AC();
+          const now = ctx.currentTime;
+          const notes = [
+            { f: 392, t: 0, d: .14, type: "sawtooth" },
+            { f: 349.23, t: .16, d: .14, type: "sawtooth" },
+            { f: 293.66, t: .34, d: .22, type: "triangle" }
+          ];
+          notes.forEach(n => {
+            const o = ctx.createOscillator();
+            const g = ctx.createGain();
+            o.type = n.type;
+            o.frequency.setValueAtTime(n.f, now + n.t);
+            g.gain.setValueAtTime(.0001, now + n.t);
+            g.gain.exponentialRampToValueAtTime(.1, now + n.t + .02);
+            g.gain.exponentialRampToValueAtTime(.0001, now + n.t + n.d);
+            o.connect(g);
+            g.connect(ctx.destination);
+            o.start(now + n.t);
+            o.stop(now + n.t + n.d + .02);
+          });
+        } catch (e) {}
       }
-      function showCelebration(){
+
+      function showCelebration() {
         els.celebrateLayer.classList.add("show");
-        const colors=["#f7c948","#6f6ad8","#5a8fe0","#7ccf8a","#ff8b94","#ffffff"];
-        for(let i=0;i<140;i++){
-          const piece=document.createElement("span");
-          piece.className="confetti";
-          piece.textContent=Math.random()>.5?"✨":"★";
-          piece.style.left=`${Math.random()*window.innerWidth}px`;
-          piece.style.top=`${Math.random()*window.innerHeight}px`;
-          piece.style.fontSize=`${18+Math.floor(Math.random()*18)}px`;
-          piece.style.color=colors[i%colors.length];
-          piece.style.setProperty("--x",`${(Math.random()*1000-500).toFixed(0)}px`);
-          piece.style.setProperty("--y",`${(Math.random()*700-350).toFixed(0)}px`);
-          piece.style.setProperty("--r",`${(Math.random()*1080-540).toFixed(0)}deg`);
+        const colors = ["#f7c948", "#6f6ad8", "#5a8fe0", "#7ccf8a", "#ff8b94", "#ffffff"];
+
+        for (let i = 0; i < 140; i++) {
+          const piece = document.createElement("span");
+          piece.className = "confetti";
+          piece.textContent = Math.random() > .5 ? "✨" : "★";
+          piece.style.left = `${Math.random() * window.innerWidth}px`;
+          piece.style.top = `${Math.random() * window.innerHeight}px`;
+          piece.style.fontSize = `${18 + Math.floor(Math.random() * 18)}px`;
+          piece.style.color = colors[i % colors.length];
+          piece.style.setProperty("--x", `${(Math.random() * 1000 - 500).toFixed(0)}px`);
+          piece.style.setProperty("--y", `${(Math.random() * 700 - 350).toFixed(0)}px`);
+          piece.style.setProperty("--r", `${(Math.random() * 1080 - 540).toFixed(0)}deg`);
           document.body.appendChild(piece);
-          setTimeout(()=>piece.remove(),1500);
+          setTimeout(() => piece.remove(), 1500);
         }
-        setTimeout(()=>els.celebrateLayer.classList.remove("show"),1800);
+
+        setTimeout(() => els.celebrateLayer.classList.remove("show"), 1800);
       }
-      function getLevelTitle(rate,score){if(rate>=100) return "滿格發光日"; if(rate>=80) return "穩穩收成日"; if(rate>=60) return "有推進就很棒日"; if(score>=1) return "有動起來就值得記一筆"; return "今天先讓自己喘口氣";}
-      function getEncouragement(rate,score){if(rate>=100) return "今天不是有做事而已，是有漂亮收尾。"; if(rate>=80) return "妳今天真的有往前推，而且推得很穩。"; if(rate>=60) return "不用全滿分，能穩定完成就是實力。"; if(score>0) return "今天有前進，不算空白。別小看這幾步。"; return "有些日子不是衝刺日，是整理氣力日。明天再來。";}
-      function getSummaryData(){
-        const total=state.tasks.length+state.archivedDoneToday.length;
-        const done=state.tasks.filter(t=>t.done).length+state.archivedDoneToday.length;
-        const score=state.tasks.filter(t=>t.done).reduce((s,t)=>s+Number(t.point||0),0)+state.archivedDoneToday.reduce((s,t)=>s+Number(t.point||0),0);
-        const rate=total===0?0:Math.round(done/total*100);
-        return {total,done,score,rate};
+
+      function getLevelTitle(rate, score) {
+        if (rate >= 100) return "滿格發光日";
+        if (rate >= 80) return "穩穩收成日";
+        if (rate >= 60) return "有推進就很棒日";
+        if (score >= 1) return "有動起來就值得記一筆";
+        return "今天先讓自己喘口氣";
       }
-      function settleToday(){
-        const {total,done,score,rate}=getSummaryData();
-        if(total===0){alert("妳今天還沒有任務可以結算。");return;}
-        const alreadySettledToday = state.lastSettledDate===state.today;
-        if(!alreadySettledToday){
-          if(rate>=100){const d=new Date(state.today); d.setDate(d.getDate()-1); const y=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; state.streak=state.lastSettledDate===y?state.streak+1:1;} else {state.streak=0;}
-          state.history.unshift({date:state.today,done,total,score,rate,title:getLevelTitle(rate,score)});
-          state.history=state.history.slice(0,7);
-          const monthKey=getMonthKey(state.today);
-          const idx=state.monthlyHistory.findIndex(item=>item.date===state.today);
-          const record={date:state.today,monthKey,done,total,score,rate};
-          if(idx>=0) state.monthlyHistory[idx]=record; else state.monthlyHistory.push(record);
-          state.lastSettledDate=state.today;
-        } else if(state.history.length){
-          state.history[0]={date:state.today,done,total,score,rate,title:getLevelTitle(rate,score)};
+
+      function getEncouragement(rate, score) {
+        if (rate >= 100) return "今天不是有做事而已，是有漂亮收尾。";
+        if (rate >= 80) return "妳今天真的有往前推，而且推得很穩。";
+        if (rate >= 60) return "不用全滿分，能穩定完成就是實力。";
+        if (score > 0) return "今天有前進，不算空白。別小看這幾步。";
+        return "有些日子不是衝刺日，是整理氣力日。明天再來。";
+      }
+
+      function getSummaryData() {
+        const total = state.tasks.length + state.archivedDoneToday.length;
+        const done = state.tasks.filter(t => t.done).length + state.archivedDoneToday.length;
+        const score =
+          state.tasks.filter(t => t.done).reduce((s, t) => s + Number(t.point || 0), 0) +
+          state.archivedDoneToday.reduce((s, t) => s + Number(t.point || 0), 0);
+        const rate = total === 0 ? 0 : Math.round(done / total * 100);
+        return { total, done, score, rate };
+      }
+
+      function settleToday() {
+        const { total, done, score, rate } = getSummaryData();
+        if (total === 0) {
+          alert("妳今天還沒有任務可以結算。");
+          return;
         }
-        state.tasks=state.tasks.filter(t=>!t.done).map(t=>({...t,done:false,carryover:true}));
-        state.archivedDoneToday=[];
-        saveState(); render();
-        if(rate>=100){playJackpotGameSound(); showCelebration();} else {playMissSound();}
-        alert(`今日結算完成。\n完成 ${done}/${total} 項，得到 ${score} 分。\n未完成項目會自動保留到明天。\n${getEncouragement(rate,score)}`);
+
+        const alreadySettledToday = state.lastSettledDate === state.today;
+
+        if (!alreadySettledToday) {
+          if (rate >= 100) {
+            const d = new Date(state.today);
+            d.setDate(d.getDate() - 1);
+            const y = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+            state.streak = state.lastSettledDate === y ? state.streak + 1 : 1;
+          } else {
+            state.streak = 0;
+          }
+
+          state.history.unshift({
+            date: state.today,
+            done,
+            total,
+            score,
+            rate,
+            title: getLevelTitle(rate, score)
+          });
+          state.history = state.history.slice(0, 7);
+
+          const monthKey = getMonthKey(state.today);
+          const idx = state.monthlyHistory.findIndex(item => item.date === state.today);
+          const record = { date: state.today, monthKey, done, total, score, rate };
+          if (idx >= 0) state.monthlyHistory[idx] = record;
+          else state.monthlyHistory.push(record);
+
+          state.lastSettledDate = state.today;
+        } else if (state.history.length) {
+          state.history[0] = {
+            date: state.today,
+            done,
+            total,
+            score,
+            rate,
+            title: getLevelTitle(rate, score)
+          };
+        }
+
+        state.tasks = state.tasks.filter(t => !t.done).map(t => ({ ...t, done: false, carryover: true }));
+        state.archivedDoneToday = [];
+        saveState();
+        render();
+
+        if (rate >= 100) {
+          playJackpotGameSound();
+          showCelebration();
+        } else {
+          playMissSound();
+        }
+
+        alert(`今日結算完成。\n完成 ${done}/${total} 項，得到 ${score} 分。\n未完成項目會自動保留到明天。\n${getEncouragement(rate, score)}`);
       }
-      function startNewDay(){if(!confirm("要開始新的一天嗎？未完成項目會保留。")) return; state.today=getTodayStr(); state.tasks=state.tasks.map(t=>({...t,done:false,carryover:true})); state.archivedDoneToday=[]; saveState(); render();}
-      function togglePresetPanel(){state.presetOpen=!state.presetOpen; saveState(); renderPresetPanel();}
-      function renderPresetPanel(){els.presetContent.classList.toggle("open",state.presetOpen); els.presetArrow.classList.toggle("open",state.presetOpen); els.presetToggleBtn.setAttribute("aria-expanded",state.presetOpen?"true":"false");}
-      function renderTasks(){
-        if(state.tasks.length===0){els.taskList.innerHTML=`<div class="empty">今晚先排好明天的任務吧。<br>建議先放 5–10 件，包含必做與加分任務。</div>`; return;}
-        els.taskList.innerHTML=state.tasks.map((task,index)=>{
-          const typeClass=task.type==="必做"?"must":task.type==="加分"?"plus":"flex";
-          return `<div class="task ${task.done?"done":""} ${task.carryover?"carryover":""}">
-            <input class="check" type="checkbox" ${task.done?"checked":""} data-action="toggle-task" data-id="${task.id}">
+
+      function startNewDay() {
+        if (!confirm("要開始新的一天嗎？未完成項目會保留。")) return;
+        state.today = getTodayStr();
+        state.tasks = state.tasks.map(t => ({ ...t, done: false, carryover: true }));
+        state.archivedDoneToday = [];
+        saveState();
+        render();
+      }
+
+      function togglePresetPanel() {
+        state.presetOpen = !state.presetOpen;
+        saveState();
+        renderPresetPanel();
+      }
+
+      function renderPresetPanel() {
+        els.presetContent.classList.toggle("open", state.presetOpen);
+        els.presetArrow.classList.toggle("open", state.presetOpen);
+        els.presetToggleBtn.setAttribute("aria-expanded", state.presetOpen ? "true" : "false");
+      }
+
+      function renderTasks() {
+        if (state.tasks.length === 0) {
+          els.taskList.innerHTML = `<div class="empty">今晚先排好明天的任務吧。<br>建議先放 5–10 件，包含必做與加分任務。</div>`;
+          return;
+        }
+
+        els.taskList.innerHTML = state.tasks.map((task, index) => {
+          const typeClass = task.type === "必做" ? "must" : task.type === "加分" ? "plus" : "flex";
+          return `
+            <div class="task ${task.done ? "done" : ""} ${task.carryover ? "carryover" : ""}">
+              <input class="check" type="checkbox" ${task.done ? "checked" : ""} data-action="toggle-task" data-id="${task.id}">
+              <div>
+                <div class="task-title">${escapeHtml(task.title)}</div>
+                <div class="meta">
+                  <span class="pill ${typeClass}">${task.type}</span>
+                  <span class="pill">${task.point} 分</span>
+                  <span class="pill">第 ${index + 1} 項</span>
+                  ${task.carryover ? '<span class="pill carry">昨日延續</span>' : ""}
+                </div>
+              </div>
+              <div class="task-actions">
+                <button class="btn-soft mini" type="button" data-action="move-up" data-id="${task.id}">上移</button>
+                <button class="btn-soft mini" type="button" data-action="move-down" data-id="${task.id}">下移</button>
+                <button class="btn-danger mini" type="button" data-action="delete-task" data-id="${task.id}">刪除</button>
+              </div>
+            </div>`;
+        }).join("");
+      }
+
+      function renderPresets() {
+        if (!state.presets.length) {
+          els.quickPresetButtons.innerHTML = `<div class="empty" style="width:100%;">目前還沒有常用任務。</div>`;
+          els.presetManageList.innerHTML = "";
+          return;
+        }
+
+        els.quickPresetButtons.innerHTML = state.presets
+          .map((item, index) => `<button class="btn-soft mini" type="button" data-action="add-preset-to-today" data-index="${index}">${escapeHtml(item.title)} ＋${item.point}分</button>`)
+          .join("");
+
+        els.presetManageList.innerHTML = state.presets.map((item, index) => `
+          <div class="preset-item">
             <div>
-              <div class="task-title">${escapeHtml(task.title)}</div>
+              <strong>${escapeHtml(item.title)}</strong>
               <div class="meta">
-                <span class="pill ${typeClass}">${task.type}</span>
-                <span class="pill">${task.point} 分</span>
-                <span class="pill">第 ${index+1} 項</span>
-                ${task.carryover?'<span class="pill carry">昨日延續</span>':""}
+                <span class="pill ${item.type === "必做" ? "must" : item.type === "加分" ? "plus" : "flex"}">${item.type}</span>
+                <span class="pill">${item.point} 分</span>
               </div>
             </div>
             <div class="task-actions">
-              <button class="btn-soft mini" type="button" data-action="move-up" data-id="${task.id}">上移</button>
-              <button class="btn-soft mini" type="button" data-action="move-down" data-id="${task.id}">下移</button>
-              <button class="btn-danger mini" type="button" data-action="delete-task" data-id="${task.id}">刪除</button>
+              <button class="btn-soft mini" type="button" data-action="copy-preset-to-form" data-index="${index}">載入</button>
+              <button class="btn-danger mini" type="button" data-action="delete-preset" data-index="${index}">刪除</button>
             </div>
-          </div>`;
-        }).join("");
+          </div>
+        `).join("");
       }
-      function renderPresets(){
-        if(!state.presets.length){els.quickPresetButtons.innerHTML=`<div class="empty" style="width:100%;">目前還沒有常用任務。</div>`; els.presetManageList.innerHTML=""; return;}
-        els.quickPresetButtons.innerHTML=state.presets.map((item,index)=>`<button class="btn-soft mini" type="button" data-action="add-preset-to-today" data-index="${index}">${escapeHtml(item.title)} ＋${item.point}分</button>`).join("");
-        els.presetManageList.innerHTML=state.presets.map((item,index)=>`<div class="preset-item"><div><strong>${escapeHtml(item.title)}</strong><div class="meta"><span class="pill ${item.type==="必做"?"must":item.type==="加分"?"plus":"flex"}">${item.type}</span><span class="pill">${item.point} 分</span></div></div><div class="task-actions"><button class="btn-soft mini" type="button" data-action="copy-preset-to-form" data-index="${index}">載入</button><button class="btn-danger mini" type="button" data-action="delete-preset" data-index="${index}">刪除</button></div></div>`).join("");
+
+      function renderHistory() {
+        if (!state.history.length) {
+          els.historyList.innerHTML = `<div class="empty">還沒有最近紀錄。<br>今晚結算過一次後，這裡就會開始累積。</div>`;
+          return;
+        }
+
+        els.historyList.innerHTML = state.history.map(item => `
+          <div class="history-item">
+            <div>
+              <strong>${formatDate(item.date)}</strong><br>
+              <span style="color:#6c7d71;">${item.title}</span>
+            </div>
+            <div style="text-align:right;white-space:nowrap;">
+              ${item.done}/${item.total} 項<br>${item.score} 分・${item.rate}%
+            </div>
+          </div>
+        `).join("");
       }
-      function renderHistory(){
-        if(!state.history.length){els.historyList.innerHTML=`<div class="empty">還沒有最近紀錄。<br>今晚結算過一次後，這裡就會開始累積。</div>`; return;}
-        els.historyList.innerHTML=state.history.map(item=>`<div class="history-item"><div><strong>${formatDate(item.date)}</strong><br><span style="color:#6c7d71;">${item.title}</span></div><div style="text-align:right;white-space:nowrap;">${item.done}/${item.total} 項<br>${item.score} 分・${item.rate}%</div></div>`).join("");
+
+      function renderSummary() {
+        const { total, done, score, rate } = getSummaryData();
+        els.totalCount.textContent = total;
+        els.doneCount.textContent = done;
+        els.scoreCount.textContent = score;
+        els.streakCount.textContent = state.streak;
+        els.progressBar.style.width = `${rate}%`;
+
+        let msg = total === 0
+          ? "今晚先排明天任務。先排好，明天比較不會亂。"
+          : done === 0
+          ? "任務已經排好了。明天先從最小的一件開始。"
+          : rate >= 100
+          ? "今天全數完成，這不是運氣，是妳真的有在收自己的人生節奏。"
+          : rate >= 80
+          ? `今天完成率 ${rate}%，這種穩穩做完的感覺，比一時爆衝更厲害。`
+          : rate >= 60
+          ? `今天完成 ${done} 項、拿到 ${score} 分。不是完美路線，但已經有推進。`
+          : `今天先記下 ${score} 分。哪怕只完成一小步，也比一直想更有力量。`;
+
+        if (state.archivedDoneToday.length > 0) {
+          msg += ` 已先收起 ${state.archivedDoneToday.length} 項完成任務。`;
+        }
+
+        els.messageText.textContent = msg;
+
+        const monthKey = getMonthKey(state.today);
+        const rows = state.monthlyHistory.filter(item => item.monthKey === monthKey);
+        const mScore = rows.reduce((s, i) => s + Number(i.score || 0), 0);
+        const mDone = rows.reduce((s, i) => s + Number(i.done || 0), 0);
+        const mDays = rows.length;
+        const mAvg = mDays ? Math.round(mScore / mDays) : 0;
+
+        els.monthScore.textContent = mScore;
+        els.monthDone.textContent = mDone;
+        els.monthDays.textContent = mDays;
+        els.monthAvg.textContent = mAvg;
       }
-      function renderSummary(){
-        const {total,done,score,rate}=getSummaryData();
-        els.totalCount.textContent=total; els.doneCount.textContent=done; els.scoreCount.textContent=score; els.streakCount.textContent=state.streak; els.progressBar.style.width=`${rate}%`;
-        let msg = total===0?"今晚先排明天任務。先排好，明天比較不會亂。": done===0?"任務已經排好了。明天先從最小的一件開始。": rate>=100?"今天全數完成，這不是運氣，是妳真的有在收自己的人生節奏。": rate>=80?`今天完成率 ${rate}%，這種穩穩做完的感覺，比一時爆衝更厲害。`: rate>=60?`今天完成 ${done} 項、拿到 ${score} 分。不是完美路線，但已經有推進。`:`今天先記下 ${score} 分。哪怕只完成一小步，也比一直想更有力量。`;
-        if(state.archivedDoneToday.length>0) msg += ` 已先收起 ${state.archivedDoneToday.length} 項完成任務。`;
-        els.messageText.textContent=msg;
-        const monthKey=getMonthKey(state.today);
-        const rows=state.monthlyHistory.filter(item=>item.monthKey===monthKey);
-        const mScore=rows.reduce((s,i)=>s+Number(i.score||0),0);
-        const mDone=rows.reduce((s,i)=>s+Number(i.done||0),0);
-        const mDays=rows.length;
-        const mAvg=mDays?Math.round(mScore/mDays):0;
-        els.monthScore.textContent=mScore; els.monthDone.textContent=mDone; els.monthDays.textContent=mDays; els.monthAvg.textContent=mAvg;
+
+      function render() {
+        els.heroQuote.textContent = getDailyQuote(state.today);
+        renderPresetPanel();
+        renderSummary();
+        renderTasks();
+        renderPresets();
+        renderHistory();
       }
-      function render(){
-        els.heroQuote.textContent=getDailyQuote(state.today);
-        renderPresetPanel(); renderSummary(); renderTasks(); renderPresets(); renderHistory();
-      }
+
       els.addBtn.addEventListener("click", addTask);
       els.sampleBtn.addEventListener("click", addSampleTasks);
       els.clearDoneBtn.addEventListener("click", clearDoneTasks);
@@ -512,51 +1245,39 @@
       els.savePresetBtn.addEventListener("click", savePreset);
       els.settingsBtn.addEventListener("click", resetAll);
       els.presetToggleBtn.addEventListener("click", togglePresetPanel);
-      els.taskInput.addEventListener("keydown", e=>{if(e.key==="Enter") addTask();});
-      els.presetTitleInput.addEventListener("keydown", e=>{if(e.key==="Enter") savePreset();});
-      document.addEventListener("click", function(e){
-        const btn=e.target.closest("[data-action]"); if(!btn) return;
-        const action=btn.dataset.action; const id=btn.dataset.id; const index=Number(btn.dataset.index);
-        if(action==="delete-task") deleteTask(id);
-        else if(action==="move-up") moveTask(id,"up");
-        else if(action==="move-down") moveTask(id,"down");
-        else if(action==="add-preset-to-today") addPresetToToday(index);
-        else if(action==="copy-preset-to-form") loadPresetToForm(index);
-        else if(action==="delete-preset") deletePreset(index);
+
+      els.taskInput.addEventListener("keydown", e => {
+        if (e.key === "Enter") addTask();
       });
-      document.addEventListener("change", function(e){const toggle=e.target.closest("[data-action='toggle-task']"); if(toggle) toggleTask(toggle.dataset.id);});
+
+      els.presetTitleInput.addEventListener("keydown", e => {
+        if (e.key === "Enter") savePreset();
+      });
+
+      document.addEventListener("click", function (e) {
+        const btn = e.target.closest("[data-action]");
+        if (!btn) return;
+
+        const action = btn.dataset.action;
+        const id = btn.dataset.id;
+        const index = Number(btn.dataset.index);
+
+        if (action === "delete-task") deleteTask(id);
+        else if (action === "move-up") moveTask(id, "up");
+        else if (action === "move-down") moveTask(id, "down");
+        else if (action === "add-preset-to-today") addPresetToToday(index);
+        else if (action === "copy-preset-to-form") loadPresetToForm(index);
+        else if (action === "delete-preset") deletePreset(index);
+      });
+
+      document.addEventListener("change", function (e) {
+        const toggle = e.target.closest("[data-action='toggle-task']");
+        if (toggle) toggleTask(toggle.dataset.id);
+      });
+
       checkDateRollover();
       render();
     });
-
-els.versionToggleBtn.addEventListener("click", toggleVersionPanel);
-
-
   </script>
-
-<div class="section-box" style="margin-top:24px;">
-  <button class="section-head" id="versionToggleBtn" type="button" aria-expanded="false">
-    <span>開發與版本資訊</span>
-    <span class="arrow" id="versionArrow">▶</span>
-  </button>
-
-  <div class="section-content" id="versionContent">
-    <div class="sub" style="margin-top:10px; margin-bottom:0; white-space:pre-line;">
-版本：V1.0
-名稱：明日挑戰
-
-創意發想：吳佩蓉
-APP互動介面與設計：吳佩芳
-技術協作：ChatGPT
-上線日期：2026.3.11
-
-說明：
-這是一個每日任務與成長追蹤工具
-資料僅儲存在使用者自己的瀏覽器
-    </div>
-  </div>
-</div>
-
-
 </body>
 </html>
