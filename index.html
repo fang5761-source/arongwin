@@ -12,28 +12,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>明日成就任務板 V6</title>
   <style>
-
-.version-box{
-margin-top:40px;
-padding:15px;
-border-top:1px solid #ddd;
-font-size:14px;
-color:#666;
-}
-
-.version-title{
-cursor:pointer;
-font-weight:bold;
-margin-bottom:10px;
-}
-
-.version-content{
-display:none;
-line-height:1.6;
-}
-
-
-
     :root {
       --bg1:#f6fbf7;
       --bg2:#eef6f0;
@@ -88,7 +66,12 @@ line-height:1.6;
     .section-head{display:flex;align-items:center;justify-content:space-between;width:100%;padding:14px 16px;background:transparent;color:var(--green-dark);font-weight:800}
     .section-content{padding:0 14px 14px;display:none}
     .section-content.open{display:block}
-    .arrow{font-size:18px;transition:transform .18s ease}
+    .arrow{
+  font-size:18px;
+  transition:transform .18s ease;
+  color:#2f6fd6;
+  font-weight:700;
+}
     .arrow.open{transform:rotate(90deg)}
     .task-list{display:flex;flex-direction:column;gap:10px;margin-top:12px}
     .task{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;border:1px solid #e5eee6;border-radius:16px;padding:12px;background:#fff}
@@ -282,8 +265,23 @@ line-height:1.6;
         monthDone: document.getElementById("monthDone"),
         monthDays: document.getElementById("monthDays"),
         monthAvg: document.getElementById("monthAvg")
+
+        versionToggleBtn: document.getElementById("versionToggleBtn"),
+        versionArrow: document.getElementById("versionArrow"),
+        versionContent: document.getElementById("versionContent"),
+
       };
       function clone(obj){return JSON.parse(JSON.stringify(obj));}
+
+      function toggleVersionPanel(){
+  const isOpen = els.versionContent.classList.contains("open");
+  els.versionContent.classList.toggle("open", !isOpen);
+  els.versionArrow.classList.toggle("open", !isOpen);
+  els.versionToggleBtn.setAttribute("aria-expanded", !isOpen ? "true" : "false");
+}
+
+
+
       function getTodayStr(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;}
       function getMonthKey(dateStr){return dateStr.slice(0,7);}
       function formatDate(str){const [y,m,d]=str.split("-");return `${y}/${m}/${d}`;}
@@ -530,39 +528,22 @@ line-height:1.6;
       checkDateRollover();
       render();
     });
+
+els.versionToggleBtn.addEventListener("click", toggleVersionPanel);
+
+
   </script>
 
-function toggleVersion() {
+<div class="section-box" style="margin-top:24px;">
+  <button class="section-head" id="versionToggleBtn" type="button" aria-expanded="false">
+    <span>開發與版本資訊</span>
+    <span class="arrow" id="versionArrow">▶</span>
+  </button>
 
-const box = document.getElementById("versionInfo")
-const title = document.querySelector(".version-title")
-
-if (box.style.display === "block") {
-
-box.style.display = "none"
-title.innerHTML = "▶ 開發與版本資訊"
-
-} else {
-
-box.style.display = "block"
-title.innerHTML = "▼ 開發與版本資訊"
-
-}
-
-}
-
-</script>
-
-<div class="version-box">
-
-<div class="version-title" onclick="toggleVersion()">
-▶ 開發與版本資訊
-</div>
-
-<div id="versionInfo" class="version-content">
-
-版本：V1.0 
-名稱：明日挑戰  
+  <div class="section-content" id="versionContent">
+    <div class="sub" style="margin-top:10px; margin-bottom:0; white-space:pre-line;">
+版本：V1.0
+名稱：明日挑戰
 
 創意發想：吳佩蓉
 APP互動介面與設計：吳佩芳
@@ -570,15 +551,11 @@ APP互動介面與設計：吳佩芳
 上線日期：2026.3.11
 
 說明：
-這是一個每日任務與成長追蹤工具  
-資料僅儲存在使用者自己的瀏覽器  
-
+這是一個每日任務與成長追蹤工具
+資料僅儲存在使用者自己的瀏覽器
+    </div>
+  </div>
 </div>
-</div>
-
-</body>
-</html>
-
 
 
 </body>
