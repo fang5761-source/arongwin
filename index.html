@@ -1147,30 +1147,9 @@ APP互動介面與設計：吳佩芳
         <button class="modal-close" id="settingsCloseBtn" type="button" aria-label="關閉設定">✕</button>
       </div>
 
-      <div class="settings-intro">
-        這裡集中放備份、常用任務與已完成項目整理。關閉設定時，展開中的區塊會自動收好，主畫面不會被干擾。
-      </div>
-
       <div class="settings-layout">
         <div class="settings-group">
-          <div class="settings-group-title">備份與資料整理</div>
-          <div class="toolbar">
-            <button class="btn-soft" id="showBackupBoxBtn" type="button">提醒備份</button>
-            <button class="btn-soft" id="importBackupBtn" type="button">匯入備份</button>
-            <button class="btn-danger" id="resetAllBtn" type="button">重設設定</button>
-          </div>
-          <div class="settings-note">
-            建議每隔幾天，或在新增、修改多個任務後備份一次。系統會先提醒備份，再由你自行點擊下載備份檔，讓資料保存更穩定安心。
-          </div>
-          <div id="backupDownloadBox" class="download-box">
-            <div class="download-file-name" id="backupFileName">備份檔尚未準備</div>
-            <button class="btn-main" id="downloadBackupBtn" type="button">一鍵下載備份檔</button>
-          </div>
-          <input id="importFileInput" type="file" accept="application/json" style="display:none;" />
-        </div>
-
-        <div class="settings-group">
-            <div class="section-box">
+          <div class="section-box">
             <button class="section-head" id="presetManageToggleBtn" type="button">
               <span>管理常用任務</span>
               <span class="arrow" id="presetManageArrow">▶</span>
@@ -1199,6 +1178,28 @@ APP互動介面與設計：吳佩芳
             </button>
             <div class="section-content" id="hiddenDonePanel">
               <div id="hiddenDoneList"></div>
+            </div>
+          </div>
+
+          <div class="section-box" style="margin-top:12px;">
+            <button class="section-head" id="backupToggleBtn" type="button">
+              <span>備份與資料整理</span>
+              <span class="arrow" id="backupArrow">▶</span>
+            </button>
+            <div class="section-content" id="backupPanel">
+              <div class="toolbar">
+                <button class="btn-soft" id="showBackupBoxBtn" type="button">提醒備份</button>
+                <button class="btn-soft" id="importBackupBtn" type="button">匯入備份</button>
+                <button class="btn-danger" id="resetAllBtn" type="button">重設設定</button>
+              </div>
+              <div class="settings-note">
+                建議每隔幾天，或在新增、修改多個任務後備份一次。系統會先提醒備份，再由你自行點擊下載備份檔，讓資料保存更穩定安心。
+              </div>
+              <div id="backupDownloadBox" class="download-box">
+                <div class="download-file-name" id="backupFileName">備份檔尚未準備</div>
+                <button class="btn-main" id="downloadBackupBtn" type="button">一鍵下載備份檔</button>
+              </div>
+              <input id="importFileInput" type="file" accept="application/json" style="display:none;" />
             </div>
           </div>
         </div>
@@ -1272,6 +1273,9 @@ APP互動介面與設計：吳佩芳
         settingsModal: document.getElementById('settingsModal'),
         settingsCloseBtn: document.getElementById('settingsCloseBtn'),
         settingsBottomCloseBtn: document.getElementById('settingsBottomCloseBtn'),
+        backupToggleBtn: document.getElementById('backupToggleBtn'),
+        backupArrow: document.getElementById('backupArrow'),
+        backupPanel: document.getElementById('backupPanel'),
         showBackupBoxBtn: document.getElementById('showBackupBoxBtn'),
         downloadBackupBtn: document.getElementById('downloadBackupBtn'),
         backupFileName: document.getElementById('backupFileName'),
@@ -1659,6 +1663,8 @@ function presetScorePlus(index) {
       }
 
       function collapseSettingsPanels() {
+  els.backupPanel.classList.remove('open');
+  els.backupArrow.classList.remove('open');
   els.hiddenDonePanel.classList.remove('open');
   els.hiddenDoneArrow.classList.remove('open');
   els.presetManagePanel.classList.remove('open');
@@ -1672,6 +1678,12 @@ function presetScorePlus(index) {
 
   collapseSettingsPanels();
   els.backupDownloadBox.classList.remove('show');
+}
+
+      function toggleBackupPanel() {
+  const isOpen = els.backupPanel.classList.contains('open');
+  els.backupPanel.classList.toggle('open', !isOpen);
+  els.backupArrow.classList.toggle('open', !isOpen);
 }
 
       function toggleHiddenDonePanel() {
@@ -2085,6 +2097,7 @@ function presetScorePlus(index) {
         }
       });
 
+      els.backupToggleBtn.addEventListener('click', toggleBackupPanel);
       els.showBackupBoxBtn.addEventListener('click', showBackupBox);
       els.downloadBackupBtn.addEventListener('click', downloadBackup);
       els.importBackupBtn.addEventListener('click', importBackup);
