@@ -682,12 +682,12 @@
             <option value="必做|5">必做｜5分</option>
           </select>
           <button class="btn-main" id="addBtn" type="button">新增任務</button>
-          <button class="btn-soft" id="openQuickAddBtn" type="button">加入常用</button>
+          
         </div>
 
         <div class="section-box" style="margin-top:0; margin-bottom:12px;">
           <button class="section-head" id="quickAddToggleBtn" type="button">
-            <span>常用任務</span>
+            <span style="font-size:18px; font-weight:900;">常用任務</span>
             <span class="arrow" id="quickAddArrow">▶</span>
           </button>
           <div class="section-content" id="quickAddPanel">
@@ -701,7 +701,7 @@
         </div>
 
         <div class="today-section">
-          <div class="today-title">今日工作行程</div>
+          <div class="today-title">📒 今日工作行程</div>
           <div id="taskList" class="task-list"></div>
         </div>
       </section>
@@ -1534,7 +1534,7 @@ APP互動介面與設計：吳佩芳
       els.resetAllBtn.addEventListener('click',resetAll);
       els.importFileInput.addEventListener('change',handleImportFile);
       els.savePresetBtn.addEventListener('click',savePreset);
-      els.openQuickAddBtn.addEventListener('click',toggleQuickAddPanel);
+      
       els.quickAddToggleBtn.addEventListener('click',toggleQuickAddPanel);
       els.replayCelebrateBtn.addEventListener('click',()=>showResult(els.resultTitle.textContent.includes('全數達標')?'success':'fail'));
       els.closeCelebrateBtn.addEventListener('click',closeCelebration);
