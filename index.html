@@ -2,606 +2,811 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  />
   <title>明日挑戰</title>
 
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-  <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-  <meta name="theme-color" content="#4f8a63">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="明日挑戰">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <meta name="theme-color" content="#4f8a63" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="明日挑戰" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 
   <style>
-    :root{
-      --bg1:#f6fbf7;
-      --bg2:#eef6f0;
-      --card:#ffffff;
-      --line:#d9e7db;
-      --text:#243428;
-      --muted:#6c7d71;
-      --green:#4f8a63;
-      --green-dark:#2f5d3a;
-      --green-soft:#edf6ef;
-      --red:#c96c5b;
-      --red-soft:#fff3f0;
-      --gold:#d9a441;
-      --purple:#6f6ad8;
-      --blue:#2f6fd6;
-      --shadow:0 10px 30px rgba(50,80,60,0.08);
-    }
-
-    *{box-sizing:border-box;}
+    :root {
+      --bg1: #f6fbf7;
+      --bg2: #eef6f0;
+      --card: #ffffff;
+      --line: #d9e7db;
+      --text: #243428;
+      --muted: #6c7d71;
+      --green: #4f8a63;
+      --green-dark: #2f5d3a;
+      --green-soft: #edf6ef;
+      --green-soft-2: #e4efe6;
+      --red: #c96c5b;
+      --red-soft: #fff3f0;
+      --gold: #d9a441;
+      --purple: #6f6ad8;
+      --blue: #2f6fd6;
+      --shadow: 0 10px 30px rgba(50, 80, 60, 0.08);
+    }
 
-    body{
-      margin:0;
-      font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;
-      color:var(--text);
-      background:radial-gradient(circle at top left,#ffffff 0%,var(--bg1) 45%,var(--bg2) 100%);
-      min-height:100vh;
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    .wrap{
-      max-width:1180px;
-      margin:0 auto;
-      padding:24px 16px 48px;
+    html,
+    body {
+      touch-action: manipulation;
     }
 
-    .hero,.card{
-      background:#fff;
-      border:1px solid #e5efe6;
-      border-radius:24px;
-      box-shadow:var(--shadow);
-    }
-
-    .hero{
-      padding:22px;
-      margin-bottom:20px;
-      background:linear-gradient(135deg,#ffffff 0%,#eef8f0 100%);
-    }
-
-    .hero h1{
-      margin:0 0 8px;
-      font-size:30px;
-      line-height:1.2;
-      color:var(--green-dark);
-    }
-
-    .hero p{
-      margin:0;
-      color:var(--muted);
-      line-height:1.7;
-      font-size:15px;
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns:1.15fr .85fr;
-      gap:18px;
-    }
-
-    .card{
-      padding:18px;
-    }
+    body {
+      margin: 0;
+      font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      color: var(--text);
+      background: radial-gradient(circle at top left, #ffffff 0%, var(--bg1) 45%, var(--bg2) 100%);
+      min-height: 100vh;
+    }
 
-    .title-row{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom:10px;
+    .wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 24px 16px 48px;
+    }
+
+    .hero,
+    .card {
+      background: #fff;
+      border: 1px solid #e5efe6;
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      padding: 22px;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #ffffff 0%, #eef8f0 100%);
+    }
+
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: 30px;
+      line-height: 1.2;
+      color: var(--green-dark);
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 18px;
+    }
+
+    .card {
+      padding: 18px;
+    }
+
+    .title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .card h2 {
+      margin: 0;
+      font-size: 20px;
+      color: var(--green-dark);
+    }
+
+    .sub {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
     }
 
-    .card h2{
-      margin:0;
-      font-size:20px;
-      color:var(--green-dark);
+    .gear-btn {
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      border: none;
+      border-radius: 14px;
+      background: var(--green-soft);
+      color: var(--green-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(50, 80, 60, 0.08);
+    }
+
+    .gear-btn svg {
+      display: block;
+    }
+
+    .btn-main,
+    .btn-soft,
+    .btn-danger,
+    .mini,
+    .icon-btn,
+    .chip-btn,
+    .ghost-btn {
+      font: inherit;
+      border: none;
+      cursor: pointer;
+      border-radius: 12px;
+      transition: transform 0.12s ease, opacity 0.12s ease;
+    }
+
+    .btn-main:hover,
+    .btn-soft:hover,
+    .btn-danger:hover,
+    .mini:hover,
+    .icon-btn:hover,
+    .chip-btn:hover,
+    .ghost-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-main {
+      background: var(--green);
+      color: #fff;
+      font-weight: 700;
+      padding: 11px 14px;
     }
 
-    .sub{
-      margin:0 0 14px;
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.7;
+    .btn-soft {
+      background: var(--green-soft);
+      color: var(--green-dark);
+      border: 1px solid #d7e8da;
+      font-weight: 700;
+      padding: 11px 14px;
     }
 
-    .gear-btn{
-      width:44px;
-      height:44px;
-      min-width:44px;
-      border:none;
-      border-radius:14px;
-      background:var(--green-soft);
-      color:var(--green-dark);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:0;
-      cursor:pointer;
-      box-shadow:0 2px 8px rgba(50,80,60,.08);
+    .btn-danger {
+      background: var(--red-soft);
+      color: var(--red);
+      border: 1px solid #f2d5cf;
+      font-weight: 700;
+      padding: 11px 14px;
     }
 
-    .gear-btn svg{display:block;}
-
-    .btn-main,.btn-soft,.btn-danger,.mini,.icon-btn{
-      font:inherit;
-      border:none;
-      cursor:pointer;
-      border-radius:12px;
-      transition:transform .12s ease;
-    }
-
-    .btn-main:hover,.btn-soft:hover,.btn-danger:hover,.mini:hover,.icon-btn:hover{
-      transform:translateY(-1px);
-    }
-
-    .btn-main{
-      background:var(--green);
-      color:#fff;
-      font-weight:700;
-      padding:11px 14px;
+    .ghost-btn {
+      background: transparent;
+      color: var(--green-dark);
+      border: 1px solid #d7e8da;
+      padding: 10px 14px;
+      font-weight: 700;
     }
 
-    .btn-soft{
-      background:var(--green-soft);
-      color:var(--green-dark);
-      border:1px solid #d7e8da;
-      font-weight:700;
-      padding:11px 14px;
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
     }
 
-    .btn-danger{
-      background:var(--red-soft);
-      color:var(--red);
-      border:1px solid #f2d5cf;
-      font-weight:700;
-      padding:11px 14px;
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1.45fr 1fr auto;
+      gap: 10px;
+      margin-bottom: 12px;
     }
 
-    .toolbar{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-bottom:12px;
+    .form-grid-preset {
+      display: grid;
+      grid-template-columns: 1.45fr 1fr auto;
+      gap: 10px;
+      margin-bottom: 12px;
     }
 
-    .form-grid{
-      display:grid;
-      grid-template-columns:1.45fr 1fr auto auto;
-      gap:10px;
-      margin-bottom:12px;
+    input,
+    select {
+      width: 100%;
+      font: inherit;
+      padding: 11px 12px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      color: var(--text);
     }
 
-    .form-grid-preset{
-      display:grid;
-      grid-template-columns:1.45fr 1fr auto;
-      gap:10px;
-      margin-bottom:12px;
+    .section-box {
+      background: linear-gradient(180deg, #fbfefb 0%, #f7fbf8 100%);
+      border: 1px solid #e2ece4;
+      border-radius: 18px;
+      overflow: hidden;
+      margin-top: 12px;
     }
 
-    input,select{
-      width:100%;
-      font:inherit;
-      padding:11px 12px;
-      border:1px solid var(--line);
-      border-radius:12px;
-      background:#fff;
-      color:var(--text);
+    .section-head {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 14px 16px;
+      background: transparent;
+      color: var(--green-dark);
+      font-weight: 800;
+      border: none;
+      cursor: pointer;
     }
 
-    .section-box{
-      background:linear-gradient(180deg,#fbfefb 0%,#f7fbf8 100%);
-      border:1px solid #e2ece4;
-      border-radius:18px;
-      overflow:hidden;
-      margin-top:12px;
+    .section-content {
+      display: none;
+      padding: 0 16px 16px;
     }
 
-    .section-head{
-      width:100%;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      padding:14px 16px;
-      background:transparent;
-      color:var(--green-dark);
-      font-weight:800;
-      border:none;
-      cursor:pointer;
+    .section-content.open {
+      display: block;
     }
 
-    .section-content{
-      display:none;
-      padding:0 16px 16px;
+    .arrow {
+      color: var(--blue);
+      font-size: 18px;
+      font-weight: 700;
+      transition: transform 0.18s ease;
     }
 
-    .section-content.open{
-      display:block;
+    .arrow.open {
+      transform: rotate(90deg);
     }
 
-    .arrow{
-      color:var(--blue);
-      font-size:18px;
-      font-weight:700;
-      transition:transform .18s ease;
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
     }
 
-    .arrow.open{
-      transform:rotate(90deg);
+    .stat {
+      background: linear-gradient(180deg, #fbfefb 0%, #f1f8f2 100%);
+      border: 1px solid #e0ece2;
+      border-radius: 16px;
+      padding: 14px;
     }
 
-    .summary{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:10px;
-      margin-bottom:14px;
+    .stat .label {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 6px;
     }
 
-    .stat{
-      background:linear-gradient(180deg,#fbfefb 0%,#f1f8f2 100%);
-      border:1px solid #e0ece2;
-      border-radius:16px;
-      padding:14px;
+    .stat .value {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--green-dark);
+      line-height: 1;
     }
 
-    .stat .label{
-      font-size:13px;
-      color:var(--muted);
-      margin-bottom:6px;
+    .message-box {
+      background: linear-gradient(135deg, #f9fdf9 0%, #eef8f0 100%);
+      border: 1px solid #ddebdd;
+      border-radius: 18px;
+      padding: 16px;
+      line-height: 1.8;
+      margin-bottom: 12px;
     }
 
-    .stat .value{
-      font-size:28px;
-      font-weight:800;
-      color:var(--green-dark);
-      line-height:1;
+    .message-title {
+      font-weight: 800;
+      color: var(--green-dark);
+      margin-bottom: 6px;
     }
 
-    .message-box{
-      background:linear-gradient(135deg,#f9fdf9 0%,#eef8f0 100%);
-      border:1px solid #ddebdd;
-      border-radius:18px;
-      padding:16px;
-      line-height:1.8;
-      margin-bottom:12px;
+    .progress {
+      height: 14px;
+      border-radius: 999px;
+      background: #edf3ee;
+      overflow: hidden;
+      margin-top: 10px;
+      border: 1px solid #e2ebe4;
     }
 
-    .message-title{
-      font-weight:800;
-      color:var(--green-dark);
-      margin-bottom:6px;
+    .bar {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, #84c193 0%, #4f8a63 100%);
+      transition: width 0.25s ease;
     }
 
-    .progress{
-      height:14px;
-      border-radius:999px;
-      background:#edf3ee;
-      overflow:hidden;
-      margin-top:10px;
-      border:1px solid #e2ebe4;
+    .today-section {
+      margin-top: 12px;
+      border-radius: 20px;
+      padding: 14px;
+      background: linear-gradient(180deg, #dde9df 0%, #eaf2eb 100%);
+      border: 1px solid #cfddcf;
     }
 
-    .bar{
-      height:100%;
-      width:0;
-      background:linear-gradient(90deg,#84c193 0%,#4f8a63 100%);
-      transition:width .25s ease;
+    .today-title {
+      font-weight: 900;
+      color: var(--green-dark);
+      margin-bottom: 10px;
+      font-size: 20px;
     }
 
-    .today-section{
-      margin-top:12px;
-      border-radius:20px;
-      padding:14px;
-      background:linear-gradient(180deg,#dde9df 0%,#eaf2eb 100%);
-      border:1px solid #cfddcf;
+    .task-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
-    .today-title{
-      font-weight:900;
-      color:var(--green-dark);
-      margin-bottom:10px;
-      font-size:17px;
+    .task {
+      background: #fff;
+      border: 1px solid #dfe9e1;
+      border-radius: 16px;
+      padding: 12px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
     }
 
-    .task-list{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
+    .task.done {
+      background: #f3faf4;
+      border-color: #d4e8d8;
     }
 
-    .task{
-      background:#fff;
-      border:1px solid #dfe9e1;
-      border-radius:16px;
-      padding:12px;
-      box-shadow:0 2px 6px rgba(0,0,0,.04);
+    .task.carryover {
+      border-left: 6px solid var(--gold);
     }
 
-    .task.done{
-      background:#f3faf4;
-      border-color:#d4e8d8;
+    .task-row1 {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
     }
 
-    .task.carryover{
-      border-left:6px solid var(--gold);
+    .check {
+      width: 22px;
+      height: 22px;
+      margin-top: 1px;
+      accent-color: var(--green);
+      cursor: pointer;
+      flex: 0 0 auto;
     }
 
-    .task-row1{
-      display:flex;
-      align-items:flex-start;
-      gap:10px;
+    .task-title {
+      flex: 1;
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 1.5;
+      word-break: break-word;
     }
 
-    .check{
-      width:22px;
-      height:22px;
-      margin-top:1px;
-      accent-color:var(--green);
-      cursor:pointer;
-      flex:0 0 auto;
+    .task.done .task-title {
+      text-decoration: line-through;
+      color: #69826e;
     }
 
-    .task-title{
-      flex:1;
-      font-weight:700;
-      font-size:16px;
-      line-height:1.5;
-      word-break:break-word;
+    .task-score {
+      flex: 0 0 auto;
+      margin-left: 8px;
+      font-weight: 800;
+      color: var(--green-dark);
+      font-size: 15px;
+      white-space: nowrap;
     }
 
-    .task.done .task-title{
-      text-decoration:line-through;
-      color:#69826e;
+    .task-row2 {
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 6px;
     }
 
-    .task-score{
-      flex:0 0 auto;
-      margin-left:8px;
-      font-weight:800;
-      color:var(--green-dark);
-      font-size:15px;
-      white-space:nowrap;
+    .icon-btn {
+      width: 28px;
+      height: 28px;
+      min-width: 28px;
+      border-radius: 9px;
+      padding: 0;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #edf6ef;
+      color: var(--green-dark);
+      border: 1px solid #d7e8da;
     }
 
-    .task-row2{
-      margin-top:8px;
-      display:flex;
-      align-items:center;
-      justify-content:flex-end;
-      gap:6px;
+    .icon-btn.danger {
+      background: #fff4f2;
+      color: var(--red);
+      border-color: #f0d0ca;
     }
 
-    .icon-btn{
-      width:28px;
-      height:28px;
-      min-width:28px;
-      border-radius:9px;
-      padding:0;
-      font-size:13px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:#edf6ef;
-      color:var(--green-dark);
-      border:1px solid #d7e8da;
+    .icon-btn.favorite {
+      background: #eef4ff;
+      color: #325eb0;
+      border-color: #d7e3ff;
+      font-weight: 900;
     }
 
-    .icon-btn.danger{
-      background:#fff4f2;
-      color:var(--red);
-      border-color:#f0d0ca;
+    .chip-strip {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+      scroll-snap-type: x proximity;
+      -webkit-overflow-scrolling: touch;
     }
 
-    .icon-btn.favorite{
-      background:#eef4ff;
-      color:#325eb0;
-      border-color:#d7e3ff;
-      font-weight:900;
+    .chip-strip::-webkit-scrollbar {
+      display: none;
     }
 
-    .preset-grid{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      margin-top:6px;
+    .chip-btn {
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid #d7e8da;
+      background: #fff;
+      color: var(--green-dark);
+      font-weight: 800;
+      white-space: nowrap;
+      scroll-snap-align: start;
+      flex: 0 0 auto;
     }
 
-    .preset-chip{
-      padding:8px 10px;
-      border-radius:12px;
-      border:1px solid #d7e8da;
-      background:#fff;
-      cursor:pointer;
-      color:var(--green-dark);
-      font-weight:700;
+    .preset-manage-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 8px;
     }
 
-    .preset-item{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      padding:10px 12px;
-      border:1px solid #dce9de;
-      border-radius:14px;
-      background:#fff;
-      margin-top:8px;
+    .preset-manage-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid #dce9de;
+      border-radius: 14px;
+      background: #fff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
     }
 
-    .toolbar-small{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
+    .drag-handle {
+      width: 28px;
+      min-width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: var(--green-soft-2);
+      color: var(--green-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      cursor: grab;
+      user-select: none;
+      border: 1px solid #d6e5d8;
     }
 
-    .mini{
-      padding:8px 10px;
-      font-size:13px;
-      background:#edf6ef;
-      color:var(--green-dark);
-      border:1px solid #d7e8da;
+    .drag-handle:active {
+      cursor: grabbing;
+    }
+
+    .preset-main {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
     }
 
-    .mini.danger{
-      background:#fff4f2;
-      color:var(--red);
-      border-color:#f0d0ca;
+    .preset-title {
+      font-weight: 800;
+      line-height: 1.45;
+      word-break: break-word;
     }
-
-    .history{
-      display:grid;
-      gap:8px;
-      margin-top:10px;
-    }
-
-    .history-item{
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      border:1px solid #e7efe8;
-      border-radius:14px;
-      padding:10px 12px;
-      background:#fcfefc;
-      font-size:14px;
+
+    .preset-score {
+      color: var(--green-dark);
+      font-weight: 800;
+      white-space: nowrap;
     }
 
-    .empty{
-      text-align:center;
-      color:var(--muted);
-      padding:22px 12px;
-      border:1px dashed #d6e4d8;
-      border-radius:16px;
-      background:#fbfdfb;
+    .preset-trash {
+      width: 32px;
+      min-width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      border: 1px solid #f0d0ca;
+      background: #fff4f2;
+      color: var(--red);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 14px;
     }
 
-    .footer-note{
-      margin-top:18px;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.7;
+    .toolbar-small {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
     }
 
-    .celebrate{
-      position:fixed;
-      inset:0;
-      display:none;
-      align-items:center;
-      justify-content:center;
-      pointer-events:none;
-      z-index:999;
-      background:rgba(255,255,255,.2);
-      backdrop-filter:blur(2px);
+    .mini {
+      padding: 8px 10px;
+      font-size: 13px;
+      background: #edf6ef;
+      color: var(--green-dark);
+      border: 1px solid #d7e8da;
     }
 
-    .celebrate.show{
-      display:flex;
+    .mini.danger {
+      background: #fff4f2;
+      color: var(--red);
+      border-color: #f0d0ca;
     }
 
-    .celebrate-card{
-      position:relative;
-      text-align:center;
-      background:linear-gradient(135deg,#fff 0%,#f7f4ff 100%);
-      border:1px solid #e6defa;
-      border-radius:28px;
-      padding:34px 26px;
-      min-width:300px;
-      box-shadow:0 20px 45px rgba(90,80,160,.22);
-      pointer-events:auto;
+    .history {
+      display: grid;
+      gap: 8px;
+      margin-top: 10px;
     }
 
-    .celebrate-title{
-      font-size:34px;
-      font-weight:900;
-      color:var(--purple);
-      margin-bottom:10px;
+    .history-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      border: 1px solid #e7efe8;
+      border-radius: 14px;
+      padding: 10px 12px;
+      background: #fcfefc;
+      font-size: 14px;
     }
 
-    .celebrate-sub{
-      font-size:18px;
-      color:#4d5870;
-      line-height:1.8;
+    .empty {
+      text-align: center;
+      color: var(--muted);
+      padding: 22px 12px;
+      border: 1px dashed #d6e4d8;
+      border-radius: 16px;
+      background: #fbfdfb;
     }
 
-    .celebrate-actions{
-      margin-top:18px;
-      display:flex;
-      justify-content:center;
-      gap:10px;
+    .footer-note {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
     }
 
-    .confetti{
-      position:fixed;
-      opacity:0;
-      pointer-events:none;
-      animation:burst 1.6s ease-out forwards;
-      z-index:1000;
+    .celebrate {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      z-index: 999;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(2px);
     }
 
-    @keyframes burst{
-      0%{transform:translate(0,0) scale(.6);opacity:1;}
-      100%{transform:translate(var(--x),var(--y)) rotate(var(--r));opacity:0;}
+    .celebrate.show {
+      display: flex;
     }
 
-    .version-box{
-      margin-top:24px;
-      background:linear-gradient(180deg,#fbfefb 0%,#f7fbf8 100%);
-      border:1px solid #e2ece4;
-      border-radius:18px;
-      overflow:hidden;
+    .celebrate-card {
+      position: relative;
+      text-align: center;
+      background: linear-gradient(135deg, #fff 0%, #f7f4ff 100%);
+      border: 1px solid #e6defa;
+      border-radius: 28px;
+      padding: 34px 26px;
+      min-width: 300px;
+      box-shadow: 0 20px 45px rgba(90, 80, 160, 0.22);
+      pointer-events: auto;
     }
-
-    .version-box summary{
-      list-style:none;
-      cursor:pointer;
-      padding:14px 16px;
-      font-weight:800;
-      color:var(--blue);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-    }
-
-    .version-box summary::-webkit-details-marker{display:none;}
 
-    .version-arrow{
-      color:var(--blue);
-      font-weight:700;
-      transition:transform .18s ease;
+    .celebrate-title {
+      font-size: 34px;
+      font-weight: 900;
+      color: var(--purple);
+      margin-bottom: 10px;
     }
 
-    .version-box[open] .version-arrow{
-      transform:rotate(90deg);
+    .celebrate-sub {
+      font-size: 18px;
+      color: #4d5870;
+      line-height: 1.8;
     }
 
-    .version-content{
-      padding:0 16px 16px;
-      color:#6c7d71;
-      line-height:1.8;
-      white-space:pre-line;
+    .celebrate-actions {
+      margin-top: 18px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
     }
 
-    @media (max-width:980px){
-      .grid{grid-template-columns:1fr;}
-      .summary{grid-template-columns:repeat(2,1fr);}
-      .form-grid,.form-grid-preset{grid-template-columns:1fr 1fr;}
-      .form-grid > :first-child,
-      .form-grid-preset > :first-child{grid-column:1 / -1;}
+    .confetti {
+      position: fixed;
+      opacity: 0;
+      pointer-events: none;
+      animation: burst 1.6s ease-out forwards;
+      z-index: 1000;
     }
 
-    @media (max-width:560px){
-      .wrap{padding:14px 10px 30px;}
-      .hero h1{font-size:24px;}
-      .summary{grid-template-columns:1fr 1fr;}
-      .form-grid{
-        grid-template-columns:1fr 1fr;
+    @keyframes burst {
+      0% {
+        transform: translate(0, 0) scale(0.6);
+        opacity: 1;
       }
-      .form-grid > :first-child{grid-column:1 / -1;}
-      .form-grid-preset{grid-template-columns:1fr;}
-      .preset-item{flex-direction:column;align-items:flex-start;}
-      .celebrate-card{min-width:unset;width:calc(100vw - 28px);}
+      100% {
+        transform: translate(var(--x), var(--y)) rotate(var(--r));
+        opacity: 0;
+      }
+    }
+
+    .version-box {
+      margin-top: 24px;
+      background: linear-gradient(180deg, #fbfefb 0%, #f7fbf8 100%);
+      border: 1px solid #e2ece4;
+      border-radius: 18px;
+      overflow: hidden;
+    }
+
+    .version-box summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 14px 16px;
+      font-weight: 800;
+      color: var(--blue);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .version-box summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .version-arrow {
+      color: var(--blue);
+      font-weight: 700;
+      transition: transform 0.18s ease;
+    }
+
+    .version-box[open] .version-arrow {
+      transform: rotate(90deg);
+    }
+
+    .version-content {
+      padding: 0 16px 16px;
+      color: #6c7d71;
+      line-height: 1.8;
+      white-space: pre-line;
+    }
+
+    .modal-wrap {
+      position: fixed;
+      inset: 0;
+      z-index: 1200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(20, 30, 24, 0.34);
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-wrap.show {
+      display: flex;
+    }
+
+    .modal-card {
+      width: min(100%, 640px);
+      max-height: calc(100vh - 36px);
+      overflow: auto;
+      border-radius: 24px;
+      background: #fff;
+      border: 1px solid #dfe9e1;
+      box-shadow: 0 25px 60px rgba(20, 40, 30, 0.18);
+      padding: 18px;
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .modal-title {
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--green-dark);
+    }
+
+    .modal-close {
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+      border-radius: 12px;
+      border: none;
+      background: var(--green-soft);
+      color: var(--green-dark);
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 980px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .summary {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .form-grid,
+      .form-grid-preset {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .form-grid > :first-child,
+      .form-grid-preset > :first-child {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .wrap {
+        padding: 14px 10px 30px;
+      }
+
+      .hero h1 {
+        font-size: 24px;
+      }
+
+      .summary {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .form-grid > :first-child {
+        grid-column: 1 / -1;
+      }
+
+      .form-grid-preset {
+        grid-template-columns: 1fr;
+      }
+
+      .celebrate-card {
+        min-width: unset;
+        width: calc(100vw - 28px);
+      }
+
+      .modal-card {
+        padding: 14px;
+      }
+
+      .today-title {
+        font-size: 19px;
+      }
     }
   </style>
 </head>
@@ -631,45 +836,6 @@
 
         <div class="sub">適合一天安排 5–10 件。未完成任務會延續到明天。</div>
 
-        <div class="section-box" id="settingsPanel" style="display:none; margin-bottom:16px;">
-          <button class="section-head" id="settingsCollapseBtn" type="button">
-            <span>設定</span>
-            <span class="arrow" id="settingsArrow">▶</span>
-          </button>
-          <div class="section-content open" id="settingsContent">
-            <div class="toolbar" style="margin-top:10px;">
-              <button class="btn-soft" id="exportBackupBtn" type="button">匯出備份</button>
-              <button class="btn-soft" id="importBackupBtn" type="button">匯入備份</button>
-              <button class="btn-soft" id="toggleHiddenDoneBtn" type="button">打開隱藏完成項目</button>
-              <button class="btn-soft" id="togglePresetManageBtn" type="button">管理常用任務</button>
-              <button class="btn-danger" id="resetAllBtn" type="button">重設設定</button>
-            </div>
-
-            <input id="importFileInput" type="file" accept="application/json" style="display:none;">
-
-            <div id="hiddenDonePanel" style="display:none; margin-top:10px;">
-              <div class="sub" style="margin-bottom:8px;">這裡是今天先收起來的已完成項目。</div>
-              <div id="hiddenDoneList"></div>
-            </div>
-
-            <div id="presetManagePanel" style="display:none; margin-top:10px;">
-              <div class="sub" style="margin-bottom:8px;">在這裡新增、整理妳的常用任務。</div>
-              <div class="form-grid-preset">
-                <input id="presetTitleInput" type="text" placeholder="新增常用任務，例如：喝水、運動" />
-                <select id="presetTypeInput">
-                  <option value="加分|3">加分｜3分</option>
-                  <option value="必做|4">必做｜4分</option>
-                  <option value="彈性|2">彈性｜2分</option>
-                  <option value="必做|3">必做｜3分</option>
-                  <option value="加分|2">加分｜2分</option>
-                </select>
-                <button class="btn-main" id="savePresetBtn" type="button">加入常用</button>
-              </div>
-              <div id="presetManageList"></div>
-            </div>
-          </div>
-        </div>
-
         <div class="form-grid">
           <input id="taskInput" type="text" placeholder="例如：回覆訊息、整理桌面、散步" />
           <select id="typeInput">
@@ -682,16 +848,15 @@
             <option value="必做|5">必做｜5分</option>
           </select>
           <button class="btn-main" id="addBtn" type="button">新增任務</button>
-          
         </div>
 
-        <div class="section-box" style="margin-top:0; margin-bottom:12px;">
+        <div class="section-box" style="margin-top: 0; margin-bottom: 12px;">
           <button class="section-head" id="quickAddToggleBtn" type="button">
-            <span style="font-size:18px; font-weight:900;">常用任務</span>
+            <span style="font-size:22px; font-weight:900;">常用任務</span>
             <span class="arrow" id="quickAddArrow">▶</span>
           </button>
           <div class="section-content" id="quickAddPanel">
-            <div id="quickPresetButtons" class="preset-grid"></div>
+            <div id="quickPresetButtons" class="chip-strip"></div>
           </div>
         </div>
 
@@ -765,11 +930,62 @@ APP互動介面與設計：吳佩芳
     </details>
   </div>
 
+  <div id="settingsModal" class="modal-wrap" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div class="modal-title">設定</div>
+        <button class="modal-close" id="settingsCloseBtn" type="button" aria-label="關閉設定">✕</button>
+      </div>
+
+      <div class="toolbar">
+        <button class="btn-soft" id="exportBackupBtn" type="button">匯出備份</button>
+        <button class="btn-soft" id="importBackupBtn" type="button">匯入備份</button>
+        <button class="btn-soft" id="toggleHiddenDoneBtn" type="button">隱藏完成項目</button>
+        <button class="btn-danger" id="resetAllBtn" type="button">重設設定</button>
+      </div>
+
+      <input id="importFileInput" type="file" accept="application/json" style="display:none;" />
+
+      <div class="section-box" style="margin-top:8px;">
+        <button class="section-head" id="presetManageToggleBtn" type="button">
+          <span>管理常用任務</span>
+          <span class="arrow" id="presetManageArrow">▶</span>
+        </button>
+        <div class="section-content open" id="presetManagePanel">
+          <div class="sub" style="margin-top:10px;">可拖曳排列順序，也可刪除。</div>
+
+          <div class="form-grid-preset">
+            <input id="presetTitleInput" type="text" placeholder="新增常用任務，例如：喝水、運動" />
+            <select id="presetTypeInput">
+              <option value="加分|3">加分｜3分</option>
+              <option value="必做|4">必做｜4分</option>
+              <option value="彈性|2">彈性｜2分</option>
+              <option value="必做|3">必做｜3分</option>
+              <option value="加分|2">加分｜2分</option>
+            </select>
+            <button class="btn-main" id="savePresetBtn" type="button">加入常用</button>
+          </div>
+
+          <div id="presetManageList" class="preset-manage-list"></div>
+        </div>
+      </div>
+
+      <div id="hiddenDonePanel" style="display:none; margin-top:12px;">
+        <div class="sub" style="margin-bottom:8px;">這裡是今天先收起來的已完成項目。</div>
+        <div id="hiddenDoneList"></div>
+      </div>
+
+      <div class="toolbar" style="margin-top:16px;">
+        <button class="ghost-btn" id="settingsBottomCloseBtn" type="button">關閉設定</button>
+      </div>
+    </div>
+  </div>
+
   <div id="celebrateLayer" class="celebrate" aria-hidden="true">
     <div class="celebrate-card">
       <div class="celebrate-title" id="resultTitle">🎉 全數達標</div>
       <div class="celebrate-sub" id="resultSub">今天不是撐過去，<br>是漂亮破關。<br>妳拿下今天了。</div>
-      <div id="resultIcons" style="margin-top:12px;font-size:30px;letter-spacing:8px;">✨ ★ ✨ ★ ✨</div>
+      <div id="resultIcons" style="margin-top:12px; font-size:30px; letter-spacing:8px;">✨ ★ ✨ ★ ✨</div>
       <div class="celebrate-actions">
         <button class="btn-main" id="replayCelebrateBtn" type="button">再播放一次</button>
         <button class="btn-soft" id="closeCelebrateBtn" type="button">關閉</button>
@@ -778,10 +994,10 @@ APP互動介面與設計：吳佩芳
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function(){
-      const STORAGE_KEY='pengrong_tomorrow_challenge_v1';
+    document.addEventListener('DOMContentLoaded', function () {
+      const STORAGE_KEY = 'pengrong_tomorrow_challenge_v1';
 
-      const dailyQuotes=[
+      const dailyQuotes = [
         '今天先把自己安頓好，明天做事就不會像在追火車。',
         '妳不是要一次變厲害，只要每天都比昨天更靠近一點點。',
         '任務排好，不是為了綁住自己，是為了讓心有地方安放。',
@@ -792,631 +1008,649 @@ APP互動介面與設計：吳佩芳
         '當生活有秩序，心也會慢慢長出底氣。'
       ];
 
-      const defaultPresets=[
-        {title:'喝水 1500ml',type:'加分',point:3},
-        {title:'運動 20 分鐘',type:'必做',point:4}
+      const defaultPresets = [
+        { title: '喝水 1500ml', type: '加分', point: 3 },
+        { title: '運動 20 分鐘', type: '必做', point: 4 }
       ];
 
-      const els={
-        taskInput:document.getElementById('taskInput'),
-        typeInput:document.getElementById('typeInput'),
-        taskList:document.getElementById('taskList'),
-        doneCount:document.getElementById('doneCount'),
-        totalCount:document.getElementById('totalCount'),
-        scoreCount:document.getElementById('scoreCount'),
-        streakCount:document.getElementById('streakCount'),
-        messageText:document.getElementById('messageText'),
-        progressBar:document.getElementById('progressBar'),
-        historyList:document.getElementById('historyList'),
-        quickPresetButtons:document.getElementById('quickPresetButtons'),
-        presetManageList:document.getElementById('presetManageList'),
-        celebrateLayer:document.getElementById('celebrateLayer'),
-        resultTitle:document.getElementById('resultTitle'),
-        resultSub:document.getElementById('resultSub'),
-        resultIcons:document.getElementById('resultIcons'),
-        addBtn:document.getElementById('addBtn'),
-        clearDoneBtn:document.getElementById('clearDoneBtn'),
-        resetTodayBtn:document.getElementById('resetTodayBtn'),
-        settleBtn:document.getElementById('settleBtn'),
-        newDayBtn:document.getElementById('newDayBtn'),
-        settingsBtn:document.getElementById('settingsBtn'),
-        heroQuote:document.getElementById('heroQuote'),
-        monthScore:document.getElementById('monthScore'),
-        monthDone:document.getElementById('monthDone'),
-        monthDays:document.getElementById('monthDays'),
-        monthAvg:document.getElementById('monthAvg'),
-        settingsPanel:document.getElementById('settingsPanel'),
-        settingsCollapseBtn:document.getElementById('settingsCollapseBtn'),
-        settingsArrow:document.getElementById('settingsArrow'),
-        settingsContent:document.getElementById('settingsContent'),
-        exportBackupBtn:document.getElementById('exportBackupBtn'),
-        importBackupBtn:document.getElementById('importBackupBtn'),
-        toggleHiddenDoneBtn:document.getElementById('toggleHiddenDoneBtn'),
-        togglePresetManageBtn:document.getElementById('togglePresetManageBtn'),
-        resetAllBtn:document.getElementById('resetAllBtn'),
-        importFileInput:document.getElementById('importFileInput'),
-        hiddenDonePanel:document.getElementById('hiddenDonePanel'),
-        hiddenDoneList:document.getElementById('hiddenDoneList'),
-        presetManagePanel:document.getElementById('presetManagePanel'),
-        presetTitleInput:document.getElementById('presetTitleInput'),
-        presetTypeInput:document.getElementById('presetTypeInput'),
-        savePresetBtn:document.getElementById('savePresetBtn'),
-        openQuickAddBtn:document.getElementById('openQuickAddBtn'),
-        quickAddPanel:document.getElementById('quickAddPanel'),
-        quickAddToggleBtn:document.getElementById('quickAddToggleBtn'),
-        quickAddArrow:document.getElementById('quickAddArrow'),
-        replayCelebrateBtn:document.getElementById('replayCelebrateBtn'),
-        closeCelebrateBtn:document.getElementById('closeCelebrateBtn')
+      const els = {
+        taskInput: document.getElementById('taskInput'),
+        typeInput: document.getElementById('typeInput'),
+        taskList: document.getElementById('taskList'),
+        doneCount: document.getElementById('doneCount'),
+        totalCount: document.getElementById('totalCount'),
+        scoreCount: document.getElementById('scoreCount'),
+        streakCount: document.getElementById('streakCount'),
+        messageText: document.getElementById('messageText'),
+        progressBar: document.getElementById('progressBar'),
+        historyList: document.getElementById('historyList'),
+        quickPresetButtons: document.getElementById('quickPresetButtons'),
+        presetManageList: document.getElementById('presetManageList'),
+        celebrateLayer: document.getElementById('celebrateLayer'),
+        resultTitle: document.getElementById('resultTitle'),
+        resultSub: document.getElementById('resultSub'),
+        resultIcons: document.getElementById('resultIcons'),
+        addBtn: document.getElementById('addBtn'),
+        clearDoneBtn: document.getElementById('clearDoneBtn'),
+        resetTodayBtn: document.getElementById('resetTodayBtn'),
+        settleBtn: document.getElementById('settleBtn'),
+        newDayBtn: document.getElementById('newDayBtn'),
+        settingsBtn: document.getElementById('settingsBtn'),
+        heroQuote: document.getElementById('heroQuote'),
+        monthScore: document.getElementById('monthScore'),
+        monthDone: document.getElementById('monthDone'),
+        monthDays: document.getElementById('monthDays'),
+        monthAvg: document.getElementById('monthAvg'),
+        settingsModal: document.getElementById('settingsModal'),
+        settingsCloseBtn: document.getElementById('settingsCloseBtn'),
+        settingsBottomCloseBtn: document.getElementById('settingsBottomCloseBtn'),
+        exportBackupBtn: document.getElementById('exportBackupBtn'),
+        importBackupBtn: document.getElementById('importBackupBtn'),
+        toggleHiddenDoneBtn: document.getElementById('toggleHiddenDoneBtn'),
+        resetAllBtn: document.getElementById('resetAllBtn'),
+        importFileInput: document.getElementById('importFileInput'),
+        hiddenDonePanel: document.getElementById('hiddenDonePanel'),
+        hiddenDoneList: document.getElementById('hiddenDoneList'),
+        presetManageToggleBtn: document.getElementById('presetManageToggleBtn'),
+        presetManageArrow: document.getElementById('presetManageArrow'),
+        presetManagePanel: document.getElementById('presetManagePanel'),
+        presetTitleInput: document.getElementById('presetTitleInput'),
+        presetTypeInput: document.getElementById('presetTypeInput'),
+        savePresetBtn: document.getElementById('savePresetBtn'),
+        quickAddPanel: document.getElementById('quickAddPanel'),
+        quickAddToggleBtn: document.getElementById('quickAddToggleBtn'),
+        quickAddArrow: document.getElementById('quickAddArrow'),
+        replayCelebrateBtn: document.getElementById('replayCelebrateBtn'),
+        closeCelebrateBtn: document.getElementById('closeCelebrateBtn')
       };
 
-      function clone(o){return JSON.parse(JSON.stringify(o));}
-      function getTodayStr(){
-        const d=new Date();
-        return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+      function clone(obj) {
+        return JSON.parse(JSON.stringify(obj));
       }
-      function getMonthKey(s){return s.slice(0,7);}
-      function formatDate(str){
-        const [y,m,d]=str.split('-');
+
+      function getTodayStr() {
+        const d = new Date();
+        return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(
+          d.getDate()
+        ).padStart(2, '0')}`;
+      }
+
+      function getMonthKey(str) {
+        return str.slice(0, 7);
+      }
+
+      function formatDate(str) {
+        const [y, m, d] = str.split('-');
         return `${y}/${m}/${d}`;
       }
 
-      const defaultState={
-        today:getTodayStr(),
-        tasks:[],
-        archivedDoneToday:[],
-        presets:clone(defaultPresets),
-        streak:0,
-        lastSettledDate:'',
-        history:[],
-        shownQuotesByDate:{},
-        monthlyHistory:[]
+      const defaultState = {
+        today: getTodayStr(),
+        tasks: [],
+        archivedDoneToday: [],
+        presets: clone(defaultPresets),
+        streak: 0,
+        lastSettledDate: '',
+        history: [],
+        shownQuotesByDate: {},
+        monthlyHistory: []
       };
 
-      function loadState(){
-        try{
-          const raw=localStorage.getItem(STORAGE_KEY);
-          if(!raw) return clone(defaultState);
-          const p=JSON.parse(raw);
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return clone(defaultState);
+          const p = JSON.parse(raw);
           return {
             ...clone(defaultState),
             ...p,
-            tasks:Array.isArray(p.tasks)?p.tasks:[],
-            archivedDoneToday:Array.isArray(p.archivedDoneToday)?p.archivedDoneToday:[],
-            presets:Array.isArray(p.presets)&&p.presets.length?p.presets:clone(defaultPresets),
-            history:Array.isArray(p.history)?p.history:[],
-            shownQuotesByDate:p.shownQuotesByDate&&typeof p.shownQuotesByDate==='object'?p.shownQuotesByDate:{},
-            monthlyHistory:Array.isArray(p.monthlyHistory)?p.monthlyHistory:[]
+            tasks: Array.isArray(p.tasks) ? p.tasks : [],
+            archivedDoneToday: Array.isArray(p.archivedDoneToday) ? p.archivedDoneToday : [],
+            presets: Array.isArray(p.presets) && p.presets.length ? p.presets : clone(defaultPresets),
+            history: Array.isArray(p.history) ? p.history : [],
+            shownQuotesByDate:
+              p.shownQuotesByDate && typeof p.shownQuotesByDate === 'object' ? p.shownQuotesByDate : {},
+            monthlyHistory: Array.isArray(p.monthlyHistory) ? p.monthlyHistory : []
           };
-        }catch(e){
+        } catch (e) {
           return clone(defaultState);
         }
       }
 
-      let state=loadState();
+      let state = loadState();
+      let draggedPresetIndex = null;
 
-      function saveState(){
-        localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+      function saveState() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
       }
 
-      function makeId(){
-        return Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+      function makeId() {
+        return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
       }
 
-      function escapeHtml(str){
+      function escapeHtml(str) {
         return String(str)
-          .replaceAll('&','&amp;')
-          .replaceAll('<','&lt;')
-          .replaceAll('>','&gt;')
-          .replaceAll('"','&quot;')
-          .replaceAll("'",'&#039;');
+          .replaceAll('&', '&amp;')
+          .replaceAll('<', '&lt;')
+          .replaceAll('>', '&gt;')
+          .replaceAll('"', '&quot;')
+          .replaceAll("'", '&#039;');
       }
 
-      function getDailyQuote(dateStr){
-        if(state.shownQuotesByDate[dateStr]!==undefined){
+      function getDailyQuote(dateStr) {
+        if (state.shownQuotesByDate[dateStr] !== undefined) {
           return dailyQuotes[state.shownQuotesByDate[dateStr]];
         }
-        const used=Object.values(state.shownQuotesByDate).slice(-7);
-        const pool=dailyQuotes.map((_,i)=>i).filter(i=>!used.includes(i));
-        const available=pool.length?pool:dailyQuotes.map((_,i)=>i);
-        const seed=Array.from(dateStr).reduce((s,ch)=>s+ch.charCodeAt(0),0);
-        const idx=available[seed%available.length];
-        state.shownQuotesByDate[dateStr]=idx;
+        const used = Object.values(state.shownQuotesByDate).slice(-7);
+        const pool = dailyQuotes.map((_, i) => i).filter(i => !used.includes(i));
+        const available = pool.length ? pool : dailyQuotes.map((_, i) => i);
+        const seed = Array.from(dateStr).reduce((s, ch) => s + ch.charCodeAt(0), 0);
+        const idx = available[seed % available.length];
+        state.shownQuotesByDate[dateStr] = idx;
         saveState();
         return dailyQuotes[idx];
       }
 
-      function checkDateRollover(){
-        const today=getTodayStr();
-        if(state.today!==today){
-          state.today=today;
-          state.tasks=state.tasks.map(t=>({...t,done:false,carryover:true}));
-          state.archivedDoneToday=[];
+      function checkDateRollover() {
+        const today = getTodayStr();
+        if (state.today !== today) {
+          state.today = today;
+          state.tasks = state.tasks.map(t => ({ ...t, done: false, carryover: true }));
+          state.archivedDoneToday = [];
           saveState();
         }
       }
 
-      function parseTypeValue(v){
-        const [type,point]=v.split('|');
-        return {type,point:Number(point)};
+      function parseTypeValue(v) {
+        const [type, point] = v.split('|');
+        return { type, point: Number(point) };
       }
 
-      function addTaskObject(item){
+      function addTaskObject(item) {
         state.tasks.push({
-          id:makeId(),
-          title:item.title,
-          type:item.type,
-          point:Number(item.point),
-          done:false,
-          carryover:Boolean(item.carryover),
-          createdAt:new Date().toISOString()
+          id: makeId(),
+          title: item.title,
+          type: item.type,
+          point: Number(item.point),
+          done: false,
+          carryover: Boolean(item.carryover),
+          createdAt: new Date().toISOString()
         });
       }
 
-      function addTask(){
-        const title=els.taskInput.value.trim();
-        const parsed=parseTypeValue(els.typeInput.value);
-        if(!title){
+      function addTask() {
+        const title = els.taskInput.value.trim();
+        const parsed = parseTypeValue(els.typeInput.value);
+        if (!title) {
           alert('請先輸入任務內容。');
           els.taskInput.focus();
           return;
         }
+
         addTaskObject({
           title,
-          type:parsed.type,
-          point:parsed.point,
-          carryover:false
+          type: parsed.type,
+          point: parsed.point,
+          carryover: false
         });
-        els.taskInput.value='';
+
+        els.taskInput.value = '';
         saveState();
         render();
         els.taskInput.focus();
       }
 
-      function addPresetToToday(index){
-        const item=state.presets[index];
-        if(!item) return;
-        addTaskObject({...item,carryover:false});
+      function addPresetToToday(index) {
+        const item = state.presets[index];
+        if (!item) return;
+        addTaskObject({ ...item, carryover: false });
         saveState();
         render();
       }
 
-      function addTaskToPreset(id){
-        const task=state.tasks.find(t=>t.id===id);
-        if(!task) return;
-        const exists=state.presets.some(p=>p.title===task.title);
-        if(!exists){
+      function addTaskToPreset(id) {
+        const task = state.tasks.find(t => t.id === id);
+        if (!task) return;
+        const exists = state.presets.some(p => p.title === task.title);
+        if (!exists) {
           state.presets.push({
-            title:task.title,
-            type:task.type,
-            point:task.point
+            title: task.title,
+            type: task.type,
+            point: task.point
           });
           saveState();
           renderPresets();
-          if(!els.quickAddPanel.classList.contains('open')){
+          if (!els.quickAddPanel.classList.contains('open')) {
             els.quickAddPanel.classList.add('open');
             els.quickAddArrow.classList.add('open');
           }
         }
       }
 
-      function savePreset(){
-        const title=els.presetTitleInput.value.trim();
-        const parsed=parseTypeValue(els.presetTypeInput.value);
-        if(!title){
+      function savePreset() {
+        const title = els.presetTitleInput.value.trim();
+        const parsed = parseTypeValue(els.presetTypeInput.value);
+        if (!title) {
           alert('請先輸入常用任務名稱。');
           els.presetTitleInput.focus();
           return;
         }
+
         state.presets.push({
           title,
-          type:parsed.type,
-          point:parsed.point
+          type: parsed.type,
+          point: parsed.point
         });
-        els.presetTitleInput.value='';
+
+        els.presetTitleInput.value = '';
         saveState();
         render();
       }
 
-      function deletePreset(index){
-        const item=state.presets[index];
-        if(!item) return;
-        if(!confirm(`要刪除「${item.title}」嗎？`)) return;
-        state.presets.splice(index,1);
+      function deletePreset(index) {
+        const item = state.presets[index];
+        if (!item) return;
+        if (!confirm(`要刪除「${item.title}」嗎？`)) return;
+        state.presets.splice(index, 1);
         saveState();
         render();
       }
 
-      function loadPresetToForm(index){
-        const item=state.presets[index];
-        if(!item) return;
-        els.presetTitleInput.value=item.title;
-        els.presetTypeInput.value=`${item.type}|${item.point}`;
-        els.presetTitleInput.focus();
-      }
-
-      function toggleTask(id){
-        const task=state.tasks.find(t=>t.id===id);
-        if(!task) return;
-        task.done=!task.done;
+      function toggleTask(id) {
+        const task = state.tasks.find(t => t.id === id);
+        if (!task) return;
+        task.done = !task.done;
         saveState();
         render();
       }
 
-      function deleteTask(id){
-        state.tasks=state.tasks.filter(t=>t.id!==id);
+      function deleteTask(id) {
+        state.tasks = state.tasks.filter(t => t.id !== id);
         saveState();
         render();
       }
 
-      function moveTask(id,direction){
-        const i=state.tasks.findIndex(t=>t.id===id);
-        if(i<0) return;
-        const t=direction==='up'?i-1:i+1;
-        if(t<0||t>=state.tasks.length) return;
-        [state.tasks[i],state.tasks[t]]=[state.tasks[t],state.tasks[i]];
+      function moveTask(id, direction) {
+        const i = state.tasks.findIndex(t => t.id === id);
+        if (i < 0) return;
+        const t = direction === 'up' ? i - 1 : i + 1;
+        if (t < 0 || t >= state.tasks.length) return;
+        [state.tasks[i], state.tasks[t]] = [state.tasks[t], state.tasks[i]];
         saveState();
         render();
       }
 
-      function clearDoneTasks(){
-        const doneTasks=state.tasks.filter(t=>t.done);
-        if(!doneTasks.length){
+      function clearDoneTasks() {
+        const doneTasks = state.tasks.filter(t => t.done);
+        if (!doneTasks.length) {
           alert('目前沒有已完成任務可清除。');
           return;
         }
-        state.archivedDoneToday=state.archivedDoneToday.concat(
-          doneTasks.map(t=>({...t,archivedAt:new Date().toISOString()}))
+        state.archivedDoneToday = state.archivedDoneToday.concat(
+          doneTasks.map(t => ({ ...t, archivedAt: new Date().toISOString() }))
         );
-        state.tasks=state.tasks.filter(t=>!t.done);
+        state.tasks = state.tasks.filter(t => !t.done);
         saveState();
         render();
       }
 
-      function resetToday(){
-        if(state.tasks.length===0&&state.archivedDoneToday.length===0){
+      function resetToday() {
+        if (state.tasks.length === 0 && state.archivedDoneToday.length === 0) {
           alert('今天本來就還沒有任務。');
           return;
         }
-        if(!confirm('要清空今天全部任務嗎？')) return;
-        state.tasks=[];
-        state.archivedDoneToday=[];
+        if (!confirm('要清空今天全部任務嗎？')) return;
+        state.tasks = [];
+        state.archivedDoneToday = [];
         saveState();
         render();
       }
 
-      function resetAll(){
-        if(!confirm('確定要重設設定嗎？這會清空任務、常用任務與統計紀錄。')) return;
+      function resetAll() {
+        if (!confirm('確定要重設設定嗎？這會清空任務、常用任務與統計紀錄。')) return;
         localStorage.removeItem(STORAGE_KEY);
-        state=clone(defaultState);
+        state = clone(defaultState);
         saveState();
-        els.hiddenDonePanel.style.display='none';
-        els.presetManagePanel.style.display='none';
-        els.quickAddPanel.classList.remove('open');
-        els.quickAddArrow.classList.remove('open');
-        els.settingsPanel.style.display='none';
-        els.settingsContent.classList.add('open');
-        els.settingsArrow.classList.remove('open');
+        els.hiddenDonePanel.style.display = 'none';
+        closeSettings();
         closeCelebration();
         render();
-        window.scrollTo({top:0,behavior:'smooth'});
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
 
-      function exportBackup(){
-        const backupData={
-          appName:'明日挑戰',
-          version:'V1.0',
-          storageKey:STORAGE_KEY,
-          exportedAt:new Date().toISOString(),
-          data:state
+      function exportBackup() {
+        const backupData = {
+          appName: '明日挑戰',
+          version: 'V1.0',
+          storageKey: STORAGE_KEY,
+          exportedAt: new Date().toISOString(),
+          data: state
         };
-        const blob=new Blob([JSON.stringify(backupData,null,2)],{type:'application/json'});
-        const url=URL.createObjectURL(blob);
-        const a=document.createElement('a');
-        a.href=url;
-        a.download=`mingri-tiaozhan-backup-${state.today}.json`;
+        const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `mingri-tiaozhan-backup-${state.today}.json`;
         document.body.appendChild(a);
         a.click();
         a.remove();
         URL.revokeObjectURL(url);
       }
 
-      function importBackup(){
+      function importBackup() {
         els.importFileInput.click();
       }
 
-      function handleImportFile(event){
-        const file=event.target.files[0];
-        if(!file) return;
-        const reader=new FileReader();
-        reader.onload=function(e){
-          try{
-            const json=JSON.parse(e.target.result);
-            const imported=json.data?json.data:json;
-            state={
+      function handleImportFile(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          try {
+            const json = JSON.parse(e.target.result);
+            const imported = json.data ? json.data : json;
+            state = {
               ...clone(defaultState),
               ...imported,
-              tasks:Array.isArray(imported.tasks)?imported.tasks:[],
-              archivedDoneToday:Array.isArray(imported.archivedDoneToday)?imported.archivedDoneToday:[],
-              presets:Array.isArray(imported.presets)&&imported.presets.length?imported.presets:clone(defaultPresets),
-              history:Array.isArray(imported.history)?imported.history:[],
-              monthlyHistory:Array.isArray(imported.monthlyHistory)?imported.monthlyHistory:[],
-              shownQuotesByDate:imported.shownQuotesByDate&&typeof imported.shownQuotesByDate==='object'?imported.shownQuotesByDate:{}
+              tasks: Array.isArray(imported.tasks) ? imported.tasks : [],
+              archivedDoneToday: Array.isArray(imported.archivedDoneToday) ? imported.archivedDoneToday : [],
+              presets:
+                Array.isArray(imported.presets) && imported.presets.length
+                  ? imported.presets
+                  : clone(defaultPresets),
+              history: Array.isArray(imported.history) ? imported.history : [],
+              monthlyHistory: Array.isArray(imported.monthlyHistory) ? imported.monthlyHistory : [],
+              shownQuotesByDate:
+                imported.shownQuotesByDate && typeof imported.shownQuotesByDate === 'object'
+                  ? imported.shownQuotesByDate
+                  : {}
             };
             saveState();
             render();
+            closeSettings();
             alert('備份匯入完成。');
-          }catch(err){
+          } catch (err) {
             alert('匯入失敗，請確認妳選的是正確的備份檔。');
           }
         };
-        reader.readAsText(file,'utf-8');
-        event.target.value='';
+        reader.readAsText(file, 'utf-8');
+        event.target.value = '';
       }
 
-      function toggleSettingsPanel(){
-        const isOpen=els.settingsPanel.style.display==='block';
-        els.settingsPanel.style.display=isOpen?'none':'block';
-        if(!isOpen){
-          setTimeout(()=>els.settingsPanel.scrollIntoView({behavior:'smooth',block:'start'}),50);
-        }
+      function openSettings() {
+        els.settingsModal.classList.add('show');
+        els.settingsModal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
       }
 
-      function toggleSettingsContent(){
-        const isOpen=els.settingsContent.classList.contains('open');
-        els.settingsContent.classList.toggle('open',!isOpen);
-        els.settingsArrow.classList.toggle('open',!isOpen);
+      function closeSettings() {
+        els.settingsModal.classList.remove('show');
+        els.settingsModal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
       }
 
-      function toggleHiddenDonePanel(){
-        const isOpen=els.hiddenDonePanel.style.display==='block';
-        els.hiddenDonePanel.style.display=isOpen?'none':'block';
-        if(!isOpen) renderHiddenDoneList();
+      function toggleHiddenDonePanel() {
+        const isOpen = els.hiddenDonePanel.style.display === 'block';
+        els.hiddenDonePanel.style.display = isOpen ? 'none' : 'block';
+        if (!isOpen) renderHiddenDoneList();
       }
 
-      function renderHiddenDoneList(){
-        if(!state.archivedDoneToday.length){
-          els.hiddenDoneList.innerHTML='<div class="empty">目前沒有隱藏完成項目。</div>';
+      function renderHiddenDoneList() {
+        if (!state.archivedDoneToday.length) {
+          els.hiddenDoneList.innerHTML = '<div class="empty">目前沒有隱藏完成項目。</div>';
           return;
         }
-        els.hiddenDoneList.innerHTML=state.archivedDoneToday.map((item,index)=>`
-          <div class="preset-item">
-            <div>
-              <strong>${escapeHtml(item.title)}</strong>
-              <div class="sub" style="margin:6px 0 0;">+${item.point}</div>
+        els.hiddenDoneList.innerHTML = state.archivedDoneToday
+          .map(
+            (item, index) => `
+          <div class="preset-manage-item">
+            <div class="preset-main">
+              <div class="preset-title">${escapeHtml(item.title)}</div>
+              <div class="preset-score">+${item.point}</div>
             </div>
             <div class="toolbar-small">
-              <button class="mini" type="button" data-action="restore-hidden-done" data-index="${index}">放回今日任務</button>
+              <button class="mini" type="button" data-action="restore-hidden-done" data-index="${index}">放回今日</button>
               <button class="mini danger" type="button" data-action="delete-hidden-done" data-index="${index}">刪除</button>
             </div>
           </div>
-        `).join('');
+        `
+          )
+          .join('');
       }
 
-      function restoreHiddenDone(index){
-        const item=state.archivedDoneToday[index];
-        if(!item) return;
+      function restoreHiddenDone(index) {
+        const item = state.archivedDoneToday[index];
+        if (!item) return;
         state.tasks.push({
           ...item,
-          id:makeId(),
-          done:false,
-          carryover:false
+          id: makeId(),
+          done: false,
+          carryover: false
         });
-        state.archivedDoneToday.splice(index,1);
+        state.archivedDoneToday.splice(index, 1);
         saveState();
         render();
         renderHiddenDoneList();
       }
 
-      function deleteHiddenDone(index){
-        const item=state.archivedDoneToday[index];
-        if(!item) return;
-        if(!confirm(`要刪除「${item.title}」嗎？`)) return;
-        state.archivedDoneToday.splice(index,1);
+      function deleteHiddenDone(index) {
+        const item = state.archivedDoneToday[index];
+        if (!item) return;
+        if (!confirm(`要刪除「${item.title}」嗎？`)) return;
+        state.archivedDoneToday.splice(index, 1);
         saveState();
         render();
         renderHiddenDoneList();
       }
 
-      function togglePresetManagePanel(){
-        const isOpen=els.presetManagePanel.style.display==='block';
-        els.presetManagePanel.style.display=isOpen?'none':'block';
+      function togglePresetManagePanel() {
+        const isOpen = els.presetManagePanel.classList.contains('open');
+        els.presetManagePanel.classList.toggle('open', !isOpen);
+        els.presetManageArrow.classList.toggle('open', !isOpen);
       }
 
-      function toggleQuickAddPanel(){
-        const isOpen=els.quickAddPanel.classList.contains('open');
-        els.quickAddPanel.classList.toggle('open',!isOpen);
-        els.quickAddArrow.classList.toggle('open',!isOpen);
+      function toggleQuickAddPanel() {
+        const isOpen = els.quickAddPanel.classList.contains('open');
+        els.quickAddPanel.classList.toggle('open', !isOpen);
+        els.quickAddArrow.classList.toggle('open', !isOpen);
       }
 
-      function playToneSequence(notes,masterVol=.15){
-        try{
-          const AC=window.AudioContext||window.webkitAudioContext;
-          if(!AC) return;
-          const ctx=new AC();
-          const now=ctx.currentTime;
-          notes.forEach(n=>{
-            const o=ctx.createOscillator();
-            const g=ctx.createGain();
-            o.type=n.type||'sine';
-            o.frequency.setValueAtTime(n.f,now+n.t);
-            const v=(n.v??masterVol);
-            g.gain.setValueAtTime(.0001,now+n.t);
-            g.gain.exponentialRampToValueAtTime(v,now+n.t+.03);
-            g.gain.exponentialRampToValueAtTime(.0001,now+n.t+n.d);
+      function playToneSequence(notes, masterVol = 0.15) {
+        try {
+          const AC = window.AudioContext || window.webkitAudioContext;
+          if (!AC) return;
+          const ctx = new AC();
+          const now = ctx.currentTime;
+          notes.forEach(n => {
+            const o = ctx.createOscillator();
+            const g = ctx.createGain();
+            o.type = n.type || 'sine';
+            o.frequency.setValueAtTime(n.f, now + n.t);
+            const v = n.v ?? masterVol;
+            g.gain.setValueAtTime(0.0001, now + n.t);
+            g.gain.exponentialRampToValueAtTime(v, now + n.t + 0.03);
+            g.gain.exponentialRampToValueAtTime(0.0001, now + n.t + n.d);
             o.connect(g);
             g.connect(ctx.destination);
-            o.start(now+n.t);
-            o.stop(now+n.t+n.d+.03);
+            o.start(now + n.t);
+            o.stop(now + n.t + n.d + 0.03);
           });
-        }catch(e){}
+        } catch (e) {}
       }
 
-      function playJackpotGameSound(){
-        playToneSequence([
-          {f:659.25,t:0,d:.14,type:'square',v:0.18},
-          {f:783.99,t:.18,d:.14,type:'triangle',v:0.18},
-          {f:1046.5,t:.40,d:.18,type:'triangle',v:0.18},
-          {f:1318.51,t:.66,d:.24,type:'sine',v:0.20},
-          {f:1567.98,t:.96,d:.32,type:'sine',v:0.20},
-          {f:2093,t:1.30,d:.40,type:'sine',v:0.22}
-        ],0.18);
+      function playJackpotGameSound() {
+        playToneSequence(
+          [
+            { f: 659.25, t: 0, d: 0.14, type: 'square', v: 0.18 },
+            { f: 783.99, t: 0.18, d: 0.14, type: 'triangle', v: 0.18 },
+            { f: 1046.5, t: 0.4, d: 0.18, type: 'triangle', v: 0.18 },
+            { f: 1318.51, t: 0.66, d: 0.24, type: 'sine', v: 0.2 },
+            { f: 1567.98, t: 0.96, d: 0.32, type: 'sine', v: 0.2 },
+            { f: 2093, t: 1.3, d: 0.4, type: 'sine', v: 0.22 }
+          ],
+          0.18
+        );
       }
 
-      function playMissSound(){
-        playToneSequence([
-          {f:392,t:0,d:.16,type:'triangle',v:0.10},
-          {f:329.63,t:.18,d:.18,type:'triangle',v:0.10},
-          {f:261.63,t:.40,d:.30,type:'sine',v:0.11}
-        ],0.1);
+      function playMissSound() {
+        playToneSequence(
+          [
+            { f: 392, t: 0, d: 0.16, type: 'triangle', v: 0.1 },
+            { f: 329.63, t: 0.18, d: 0.18, type: 'triangle', v: 0.1 },
+            { f: 261.63, t: 0.4, d: 0.3, type: 'sine', v: 0.11 }
+          ],
+          0.1
+        );
       }
 
-      function fireBurst(kind='success'){
-        const colors=kind==='success'
-          ? ["#f7c948","#6f6ad8","#5a8fe0","#7ccf8a","#ff8b94","#ffffff","#ffd966"]
-          : ["#9fb3c8","#c9d3dd","#e8eef3","#b8c7b0","#d5dbe0"];
+      function fireBurst(kind = 'success') {
+        const colors =
+          kind === 'success'
+            ? ['#f7c948', '#6f6ad8', '#5a8fe0', '#7ccf8a', '#ff8b94', '#ffffff', '#ffd966']
+            : ['#9fb3c8', '#c9d3dd', '#e8eef3', '#b8c7b0', '#d5dbe0'];
 
-        const count=kind==='success'?220:120;
-        for(let i=0;i<count;i++){
-          const piece=document.createElement('span');
-          piece.className='confetti';
-          piece.textContent=kind==='success'
-            ? (Math.random()>.45?'✨':'★')
-            : (Math.random()>.5?'•':'·');
-          piece.style.left=`${Math.random()*window.innerWidth}px`;
-          piece.style.top=`${Math.random()*window.innerHeight}px`;
-          piece.style.fontSize=`${18+Math.floor(Math.random()*(kind==='success'?24:12))}px`;
-          piece.style.color=colors[i%colors.length];
-          piece.style.setProperty('--x',`${(Math.random()*(kind==='success'?1400:900)-(kind==='success'?700:450)).toFixed(0)}px`);
-          piece.style.setProperty('--y',`${(Math.random()*(kind==='success'?1000:700)-(kind==='success'?500:350)).toFixed(0)}px`);
-          piece.style.setProperty('--r',`${(Math.random()*1600-800).toFixed(0)}deg`);
+        const count = kind === 'success' ? 220 : 120;
+        for (let i = 0; i < count; i++) {
+          const piece = document.createElement('span');
+          piece.className = 'confetti';
+          piece.textContent = kind === 'success' ? (Math.random() > 0.45 ? '✨' : '★') : Math.random() > 0.5 ? '•' : '·';
+          piece.style.left = `${Math.random() * window.innerWidth}px`;
+          piece.style.top = `${Math.random() * window.innerHeight}px`;
+          piece.style.fontSize = `${18 + Math.floor(Math.random() * (kind === 'success' ? 24 : 12))}px`;
+          piece.style.color = colors[i % colors.length];
+          piece.style.setProperty(
+            '--x',
+            `${(Math.random() * (kind === 'success' ? 1400 : 900) - (kind === 'success' ? 700 : 450)).toFixed(0)}px`
+          );
+          piece.style.setProperty(
+            '--y',
+            `${(Math.random() * (kind === 'success' ? 1000 : 700) - (kind === 'success' ? 500 : 350)).toFixed(0)}px`
+          );
+          piece.style.setProperty('--r', `${(Math.random() * 1600 - 800).toFixed(0)}deg`);
           document.body.appendChild(piece);
-          setTimeout(()=>piece.remove(),2200);
+          setTimeout(() => piece.remove(), 2200);
         }
       }
 
-      function showResult(kind='success'){
-        if(kind==='success'){
-          els.resultTitle.textContent='🎉 全數達標';
-          els.resultSub.innerHTML='今天不是撐過去，<br>是漂亮破關。<br>妳拿下今天了。';
-          els.resultIcons.textContent='✨ ★ ✨ ★ ✨';
+      function showResult(kind = 'success') {
+        if (kind === 'success') {
+          els.resultTitle.textContent = '🎉 全數達標';
+          els.resultSub.innerHTML = '今天不是撐過去，<br>是漂亮破關。<br>妳拿下今天了。';
+          els.resultIcons.textContent = '✨ ★ ✨ ★ ✨';
           playJackpotGameSound();
           fireBurst('success');
-          setTimeout(()=>fireBurst('success'),500);
-          setTimeout(()=>fireBurst('success'),1100);
-        }else{
-          els.resultTitle.textContent='🌙 今天先收工';
-          els.resultSub.innerHTML='今天還沒全達標，<br>但妳已經有在前進。<br>明天再漂亮接回來。';
-          els.resultIcons.textContent='☁️ ✦ ☁️';
+          setTimeout(() => fireBurst('success'), 500);
+          setTimeout(() => fireBurst('success'), 1100);
+        } else {
+          els.resultTitle.textContent = '🌙 今天先收工';
+          els.resultSub.innerHTML = '今天還沒全達標，<br>但妳已經有在前進。<br>明天再漂亮接回來。';
+          els.resultIcons.textContent = '☁️ ✦ ☁️';
           playMissSound();
           fireBurst('fail');
-          setTimeout(()=>fireBurst('fail'),500);
+          setTimeout(() => fireBurst('fail'), 500);
         }
         els.celebrateLayer.classList.add('show');
       }
 
-      function closeCelebration(){
+      function closeCelebration() {
         els.celebrateLayer.classList.remove('show');
       }
 
-      function getLevelTitle(rate,score){
-        if(rate>=100) return '滿格發光日';
-        if(rate>=80) return '穩穩收成日';
-        if(rate>=60) return '有推進就很棒日';
-        if(score>=1) return '有動起來就值得記一筆';
+      function getLevelTitle(rate, score) {
+        if (rate >= 100) return '滿格發光日';
+        if (rate >= 80) return '穩穩收成日';
+        if (rate >= 60) return '有推進就很棒日';
+        if (score >= 1) return '有動起來就值得記一筆';
         return '今天先讓自己喘口氣';
       }
 
-      function getEncouragement(rate,score){
-        if(rate>=100) return '今天不是有做事而已，是有漂亮收尾。';
-        if(rate>=80) return '妳今天真的有往前推，而且推得很穩。';
-        if(rate>=60) return '不用全滿分，能穩定完成就是實力。';
-        if(score>0) return '今天有前進，不算空白。別小看這幾步。';
-        return '有些日子不是衝刺日，是整理氣力日。明天再來。';
+      function getSummaryData() {
+        const total = state.tasks.length + state.archivedDoneToday.length;
+        const done = state.tasks.filter(t => t.done).length + state.archivedDoneToday.length;
+        const score =
+          state.tasks.filter(t => t.done).reduce((s, t) => s + Number(t.point || 0), 0) +
+          state.archivedDoneToday.reduce((s, t) => s + Number(t.point || 0), 0);
+        const rate = total === 0 ? 0 : Math.round((done / total) * 100);
+        return { total, done, score, rate };
       }
 
-      function getSummaryData(){
-        const total=state.tasks.length+state.archivedDoneToday.length;
-        const done=state.tasks.filter(t=>t.done).length+state.archivedDoneToday.length;
-        const score=
-          state.tasks.filter(t=>t.done).reduce((s,t)=>s+Number(t.point||0),0)+
-          state.archivedDoneToday.reduce((s,t)=>s+Number(t.point||0),0);
-        const rate=total===0?0:Math.round(done/total*100);
-        return {total,done,score,rate};
-      }
-
-      function settleToday(){
-        const {total,done,score,rate}=getSummaryData();
-        if(total===0){
+      function settleToday() {
+        const { total, done, score, rate } = getSummaryData();
+        if (total === 0) {
           alert('妳今天還沒有任務可以結算。');
           return;
         }
 
-        const alreadySettledToday=state.lastSettledDate===state.today;
+        const alreadySettledToday = state.lastSettledDate === state.today;
 
-        if(!alreadySettledToday){
-          if(rate>=100){
-            const d=new Date(state.today);
-            d.setDate(d.getDate()-1);
-            const y=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-            state.streak=state.lastSettledDate===y?state.streak+1:1;
-          }else{
-            state.streak=0;
+        if (!alreadySettledToday) {
+          if (rate >= 100) {
+            const d = new Date(state.today);
+            d.setDate(d.getDate() - 1);
+            const y = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(
+              d.getDate()
+            ).padStart(2, '0')}`;
+            state.streak = state.lastSettledDate === y ? state.streak + 1 : 1;
+          } else {
+            state.streak = 0;
           }
 
           state.history.unshift({
-            date:state.today,
+            date: state.today,
             done,
             total,
             score,
             rate,
-            title:getLevelTitle(rate,score)
+            title: getLevelTitle(rate, score)
           });
-          state.history=state.history.slice(0,7);
+          state.history = state.history.slice(0, 7);
 
-          const monthKey=getMonthKey(state.today);
-          const idx=state.monthlyHistory.findIndex(item=>item.date===state.today);
-          const record={date:state.today,monthKey,done,total,score,rate};
-          if(idx>=0) state.monthlyHistory[idx]=record;
+          const monthKey = getMonthKey(state.today);
+          const idx = state.monthlyHistory.findIndex(item => item.date === state.today);
+          const record = { date: state.today, monthKey, done, total, score, rate };
+          if (idx >= 0) state.monthlyHistory[idx] = record;
           else state.monthlyHistory.push(record);
 
-          state.lastSettledDate=state.today;
-        }else if(state.history.length){
-          state.history[0]={
-            date:state.today,
+          state.lastSettledDate = state.today;
+        } else if (state.history.length) {
+          state.history[0] = {
+            date: state.today,
             done,
             total,
             score,
             rate,
-            title:getLevelTitle(rate,score)
+            title: getLevelTitle(rate, score)
           };
         }
 
-        state.tasks=state.tasks.filter(t=>!t.done).map(t=>({...t,done:false,carryover:true}));
-        state.archivedDoneToday=[];
+        state.tasks = state.tasks.filter(t => !t.done).map(t => ({ ...t, done: false, carryover: true }));
+        state.archivedDoneToday = [];
         saveState();
         render();
-        showResult(rate>=100?'success':'fail');
+        showResult(rate >= 100 ? 'success' : 'fail');
       }
 
-      function startNewDay(){
-        if(!confirm('要開始新的一天嗎？未完成項目會保留。')) return;
-        state.today=getTodayStr();
-        state.tasks=state.tasks.map(t=>({...t,done:false,carryover:true}));
-        state.archivedDoneToday=[];
+      function startNewDay() {
+        if (!confirm('要開始新的一天嗎？未完成項目會保留。')) return;
+        state.today = getTodayStr();
+        state.tasks = state.tasks.map(t => ({ ...t, done: false, carryover: true }));
+        state.archivedDoneToday = [];
         saveState();
         render();
       }
 
-      function renderTasks(){
-        if(state.tasks.length===0){
-          els.taskList.innerHTML='<div class="empty">今晚先排好明天的任務吧。<br>建議先放 5–10 件。</div>';
+      function renderTasks() {
+        if (state.tasks.length === 0) {
+          els.taskList.innerHTML = '<div class="empty">今晚先排好明天的任務吧。<br>建議先放 5–10 件。</div>';
           return;
         }
 
-        els.taskList.innerHTML=state.tasks.map(task=>`
-          <div class="task ${task.done?'done':''} ${task.carryover?'carryover':''}">
+        els.taskList.innerHTML = state.tasks
+          .map(
+            task => `
+          <div class="task ${task.done ? 'done' : ''} ${task.carryover ? 'carryover' : ''}">
             <div class="task-row1">
-              <input class="check" type="checkbox" ${task.done?'checked':''} data-action="toggle-task" data-id="${task.id}">
+              <input class="check" type="checkbox" ${task.done ? 'checked' : ''} data-action="toggle-task" data-id="${task.id}">
               <div class="task-title">${escapeHtml(task.title)}</div>
               <div class="task-score">+${task.point}</div>
             </div>
@@ -1427,43 +1661,84 @@ APP互動介面與設計：吳佩芳
               <button class="icon-btn favorite" type="button" title="加入常用" data-action="add-task-to-preset" data-id="${task.id}">＋</button>
             </div>
           </div>
-        `).join('');
+        `
+          )
+          .join('');
       }
 
-      function renderPresets(){
-        if(!state.presets.length){
-          els.quickPresetButtons.innerHTML='<div class="empty" style="width:100%;">目前還沒有常用任務。</div>';
-          els.presetManageList.innerHTML='<div class="empty">目前還沒有常用任務。</div>';
+      function renderPresets() {
+        if (!state.presets.length) {
+          els.quickPresetButtons.innerHTML = '<div class="empty" style="width:100%;">目前還沒有常用任務。</div>';
+          els.presetManageList.innerHTML = '<div class="empty">目前還沒有常用任務。</div>';
           return;
         }
 
-        els.quickPresetButtons.innerHTML=state.presets.map((item,index)=>`
-          <button class="preset-chip" type="button" data-action="add-preset-to-today" data-index="${index}">
+        els.quickPresetButtons.innerHTML = state.presets
+          .map(
+            (item, index) => `
+          <button class="chip-btn" type="button" data-action="add-preset-to-today" data-index="${index}">
             ${escapeHtml(item.title)} ＋${item.point}
           </button>
-        `).join('');
+        `
+          )
+          .join('');
 
-        els.presetManageList.innerHTML=state.presets.map((item,index)=>`
-          <div class="preset-item">
-            <div>
-              <strong>${escapeHtml(item.title)}</strong>
-              <div class="sub" style="margin:6px 0 0;">+${item.point}</div>
+        els.presetManageList.innerHTML = state.presets
+          .map(
+            (item, index) => `
+          <div class="preset-manage-item" draggable="true" data-drag-index="${index}">
+            <div class="drag-handle" title="拖曳排序">☰</div>
+            <div class="preset-main">
+              <div class="preset-title">${escapeHtml(item.title)}</div>
+              <div class="preset-score">+${item.point}</div>
             </div>
-            <div class="toolbar-small">
-              <button class="mini" type="button" data-action="copy-preset-to-form" data-index="${index}">載入</button>
-              <button class="mini danger" type="button" data-action="delete-preset" data-index="${index}">刪除</button>
-            </div>
+            <button class="preset-trash" type="button" title="刪除" data-action="delete-preset" data-index="${index}">🗑</button>
           </div>
-        `).join('');
+        `
+          )
+          .join('');
+
+        bindPresetDrag();
       }
 
-      function renderHistory(){
-        if(!state.history.length){
-          els.historyList.innerHTML='<div class="empty">還沒有最近紀錄。<br>今晚結算過一次後，這裡就會開始累積。</div>';
+      function bindPresetDrag() {
+        const rows = els.presetManageList.querySelectorAll('[data-drag-index]');
+        rows.forEach(row => {
+          row.addEventListener('dragstart', () => {
+            draggedPresetIndex = Number(row.dataset.dragIndex);
+            row.style.opacity = '0.45';
+          });
+
+          row.addEventListener('dragend', () => {
+            draggedPresetIndex = null;
+            row.style.opacity = '1';
+          });
+
+          row.addEventListener('dragover', e => {
+            e.preventDefault();
+          });
+
+          row.addEventListener('drop', e => {
+            e.preventDefault();
+            const targetIndex = Number(row.dataset.dragIndex);
+            if (draggedPresetIndex === null || draggedPresetIndex === targetIndex) return;
+            const moved = state.presets.splice(draggedPresetIndex, 1)[0];
+            state.presets.splice(targetIndex, 0, moved);
+            saveState();
+            renderPresets();
+          });
+        });
+      }
+
+      function renderHistory() {
+        if (!state.history.length) {
+          els.historyList.innerHTML = '<div class="empty">還沒有最近紀錄。<br>今晚結算過一次後，這裡就會開始累積。</div>';
           return;
         }
 
-        els.historyList.innerHTML=state.history.map(item=>`
+        els.historyList.innerHTML = state.history
+          .map(
+            item => `
           <div class="history-item">
             <div>
               <strong>${formatDate(item.date)}</strong><br>
@@ -1473,101 +1748,116 @@ APP互動介面與設計：吳佩芳
               ${item.done}/${item.total} 項<br>${item.score} 分・${item.rate}%
             </div>
           </div>
-        `).join('');
+        `
+          )
+          .join('');
       }
 
-      function renderSummary(){
-        const {total,done,score,rate}=getSummaryData();
-        els.totalCount.textContent=total;
-        els.doneCount.textContent=done;
-        els.scoreCount.textContent=score;
-        els.streakCount.textContent=state.streak;
-        els.progressBar.style.width=`${rate}%`;
+      function renderSummary() {
+        const { total, done, score, rate } = getSummaryData();
+        els.totalCount.textContent = total;
+        els.doneCount.textContent = done;
+        els.scoreCount.textContent = score;
+        els.streakCount.textContent = state.streak;
+        els.progressBar.style.width = `${rate}%`;
 
-        let msg=
-          total===0 ? '今晚先排明天任務。先排好，明天比較不會亂。' :
-          done===0 ? '任務已經排好了。明天先從最小的一件開始。' :
-          rate>=100 ? '今天全數完成，這不是運氣，是妳真的有在收自己的人生節奏。' :
-          rate>=80 ? `今天完成率 ${rate}%，這種穩穩做完的感覺，比一時爆衝更厲害。` :
-          rate>=60 ? `今天完成 ${done} 項、拿到 ${score} 分。不是完美路線，但已經有推進。` :
-          `今天先記下 ${score} 分。哪怕只完成一小步，也比一直想更有力量。`;
+        let msg =
+          total === 0
+            ? '今晚先排明天任務。先排好，明天比較不會亂。'
+            : done === 0
+            ? '任務已經排好了。明天先從最小的一件開始。'
+            : rate >= 100
+            ? '今天全數完成，這不是運氣，是妳真的有在收自己的人生節奏。'
+            : rate >= 80
+            ? `今天完成率 ${rate}%，這種穩穩做完的感覺，比一時爆衝更厲害。`
+            : rate >= 60
+            ? `今天完成 ${done} 項、拿到 ${score} 分。不是完美路線，但已經有推進。`
+            : `今天先記下 ${score} 分。哪怕只完成一小步，也比一直想更有力量。`;
 
-        if(state.archivedDoneToday.length>0){
-          msg+=` 已先收起 ${state.archivedDoneToday.length} 項完成任務。`;
+        if (state.archivedDoneToday.length > 0) {
+          msg += ` 已先收起 ${state.archivedDoneToday.length} 項完成任務。`;
         }
 
-        els.messageText.textContent=msg;
+        els.messageText.textContent = msg;
 
-        const monthKey=getMonthKey(state.today);
-        const rows=state.monthlyHistory.filter(item=>item.monthKey===monthKey);
-        const mScore=rows.reduce((s,i)=>s+Number(i.score||0),0);
-        const mDone=rows.reduce((s,i)=>s+Number(i.done||0),0);
-        const mDays=rows.length;
-        const mAvg=mDays?Math.round(mScore/mDays):0;
+        const monthKey = getMonthKey(state.today);
+        const rows = state.monthlyHistory.filter(item => item.monthKey === monthKey);
+        const mScore = rows.reduce((s, i) => s + Number(i.score || 0), 0);
+        const mDone = rows.reduce((s, i) => s + Number(i.done || 0), 0);
+        const mDays = rows.length;
+        const mAvg = mDays ? Math.round(mScore / mDays) : 0;
 
-        els.monthScore.textContent=mScore;
-        els.monthDone.textContent=mDone;
-        els.monthDays.textContent=mDays;
-        els.monthAvg.textContent=mAvg;
+        els.monthScore.textContent = mScore;
+        els.monthDone.textContent = mDone;
+        els.monthDays.textContent = mDays;
+        els.monthAvg.textContent = mAvg;
       }
 
-      function render(){
-        els.heroQuote.textContent=getDailyQuote(state.today);
+      function render() {
+        els.heroQuote.textContent = getDailyQuote(state.today);
         renderSummary();
         renderTasks();
         renderPresets();
         renderHistory();
       }
 
-      els.addBtn.addEventListener('click',addTask);
-      els.clearDoneBtn.addEventListener('click',clearDoneTasks);
-      els.resetTodayBtn.addEventListener('click',resetToday);
-      els.settleBtn.addEventListener('click',settleToday);
-      els.newDayBtn.addEventListener('click',startNewDay);
+      els.addBtn.addEventListener('click', addTask);
+      els.clearDoneBtn.addEventListener('click', clearDoneTasks);
+      els.resetTodayBtn.addEventListener('click', resetToday);
+      els.settleBtn.addEventListener('click', settleToday);
+      els.newDayBtn.addEventListener('click', startNewDay);
 
-      els.settingsBtn.addEventListener('click',toggleSettingsPanel);
-      els.settingsCollapseBtn.addEventListener('click',toggleSettingsContent);
-      els.exportBackupBtn.addEventListener('click',exportBackup);
-      els.importBackupBtn.addEventListener('click',importBackup);
-      els.toggleHiddenDoneBtn.addEventListener('click',toggleHiddenDonePanel);
-      els.togglePresetManageBtn.addEventListener('click',togglePresetManagePanel);
-      els.resetAllBtn.addEventListener('click',resetAll);
-      els.importFileInput.addEventListener('change',handleImportFile);
-      els.savePresetBtn.addEventListener('click',savePreset);
-      
-      els.quickAddToggleBtn.addEventListener('click',toggleQuickAddPanel);
-      els.replayCelebrateBtn.addEventListener('click',()=>showResult(els.resultTitle.textContent.includes('全數達標')?'success':'fail'));
-      els.closeCelebrateBtn.addEventListener('click',closeCelebration);
-
-      els.taskInput.addEventListener('keydown',e=>{
-        if(e.key==='Enter') addTask();
+      els.settingsBtn.addEventListener('click', openSettings);
+      els.settingsCloseBtn.addEventListener('click', closeSettings);
+      els.settingsBottomCloseBtn.addEventListener('click', closeSettings);
+      els.settingsModal.addEventListener('click', e => {
+        if (e.target === els.settingsModal) closeSettings();
       });
 
-      els.presetTitleInput.addEventListener('keydown',e=>{
-        if(e.key==='Enter') savePreset();
+      els.exportBackupBtn.addEventListener('click', exportBackup);
+      els.importBackupBtn.addEventListener('click', importBackup);
+      els.toggleHiddenDoneBtn.addEventListener('click', toggleHiddenDonePanel);
+      els.resetAllBtn.addEventListener('click', resetAll);
+      els.importFileInput.addEventListener('change', handleImportFile);
+      els.savePresetBtn.addEventListener('click', savePreset);
+
+      els.presetManageToggleBtn.addEventListener('click', togglePresetManagePanel);
+      els.quickAddToggleBtn.addEventListener('click', toggleQuickAddPanel);
+
+      els.replayCelebrateBtn.addEventListener('click', () =>
+        showResult(els.resultTitle.textContent.includes('全數達標') ? 'success' : 'fail')
+      );
+      els.closeCelebrateBtn.addEventListener('click', closeCelebration);
+
+      els.taskInput.addEventListener('keydown', e => {
+        if (e.key === 'Enter') addTask();
       });
 
-      document.addEventListener('click',function(e){
-        const btn=e.target.closest('[data-action]');
-        if(!btn) return;
-        const action=btn.dataset.action;
-        const id=btn.dataset.id;
-        const index=Number(btn.dataset.index);
-
-        if(action==='delete-task') deleteTask(id);
-        else if(action==='move-up') moveTask(id,'up');
-        else if(action==='move-down') moveTask(id,'down');
-        else if(action==='add-preset-to-today') addPresetToToday(index);
-        else if(action==='copy-preset-to-form') loadPresetToForm(index);
-        else if(action==='delete-preset') deletePreset(index);
-        else if(action==='restore-hidden-done') restoreHiddenDone(index);
-        else if(action==='delete-hidden-done') deleteHiddenDone(index);
-        else if(action==='add-task-to-preset') addTaskToPreset(id);
+      els.presetTitleInput.addEventListener('keydown', e => {
+        if (e.key === 'Enter') savePreset();
       });
 
-      document.addEventListener('change',function(e){
-        const toggle=e.target.closest('[data-action="toggle-task"]');
-        if(toggle) toggleTask(toggle.dataset.id);
+      document.addEventListener('click', function (e) {
+        const btn = e.target.closest('[data-action]');
+        if (!btn) return;
+
+        const action = btn.dataset.action;
+        const id = btn.dataset.id;
+        const index = Number(btn.dataset.index);
+
+        if (action === 'delete-task') deleteTask(id);
+        else if (action === 'move-up') moveTask(id, 'up');
+        else if (action === 'move-down') moveTask(id, 'down');
+        else if (action === 'add-preset-to-today') addPresetToToday(index);
+        else if (action === 'delete-preset') deletePreset(index);
+        else if (action === 'restore-hidden-done') restoreHiddenDone(index);
+        else if (action === 'delete-hidden-done') deleteHiddenDone(index);
+        else if (action === 'add-task-to-preset') addTaskToPreset(id);
+      });
+
+      document.addEventListener('change', function (e) {
+        const toggle = e.target.closest('[data-action="toggle-task"]');
+        if (toggle) toggleTask(toggle.dataset.id);
       });
 
       checkDateRollover();
