@@ -462,78 +462,84 @@
     }
 
     .preset-manage-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 8px;
-    }
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
 
-    .preset-manage-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px;
-      border: 1px solid #dce9de;
-      border-radius: 14px;
-      background: #fff;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
-    }
+.preset-manage-item {
+  padding: 12px;
+  border: 1px solid #dce9de;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
 
-    .drag-handle {
-      width: 28px;
-      min-width: 28px;
-      height: 28px;
-      border-radius: 8px;
-      background: var(--green-soft-2);
-      color: var(--green-dark);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 900;
-      cursor: grab;
-      user-select: none;
-      border: 1px solid #d6e5d8;
-    }
+.preset-row1 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
 
-    .drag-handle:active {
-      cursor: grabbing;
-    }
+.preset-title {
+  flex: 1;
+  min-width: 0;
+  font-weight: 800;
+  line-height: 1.45;
+  word-break: break-word;
+  font-size: 16px;
+}
 
-    .preset-main {
-      flex: 1;
-      min-width: 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
+.preset-score {
+  color: var(--green-dark);
+  font-weight: 800;
+  white-space: nowrap;
+  font-size: 15px;
+}
 
-    .preset-title {
-      font-weight: 800;
-      line-height: 1.45;
-      word-break: break-word;
-    }
+.preset-row2 {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
 
-    .preset-score {
-      color: var(--green-dark);
-      font-weight: 800;
-      white-space: nowrap;
-    }
+.score-adjust {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-right: auto;
+}
 
-    .preset-trash {
-      width: 32px;
-      min-width: 32px;
-      height: 32px;
-      border-radius: 10px;
-      border: 1px solid #f0d0ca;
-      background: #fff4f2;
-      color: var(--red);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 14px;
-    }
+.score-btn {
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  border-radius: 10px;
+  border: 1px solid #d7e8da;
+  background: #edf6ef;
+  color: var(--green-dark);
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.preset-trash {
+  width: 32px;
+  min-width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  border: 1px solid #f0d0ca;
+  background: #fff4f2;
+  color: var(--red);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+}
 
     .toolbar-small {
       display: flex;
@@ -1254,6 +1260,20 @@ APP互動介面與設計：吳佩芳
         render();
       }
 
+function presetScoreMinus(index) {
+  if (!state.presets[index]) return;
+  state.presets[index].point = Math.max(1, Number(state.presets[index].point || 1) - 1);
+  saveState();
+  renderPresets();
+}
+
+function presetScorePlus(index) {
+  if (!state.presets[index]) return;
+  state.presets[index].point = Number(state.presets[index].point || 0) + 1;
+  saveState();
+  renderPresets();
+}
+
       function movePreset(index, direction) {
   const target = direction === 'up' ? index - 1 : index + 1;
   if (target < 0 || target >= state.presets.length) return;
@@ -1693,19 +1713,24 @@ APP互動介面與設計：吳佩芳
         els.presetManageList.innerHTML = state.presets
   .map(
     (item, index) => `
-  <div class="preset-manage-item">
-    <div class="drag-handle" title="排序">☰</div>
-    <div class="preset-main">
-      <div class="preset-title">${escapeHtml(item.title)}</div>
-      <div class="preset-score">+${item.point}</div>
-    </div>
-    <div class="toolbar-small">
-      <button class="mini" type="button" data-action="move-preset-up" data-index="${index}">↑</button>
-      <button class="mini" type="button" data-action="move-preset-down" data-index="${index}">↓</button>
-      <button class="preset-trash" type="button" title="刪除" data-action="delete-preset" data-index="${index}">🗑</button>
-    </div>
-  </div>
-`
+      <div class="preset-manage-item">
+        <div class="preset-row1">
+          <div class="preset-title">${escapeHtml(item.title)}</div>
+          <div class="preset-score">+${item.point}</div>
+        </div>
+
+        <div class="preset-row2">
+          <div class="score-adjust">
+            <button class="score-btn" type="button" data-action="preset-score-minus" data-index="${index}">－</button>
+            <button class="score-btn" type="button" data-action="preset-score-plus" data-index="${index}">＋</button>
+          </div>
+
+          <button class="mini" type="button" data-action="move-preset-up" data-index="${index}">↑</button>
+          <button class="mini" type="button" data-action="move-preset-down" data-index="${index}">↓</button>
+          <button class="preset-trash" type="button" title="刪除" data-action="delete-preset" data-index="${index}">🗑</button>
+        </div>
+      </div>
+    `
   )
   .join('');
       }
@@ -1831,6 +1856,8 @@ APP互動介面與設計：吳佩芳
         else if (action === 'move-up') moveTask(id, 'up');
         else if (action === 'move-down') moveTask(id, 'down');
         else if (action === 'add-preset-to-today') addPresetToToday(index);
+        else if (action === 'preset-score-minus') presetScoreMinus(index);
+        else if (action === 'preset-score-plus') presetScorePlus(index);
         else if (action === 'move-preset-up') movePreset(index, 'up');
         else if (action === 'move-preset-down') movePreset(index, 'down');
         else if (action === 'delete-preset') deletePreset(index);
