@@ -5,6 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>明日挑戰</title>
 
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <meta name="theme-color" content="#4f8a63">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="明日挑戰">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
   <style>
     :root {
       --bg1: #f6fbf7;
@@ -19,7 +28,6 @@
       --gold: #d9a441;
       --purple: #6f6ad8;
       --shadow: 0 10px 30px rgba(50, 80, 60, 0.08);
-      --radius: 18px;
       --arrow-blue: #2f6fd6;
     }
 
@@ -52,6 +60,13 @@
       background: linear-gradient(135deg, #ffffff 0%, #eef8f0 100%);
     }
 
+    .hero-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
     .hero h1 {
       margin: 0 0 8px;
       font-size: 30px;
@@ -64,6 +79,24 @@
       color: var(--muted);
       line-height: 1.7;
       font-size: 15px;
+    }
+
+    .gear-btn{
+      width:46px;
+      height:46px;
+      min-width:46px;
+      border-radius:14px;
+      border:1px solid #d7e8da;
+      background:#edf6ef;
+      color:#2f5d3a;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:0;
+    }
+
+    .gear-btn svg{
+      display:block;
     }
 
     .grid {
@@ -92,7 +125,14 @@
 
     .form-grid {
       display: grid;
-      grid-template-columns: 1.2fr 0.8fr 0.7fr auto;
+      grid-template-columns: 1.4fr 1fr auto;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .form-grid-preset {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr auto;
       gap: 10px;
       margin-bottom: 12px;
     }
@@ -181,37 +221,6 @@
       margin-top: 12px;
     }
 
-    .section-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      padding: 14px 16px;
-      background: transparent;
-      color: var(--green-dark);
-      font-weight: 800;
-    }
-
-    .section-content {
-      padding: 0 14px 14px;
-      display: none;
-    }
-
-    .section-content.open {
-      display: block;
-    }
-
-    .arrow {
-      font-size: 18px;
-      transition: transform .18s ease;
-      color: var(--arrow-blue);
-      font-weight: 700;
-    }
-
-    .arrow.open {
-      transform: rotate(90deg);
-    }
-
     .task-list {
       display: flex;
       flex-direction: column;
@@ -280,6 +289,7 @@
     .pill.plus { background: #fff8eb; }
     .pill.flex { background: #f3f5ff; }
     .pill.carry { background: #fff5df; border-color: #ecd49a; }
+    .pill.score { background: #edf6ef; }
 
     .task-actions {
       display: flex;
@@ -384,7 +394,8 @@
       justify-content: center;
       pointer-events: none;
       z-index: 999;
-      background: rgba(255,255,255,.12);
+      background: rgba(255,255,255,.18);
+      backdrop-filter: blur(2px);
     }
 
     .celebrate.show {
@@ -397,29 +408,38 @@
       background: linear-gradient(135deg, #fff 0%, #f7f4ff 100%);
       border: 1px solid #e6defa;
       border-radius: 28px;
-      padding: 28px 24px;
-      min-width: 280px;
-      box-shadow: 0 20px 45px rgba(90,80,160,.18);
+      padding: 34px 26px;
+      min-width: 300px;
+      box-shadow: 0 20px 45px rgba(90,80,160,.22);
     }
 
     .celebrate-title {
-      font-size: 30px;
+      font-size: 34px;
       font-weight: 900;
       color: var(--purple);
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
     .celebrate-sub {
-      font-size: 17px;
+      font-size: 18px;
       color: #4d5870;
-      line-height: 1.7;
+      line-height: 1.8;
+    }
+
+    .celebrate-actions {
+      margin-top: 18px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      pointer-events: auto;
     }
 
     .confetti {
       position: fixed;
       opacity: 0;
       pointer-events: none;
-      animation: burst 1.2s ease-out forwards;
+      animation: burst 1.6s ease-out forwards;
+      z-index: 1000;
     }
 
     @keyframes burst {
@@ -470,71 +490,116 @@
     @media (max-width: 980px) {
       .grid { grid-template-columns: 1fr; }
       .summary { grid-template-columns: repeat(2, 1fr); }
-      .form-grid { grid-template-columns: 1fr 1fr; }
+      .form-grid, .form-grid-preset { grid-template-columns: 1fr 1fr; }
     }
 
     @media (max-width: 560px) {
       .wrap { padding: 14px 10px 30px; }
       .hero h1 { font-size: 24px; }
       .summary { grid-template-columns: 1fr 1fr; }
-      .form-grid { grid-template-columns: 1fr; }
+      .form-grid, .form-grid-preset { grid-template-columns: 1fr; }
       .task { grid-template-columns: auto 1fr; }
       .task-actions { grid-column: 1 / -1; justify-content: flex-start; }
       .preset-item { flex-direction: column; align-items: flex-start; }
       .celebrate-card { min-width: unset; width: calc(100vw - 28px); }
+      .hero-top { align-items: center; }
     }
   </style>
 </head>
 <body>
   <div class="wrap">
     <section class="hero">
-      <h1>🌿 明日挑戰</h1>
-      <p id="heroQuote"></p>
+      <div class="hero-top">
+        <div>
+          <h1>🌿 明日挑戰</h1>
+          <p id="heroQuote"></p>
+        </div>
+        <button class="gear-btn" id="settingsBtn" type="button" aria-label="設定">
+          <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+            <path
+              d="M19.14 12.94c.04-.31.06-.63.06-.94s-.02-.63-.06-.94l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7.28 7.28 0 0 0-1.63-.94l-.36-2.54A.5.5 0 0 0 13.9 2h-3.8a.5.5 0 0 0-.49.42l-.36 2.54c-.58.23-1.12.54-1.63.94l-2.39-.96a.5.5 0 0 0-.6.22L2.71 8.48a.5.5 0 0 0 .12.64l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94L2.83 14.16a.5.5 0 0 0-.12.64l1.92 3.32a.5.5 0 0 0 .6.22l2.39-.96c.51.4 1.05.71 1.63.94l.36 2.54a.5.5 0 0 0 .49.42h3.8a.5.5 0 0 0 .49-.42l.36-2.54c.58-.23 1.12-.54 1.63-.94l2.39.96a.5.5 0 0 0 .6-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.58ZM12 15.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7Z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+      </div>
     </section>
 
     <div class="grid">
       <section class="card">
-        <h2>今晚先排明天任務</h2>
-        <div class="sub">適合一天安排 5–10 件。未完成任務會延續到明天。</div>
+  <h2>今晚先排明天任務</h2>
+  <div class="sub">適合一天安排 5–10 件。未完成任務會延續到明天。</div>
+
+  <div class="section-box" id="settingsPanel" style="display:none; margin-bottom:16px;">
+    <div style="padding:14px 16px; font-weight:800; color:#2f5d3a;">設定</div>
+
+    <div style="padding:0 16px 16px 16px;">
+      <div class="toolbar" style="margin-bottom:10px;">
+        <button class="btn-soft" id="exportBackupBtn" type="button">匯出備份</button>
+        <button class="btn-soft" id="importBackupBtn" type="button">匯入備份</button>
+        <button class="btn-soft" id="toggleHiddenDoneBtn" type="button">打開隱藏完成項目</button>
+        <button class="btn-soft" id="togglePresetManageBtn" type="button">管理常用任務</button>
+        <button class="btn-danger" id="resetAllBtn" type="button">重設設定</button>
+      </div>
+
+      <input id="importFileInput" type="file" accept="application/json" style="display:none;">
+
+      <div id="hiddenDonePanel" style="display:none; margin-top:10px;">
+        <div class="sub" style="margin-bottom:8px;">這裡是今天先收起來的已完成項目。</div>
+        <div id="hiddenDoneList"></div>
+      </div>
+
+      <div id="presetManagePanel" style="display:none; margin-top:10px;">
+        <div class="sub" style="margin-bottom:8px;">在這裡新增、整理妳的常用任務。</div>
+
+        <div class="form-grid-preset">
+          <input id="presetTitleInput" type="text" placeholder="新增常用任務，例如：喝水、運動" />
+          <select id="presetTypeInput">
+            <option value="加分|3">加分｜3分</option>
+            <option value="必做|4">必做｜4分</option>
+            <option value="彈性|2">彈性｜2分</option>
+            <option value="必做|3">必做｜3分</option>
+            <option value="加分|2">加分｜2分</option>
+          </select>
+          <button class="btn-main" id="savePresetBtn" type="button">加入常用</button>
+        </div>
+
+        <div id="presetManageList"></div>
+      </div>
+    </div>
+  </div>
 
         <div class="form-grid">
-          <input id="taskInput" type="text" placeholder="例如：回覆訊息、整理桌面、散步 20 分鐘" />
+          <input id="taskInput" type="text" placeholder="例如：回覆訊息、整理桌面、散步" />
           <select id="typeInput">
-            <option value="必做">必做</option>
-            <option value="加分">加分</option>
-            <option value="彈性">彈性</option>
+            <option value="必做|3">必做｜3分</option>
+            <option value="加分|2">加分｜2分</option>
+            <option value="彈性|1">彈性｜1分</option>
+            <option value="必做|4">必做｜4分</option>
+            <option value="加分|3">加分｜3分</option>
+            <option value="彈性|2">彈性｜2分</option>
+            <option value="必做|5">必做｜5分</option>
           </select>
-          <input id="pointInput" type="number" min="1" max="20" value="3" placeholder="分數" />
           <button class="btn-main" id="addBtn" type="button">新增任務</button>
+        </div>
+
+        <div class="toolbar">
+          <button class="btn-soft" id="openQuickAddBtn" type="button">加入常用</button>
+        </div>
+
+        <div class="section-box" id="quickAddPanel" style="display:none; margin-top:0; margin-bottom:12px;">
+          <div style="padding:14px 16px; font-weight:800; color:#2f5d3a;">加入常用</div>
+          <div style="padding:0 16px 16px 16px;">
+            <div id="quickPresetButtons" class="preset-grid"></div>
+          </div>
         </div>
 
         <div class="toolbar">
           <button class="btn-soft" id="clearDoneBtn" type="button">清除已完成</button>
           <button class="btn-danger" id="resetTodayBtn" type="button">清空今天任務</button>
-        </div>
-
-        <div class="section-box">
-          <button class="section-head" id="presetToggleBtn" type="button" aria-expanded="false">
-            <span>我的常用任務</span>
-            <span class="arrow" id="presetArrow">▶</span>
-          </button>
-          <div class="section-content" id="presetContent">
-            <div class="sub" style="margin-top:10px;margin-bottom:10px;">需要時再展開，不會一直把頁面拉長。</div>
-
-            <div class="form-grid" style="margin-bottom:8px;">
-              <input id="presetTitleInput" type="text" placeholder="新增常用任務，例如：喝水 1500ml" />
-              <select id="presetTypeInput">
-                <option value="必做">必做</option>
-                <option value="加分">加分</option>
-                <option value="彈性">彈性</option>
-              </select>
-              <input id="presetPointInput" type="number" min="1" max="20" value="3" placeholder="分數" />
-              <button class="btn-main" id="savePresetBtn" type="button">加入常用</button>
-            </div>
-
-            <div id="quickPresetButtons" class="preset-grid"></div>
-            <div id="presetManageList"></div>
-          </div>
         </div>
 
         <div id="taskList" class="task-list"></div>
@@ -558,25 +623,31 @@
         <div class="toolbar">
           <button class="btn-main" id="settleBtn" type="button">今晚結算今天</button>
           <button class="btn-soft" id="newDayBtn" type="button">開始新的一天</button>
-          <button class="btn-soft" id="settingsBtn" type="button">⚙ 設定</button>
         </div>
-
-        <div class="section-box" id="settingsPanel" style="display:none; margin-bottom:16px;">
-          <div style="padding:14px 16px; font-weight:800; color:#2f5d3a;">設定</div>
-
-          <div style="padding:0 16px 16px 16px;">
-            <div class="toolbar" style="margin-bottom:10px;">
-              <button class="btn-soft" id="exportBackupBtn" type="button">匯出備份</button>
-              <button class="btn-soft" id="importBackupBtn" type="button">匯入備份</button>
-              <button class="btn-soft" id="toggleHiddenDoneBtn" type="button">打開隱藏完成項目</button>
-              <button class="btn-danger" id="resetAllBtn" type="button">重設設定</button>
-            </div>
 
             <input id="importFileInput" type="file" accept="application/json" style="display:none;">
 
             <div id="hiddenDonePanel" style="display:none; margin-top:10px;">
               <div class="sub" style="margin-bottom:8px;">這裡是今天先收起來的已完成項目。</div>
               <div id="hiddenDoneList"></div>
+            </div>
+
+            <div id="presetManagePanel" style="display:none; margin-top:10px;">
+              <div class="sub" style="margin-bottom:8px;">在這裡新增、整理妳的常用任務。</div>
+
+              <div class="form-grid-preset">
+                <input id="presetTitleInput" type="text" placeholder="新增常用任務，例如：喝水、運動" />
+                <select id="presetTypeInput">
+                  <option value="加分|3">加分｜3分</option>
+                  <option value="必做|4">必做｜4分</option>
+                  <option value="彈性|2">彈性｜2分</option>
+                  <option value="必做|3">必做｜3分</option>
+                  <option value="加分|2">加分｜2分</option>
+                </select>
+                <button class="btn-main" id="savePresetBtn" type="button">加入常用</button>
+              </div>
+
+              <div id="presetManageList"></div>
             </div>
           </div>
         </div>
@@ -623,8 +694,16 @@ APP互動介面與設計：吳佩芳
   <div id="celebrateLayer" class="celebrate" aria-hidden="true">
     <div class="celebrate-card">
       <div class="celebrate-title">🎉 全數達標</div>
-      <div class="celebrate-sub">今天不是撐過去，是漂亮破關。<br>妳拿下今天了。</div>
-      <div style="margin-top:10px;font-size:26px;letter-spacing:6px;">✨ ✨ ✨</div>
+      <div class="celebrate-sub">
+        今天不是撐過去，<br>
+        是漂亮破關。<br>
+        妳拿下今天了。
+      </div>
+      <div style="margin-top:12px;font-size:30px;letter-spacing:8px;">✨ ★ ✨ ★ ✨</div>
+      <div class="celebrate-actions">
+        <button class="btn-main" id="replayCelebrateBtn" type="button">再慶祝一次</button>
+        <button class="btn-soft" id="closeCelebrateBtn" type="button">關閉</button>
+      </div>
     </div>
   </div>
 
@@ -644,25 +723,13 @@ APP互動介面與設計：吳佩芳
       ];
 
       const defaultPresets = [
-        { title: "回覆重要訊息", type: "必做", point: 4 },
-        { title: "整理桌面 10 分鐘", type: "加分", point: 2 },
-        { title: "散步 20 分鐘", type: "必做", point: 4 },
         { title: "喝水 1500ml", type: "加分", point: 3 },
-        { title: "閱讀 15 分鐘", type: "彈性", point: 2 },
-        { title: "完成 1 件卡住的小事", type: "必做", point: 5 },
-        { title: "家務整理 15 分鐘", type: "加分", point: 3 },
-        { title: "伸展 10 分鐘", type: "彈性", point: 2 },
-        { title: "早睡", type: "必做", point: 4 },
-        { title: "完成 1 件工作重點", type: "必做", point: 5 }
+        { title: "運動 20 分鐘", type: "必做", point: 4 }
       ];
 
       const els = {
         taskInput: document.getElementById("taskInput"),
         typeInput: document.getElementById("typeInput"),
-        pointInput: document.getElementById("pointInput"),
-        presetTitleInput: document.getElementById("presetTitleInput"),
-        presetTypeInput: document.getElementById("presetTypeInput"),
-        presetPointInput: document.getElementById("presetPointInput"),
         taskList: document.getElementById("taskList"),
         doneCount: document.getElementById("doneCount"),
         totalCount: document.getElementById("totalCount"),
@@ -673,16 +740,12 @@ APP互動介面與設計：吳佩芳
         historyList: document.getElementById("historyList"),
         quickPresetButtons: document.getElementById("quickPresetButtons"),
         presetManageList: document.getElementById("presetManageList"),
-        presetToggleBtn: document.getElementById("presetToggleBtn"),
-        presetArrow: document.getElementById("presetArrow"),
-        presetContent: document.getElementById("presetContent"),
         celebrateLayer: document.getElementById("celebrateLayer"),
         addBtn: document.getElementById("addBtn"),
         clearDoneBtn: document.getElementById("clearDoneBtn"),
         resetTodayBtn: document.getElementById("resetTodayBtn"),
         settleBtn: document.getElementById("settleBtn"),
         newDayBtn: document.getElementById("newDayBtn"),
-        savePresetBtn: document.getElementById("savePresetBtn"),
         settingsBtn: document.getElementById("settingsBtn"),
         heroQuote: document.getElementById("heroQuote"),
         monthScore: document.getElementById("monthScore"),
@@ -693,10 +756,19 @@ APP互動介面與設計：吳佩芳
         exportBackupBtn: document.getElementById("exportBackupBtn"),
         importBackupBtn: document.getElementById("importBackupBtn"),
         toggleHiddenDoneBtn: document.getElementById("toggleHiddenDoneBtn"),
+        togglePresetManageBtn: document.getElementById("togglePresetManageBtn"),
         resetAllBtn: document.getElementById("resetAllBtn"),
         importFileInput: document.getElementById("importFileInput"),
         hiddenDonePanel: document.getElementById("hiddenDonePanel"),
-        hiddenDoneList: document.getElementById("hiddenDoneList")
+        hiddenDoneList: document.getElementById("hiddenDoneList"),
+        presetManagePanel: document.getElementById("presetManagePanel"),
+        presetTitleInput: document.getElementById("presetTitleInput"),
+        presetTypeInput: document.getElementById("presetTypeInput"),
+        savePresetBtn: document.getElementById("savePresetBtn"),
+        openQuickAddBtn: document.getElementById("openQuickAddBtn"),
+        quickAddPanel: document.getElementById("quickAddPanel"),
+        replayCelebrateBtn: document.getElementById("replayCelebrateBtn"),
+        closeCelebrateBtn: document.getElementById("closeCelebrateBtn")
       };
 
       function clone(obj) {
@@ -725,7 +797,6 @@ APP互動介面與設計：吳佩芳
         streak: 0,
         lastSettledDate: "",
         history: [],
-        presetOpen: false,
         shownQuotesByDate: {},
         monthlyHistory: []
       };
@@ -742,7 +813,6 @@ APP互動介面與設計：吳佩芳
             archivedDoneToday: Array.isArray(parsed.archivedDoneToday) ? parsed.archivedDoneToday : [],
             presets: Array.isArray(parsed.presets) && parsed.presets.length ? parsed.presets : clone(defaultPresets),
             history: Array.isArray(parsed.history) ? parsed.history : [],
-            presetOpen: Boolean(parsed.presetOpen),
             shownQuotesByDate: parsed.shownQuotesByDate && typeof parsed.shownQuotesByDate === "object" ? parsed.shownQuotesByDate : {},
             monthlyHistory: Array.isArray(parsed.monthlyHistory) ? parsed.monthlyHistory : []
           };
@@ -794,6 +864,11 @@ APP互動介面與設計：吳佩芳
         }
       }
 
+      function parseTypeValue(value) {
+        const [type, point] = value.split("|");
+        return { type, point: Number(point) };
+      }
+
       function addTaskObject(item) {
         state.tasks.push({
           id: makeId(),
@@ -808,8 +883,7 @@ APP互動介面與設計：吳佩芳
 
       function addTask() {
         const title = els.taskInput.value.trim();
-        const type = els.typeInput.value;
-        const point = Number(els.pointInput.value);
+        const parsed = parseTypeValue(els.typeInput.value);
 
         if (!title) {
           alert("請先輸入任務內容。");
@@ -817,15 +891,14 @@ APP互動介面與設計：吳佩芳
           return;
         }
 
-        if (!point || point < 1) {
-          alert("分數至少要 1 分。");
-          els.pointInput.focus();
-          return;
-        }
+        addTaskObject({
+          title,
+          type: parsed.type,
+          point: parsed.point,
+          carryover: false
+        });
 
-        addTaskObject({ title, type, point, carryover: false });
         els.taskInput.value = "";
-        els.pointInput.value = "3";
         saveState();
         render();
         els.taskInput.focus();
@@ -841,8 +914,7 @@ APP互動介面與設計：吳佩芳
 
       function savePreset() {
         const title = els.presetTitleInput.value.trim();
-        const type = els.presetTypeInput.value;
-        const point = Number(els.presetPointInput.value);
+        const parsed = parseTypeValue(els.presetTypeInput.value);
 
         if (!title) {
           alert("請先輸入常用任務名稱。");
@@ -850,15 +922,13 @@ APP互動介面與設計：吳佩芳
           return;
         }
 
-        if (!point || point < 1) {
-          alert("分數至少要 1 分。");
-          els.presetPointInput.focus();
-          return;
-        }
+        state.presets.push({
+          title,
+          type: parsed.type,
+          point: parsed.point
+        });
 
-        state.presets.push({ title, type, point });
         els.presetTitleInput.value = "";
-        els.presetPointInput.value = "3";
         saveState();
         render();
       }
@@ -876,8 +946,7 @@ APP互動介面與設計：吳佩芳
         const item = state.presets[index];
         if (!item) return;
         els.presetTitleInput.value = item.title;
-        els.presetTypeInput.value = item.type;
-        els.presetPointInput.value = item.point;
+        els.presetTypeInput.value = `${item.type}|${item.point}`;
         els.presetTitleInput.focus();
       }
 
@@ -987,8 +1056,7 @@ APP互動介面與設計：吳佩芳
               presets: Array.isArray(imported.presets) && imported.presets.length ? imported.presets : clone(defaultPresets),
               history: Array.isArray(imported.history) ? imported.history : [],
               monthlyHistory: Array.isArray(imported.monthlyHistory) ? imported.monthlyHistory : [],
-              shownQuotesByDate: imported.shownQuotesByDate && typeof imported.shownQuotesByDate === "object" ? imported.shownQuotesByDate : {},
-              presetOpen: Boolean(imported.presetOpen)
+              shownQuotesByDate: imported.shownQuotesByDate && typeof imported.shownQuotesByDate === "object" ? imported.shownQuotesByDate : {}
             };
 
             saveState();
@@ -1060,8 +1128,24 @@ APP互動介面與設計：吳佩芳
       }
 
       function toggleSettingsPanel() {
-        const isOpen = els.settingsPanel.style.display === "block";
-        els.settingsPanel.style.display = isOpen ? "none" : "block";
+  const isOpen = els.settingsPanel.style.display === "block";
+  els.settingsPanel.style.display = isOpen ? "none" : "block";
+
+  if (!isOpen) {
+    setTimeout(() => {
+      els.settingsPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 50);
+  }
+}
+
+      function togglePresetManagePanel() {
+        const isOpen = els.presetManagePanel.style.display === "block";
+        els.presetManagePanel.style.display = isOpen ? "none" : "block";
+      }
+
+      function toggleQuickAddPanel() {
+        const isOpen = els.quickAddPanel.style.display === "block";
+        els.quickAddPanel.style.display = isOpen ? "none" : "block";
       }
 
       function playJackpotGameSound() {
@@ -1071,12 +1155,12 @@ APP互動介面與設計：吳佩芳
           const ctx = new AC();
           const now = ctx.currentTime;
           const notes = [
-            { f: 659.25, t: 0, d: .11, type: "square" },
-            { f: 659.25, t: .14, d: .11, type: "square" },
-            { f: 783.99, t: .32, d: .14, type: "triangle" },
-            { f: 1046.5, t: .52, d: .16, type: "triangle" },
-            { f: 1318.51, t: .72, d: .22, type: "sine" },
-            { f: 1567.98, t: .98, d: .26, type: "sine" }
+            { f: 659.25, t: 0, d: .14, type: "square" },
+            { f: 783.99, t: .18, d: .14, type: "triangle" },
+            { f: 1046.5, t: .40, d: .18, type: "triangle" },
+            { f: 1318.51, t: .66, d: .24, type: "sine" },
+            { f: 1567.98, t: .96, d: .32, type: "sine" },
+            { f: 2093.0, t: 1.30, d: .38, type: "sine" }
           ];
           notes.forEach(n => {
             const o = ctx.createOscillator();
@@ -1084,7 +1168,7 @@ APP互動介面與設計：吳佩芳
             o.type = n.type;
             o.frequency.setValueAtTime(n.f, now + n.t);
             g.gain.setValueAtTime(.0001, now + n.t);
-            g.gain.exponentialRampToValueAtTime(.18, now + n.t + .02);
+            g.gain.exponentialRampToValueAtTime(.2, now + n.t + .03);
             g.gain.exponentialRampToValueAtTime(.0001, now + n.t + n.d);
             o.connect(g);
             g.connect(ctx.destination);
@@ -1121,26 +1205,33 @@ APP互動介面與設計：吳佩芳
         } catch (e) {}
       }
 
-      function showCelebration() {
-        els.celebrateLayer.classList.add("show");
-        const colors = ["#f7c948", "#6f6ad8", "#5a8fe0", "#7ccf8a", "#ff8b94", "#ffffff"];
-
-        for (let i = 0; i < 140; i++) {
+      function fireCelebrationBurst() {
+        const colors = ["#f7c948", "#6f6ad8", "#5a8fe0", "#7ccf8a", "#ff8b94", "#ffffff", "#ffd966"];
+        for (let i = 0; i < 220; i++) {
           const piece = document.createElement("span");
           piece.className = "confetti";
-          piece.textContent = Math.random() > .5 ? "✨" : "★";
+          piece.textContent = Math.random() > .45 ? "✨" : "★";
           piece.style.left = `${Math.random() * window.innerWidth}px`;
           piece.style.top = `${Math.random() * window.innerHeight}px`;
-          piece.style.fontSize = `${18 + Math.floor(Math.random() * 18)}px`;
+          piece.style.fontSize = `${18 + Math.floor(Math.random() * 24)}px`;
           piece.style.color = colors[i % colors.length];
-          piece.style.setProperty("--x", `${(Math.random() * 1000 - 500).toFixed(0)}px`);
-          piece.style.setProperty("--y", `${(Math.random() * 700 - 350).toFixed(0)}px`);
-          piece.style.setProperty("--r", `${(Math.random() * 1080 - 540).toFixed(0)}deg`);
+          piece.style.setProperty("--x", `${(Math.random() * 1400 - 700).toFixed(0)}px`);
+          piece.style.setProperty("--y", `${(Math.random() * 1000 - 500).toFixed(0)}px`);
+          piece.style.setProperty("--r", `${(Math.random() * 1600 - 800).toFixed(0)}deg`);
           document.body.appendChild(piece);
-          setTimeout(() => piece.remove(), 1500);
+          setTimeout(() => piece.remove(), 2200);
         }
+      }
 
-        setTimeout(() => els.celebrateLayer.classList.remove("show"), 1800);
+      function showCelebration() {
+        els.celebrateLayer.classList.add("show");
+        fireCelebrationBurst();
+        setTimeout(fireCelebrationBurst, 500);
+        setTimeout(fireCelebrationBurst, 1100);
+      }
+
+      function closeCelebration() {
+        els.celebrateLayer.classList.remove("show");
       }
 
       function getLevelTitle(rate, score) {
@@ -1240,18 +1331,6 @@ APP互動介面與設計：吳佩芳
         render();
       }
 
-      function togglePresetPanel() {
-        state.presetOpen = !state.presetOpen;
-        saveState();
-        renderPresetPanel();
-      }
-
-      function renderPresetPanel() {
-        els.presetContent.classList.toggle("open", state.presetOpen);
-        els.presetArrow.classList.toggle("open", state.presetOpen);
-        els.presetToggleBtn.setAttribute("aria-expanded", state.presetOpen ? "true" : "false");
-      }
-
       function renderTasks() {
         if (state.tasks.length === 0) {
           els.taskList.innerHTML = `<div class="empty">今晚先排好明天的任務吧。<br>建議先放 5–10 件，包含必做與加分任務。</div>`;
@@ -1267,7 +1346,7 @@ APP互動介面與設計：吳佩芳
                 <div class="task-title">${escapeHtml(task.title)}</div>
                 <div class="meta">
                   <span class="pill ${typeClass}">${task.type}</span>
-                  <span class="pill">${task.point} 分</span>
+                  <span class="pill score">${task.point} 分</span>
                   <span class="pill">第 ${index + 1} 項</span>
                   ${task.carryover ? '<span class="pill carry">昨日延續</span>' : ""}
                 </div>
@@ -1284,7 +1363,7 @@ APP互動介面與設計：吳佩芳
       function renderPresets() {
         if (!state.presets.length) {
           els.quickPresetButtons.innerHTML = `<div class="empty" style="width:100%;">目前還沒有常用任務。</div>`;
-          els.presetManageList.innerHTML = "";
+          els.presetManageList.innerHTML = `<div class="empty">目前還沒有常用任務。</div>`;
           return;
         }
 
@@ -1369,7 +1448,6 @@ APP互動介面與設計：吳佩芳
 
       function render() {
         els.heroQuote.textContent = getDailyQuote(state.today);
-        renderPresetPanel();
         renderSummary();
         renderTasks();
         renderPresets();
@@ -1381,16 +1459,21 @@ APP互動介面與設計：吳佩芳
       els.resetTodayBtn.addEventListener("click", resetToday);
       els.settleBtn.addEventListener("click", settleToday);
       els.newDayBtn.addEventListener("click", startNewDay);
-      els.savePresetBtn.addEventListener("click", savePreset);
 
       els.settingsBtn.addEventListener("click", toggleSettingsPanel);
       els.exportBackupBtn.addEventListener("click", exportBackup);
       els.importBackupBtn.addEventListener("click", importBackup);
       els.toggleHiddenDoneBtn.addEventListener("click", toggleHiddenDonePanel);
+      els.togglePresetManageBtn.addEventListener("click", togglePresetManagePanel);
       els.resetAllBtn.addEventListener("click", resetAll);
       els.importFileInput.addEventListener("change", handleImportFile);
-
-      els.presetToggleBtn.addEventListener("click", togglePresetPanel);
+      els.savePresetBtn.addEventListener("click", savePreset);
+      els.openQuickAddBtn.addEventListener("click", toggleQuickAddPanel);
+      els.replayCelebrateBtn.addEventListener("click", function() {
+        playJackpotGameSound();
+        showCelebration();
+      });
+      els.closeCelebrateBtn.addEventListener("click", closeCelebration);
 
       els.taskInput.addEventListener("keydown", e => {
         if (e.key === "Enter") addTask();
