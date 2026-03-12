@@ -439,17 +439,15 @@
     }
 
     .chip-strip {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 2px;
-      scroll-snap-type: x proximity;
-      -webkit-overflow-scrolling: touch;
-    }
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-bottom: 2px;
+}
 
-    .chip-strip::-webkit-scrollbar {
-      display: none;
-    }
+.chip-strip::-webkit-scrollbar {
+  display: none;
+}
 
     .chip-btn {
       padding: 10px 12px;
@@ -1118,7 +1116,7 @@ APP互動介面與設計：吳佩芳
       }
 
       let state = loadState();
-      let draggedPresetIndex = null;
+      
 
       function saveState() {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
@@ -1255,6 +1253,15 @@ APP互動介面與設計：吳佩芳
         saveState();
         render();
       }
+
+      function movePreset(index, direction) {
+  const target = direction === 'up' ? index - 1 : index + 1;
+  if (target < 0 || target >= state.presets.length) return;
+  [state.presets[index], state.presets[target]] = [state.presets[target], state.presets[index]];
+  saveState();
+  renderPresets();
+}
+
 
       function toggleTask(id) {
         const task = state.tasks.find(t => t.id === id);
@@ -1684,51 +1691,26 @@ APP互動介面與設計：吳佩芳
           .join('');
 
         els.presetManageList.innerHTML = state.presets
-          .map(
-            (item, index) => `
-          <div class="preset-manage-item" draggable="true" data-drag-index="${index}">
-            <div class="drag-handle" title="拖曳排序">☰</div>
-            <div class="preset-main">
-              <div class="preset-title">${escapeHtml(item.title)}</div>
-              <div class="preset-score">+${item.point}</div>
-            </div>
-            <button class="preset-trash" type="button" title="刪除" data-action="delete-preset" data-index="${index}">🗑</button>
-          </div>
-        `
-          )
-          .join('');
-
-        bindPresetDrag();
+  .map(
+    (item, index) => `
+  <div class="preset-manage-item">
+    <div class="drag-handle" title="排序">☰</div>
+    <div class="preset-main">
+      <div class="preset-title">${escapeHtml(item.title)}</div>
+      <div class="preset-score">+${item.point}</div>
+    </div>
+    <div class="toolbar-small">
+      <button class="mini" type="button" data-action="move-preset-up" data-index="${index}">↑</button>
+      <button class="mini" type="button" data-action="move-preset-down" data-index="${index}">↓</button>
+      <button class="preset-trash" type="button" title="刪除" data-action="delete-preset" data-index="${index}">🗑</button>
+    </div>
+  </div>
+`
+  )
+  .join('');
       }
 
-      function bindPresetDrag() {
-        const rows = els.presetManageList.querySelectorAll('[data-drag-index]');
-        rows.forEach(row => {
-          row.addEventListener('dragstart', () => {
-            draggedPresetIndex = Number(row.dataset.dragIndex);
-            row.style.opacity = '0.45';
-          });
-
-          row.addEventListener('dragend', () => {
-            draggedPresetIndex = null;
-            row.style.opacity = '1';
-          });
-
-          row.addEventListener('dragover', e => {
-            e.preventDefault();
-          });
-
-          row.addEventListener('drop', e => {
-            e.preventDefault();
-            const targetIndex = Number(row.dataset.dragIndex);
-            if (draggedPresetIndex === null || draggedPresetIndex === targetIndex) return;
-            const moved = state.presets.splice(draggedPresetIndex, 1)[0];
-            state.presets.splice(targetIndex, 0, moved);
-            saveState();
-            renderPresets();
-          });
-        });
-      }
+      
 
       function renderHistory() {
         if (!state.history.length) {
@@ -1849,6 +1831,8 @@ APP互動介面與設計：吳佩芳
         else if (action === 'move-up') moveTask(id, 'up');
         else if (action === 'move-down') moveTask(id, 'down');
         else if (action === 'add-preset-to-today') addPresetToToday(index);
+        else if (action === 'move-preset-up') movePreset(index, 'up');
+        else if (action === 'move-preset-down') movePreset(index, 'down');
         else if (action === 'delete-preset') deletePreset(index);
         else if (action === 'restore-hidden-done') restoreHiddenDone(index);
         else if (action === 'delete-hidden-done') deleteHiddenDone(index);
