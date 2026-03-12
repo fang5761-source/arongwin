@@ -758,6 +758,122 @@
       color: var(--green-dark);
     }
 
+
+
+    .settings-intro {
+      margin: 4px 0 16px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      border: 1px solid #dceadd;
+      background: linear-gradient(135deg, #f8fcf8 0%, #eef7f0 100%);
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 14px;
+    }
+
+    .settings-layout {
+      display: grid;
+      gap: 14px;
+    }
+
+    .settings-group {
+      border: 1px solid #e2ece4;
+      border-radius: 18px;
+      background: linear-gradient(180deg, #fbfefb 0%, #f7fbf8 100%);
+      padding: 14px;
+    }
+
+    .settings-group-title {
+      font-size: 16px;
+      font-weight: 900;
+      color: var(--green-dark);
+      margin-bottom: 10px;
+    }
+
+    .settings-note {
+      margin-top: 10px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: #fffdf6;
+      border: 1px solid #f1e2b8;
+      color: #7a6230;
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .download-box {
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 16px;
+      background: #ffffff;
+      border: 1px dashed #cfe0d2;
+      display: none;
+    }
+
+    .download-box.show {
+      display: block;
+    }
+
+    .download-file-name {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 10px;
+      line-height: 1.6;
+      word-break: break-all;
+    }
+
+    .hidden-done-wrap {
+      display: grid;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .hidden-done-card {
+      padding: 12px;
+      border: 1px solid #dce9de;
+      border-radius: 16px;
+      background: linear-gradient(180deg, #ffffff 0%, #f7fbf8 100%);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    }
+
+    .hidden-done-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .hidden-done-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #eef7f0;
+      color: var(--green-dark);
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .hidden-done-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .floating-add {
+      position: sticky;
+      bottom: 0;
+      z-index: 2;
+      padding-top: 8px;
+      background: linear-gradient(180deg, rgba(246,251,247,0) 0%, rgba(246,251,247,0.9) 35%, rgba(246,251,247,1) 100%);
+    }
+
+
     .modal-close {
       width: 40px;
       height: 40px;
@@ -794,6 +910,70 @@
       .wrap {
         padding: 14px 10px 30px;
       }
+
+      .hero,
+      .card,
+      .today-section,
+      .section-box,
+      .modal-card,
+      .settings-group {
+        border-radius: 18px;
+      }
+
+      .toolbar,
+      .hidden-done-actions {
+        gap: 8px;
+      }
+
+      .btn-main,
+      .btn-soft,
+      .btn-danger,
+      .ghost-btn,
+      .mini,
+      .chip-btn {
+        min-height: 44px;
+      }
+
+      .icon-btn,
+      .score-btn,
+      .preset-trash,
+      .gear-btn,
+      .modal-close {
+        min-width: 40px;
+        min-height: 40px;
+      }
+
+      .task {
+        padding: 13px;
+      }
+
+      .task-row2 {
+        justify-content: space-between;
+      }
+
+      .task-row2 .icon-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        font-size: 15px;
+      }
+
+      .modal-wrap {
+        align-items: flex-end;
+        padding: 0;
+      }
+
+      .modal-card {
+        width: 100%;
+        max-height: 92vh;
+        border-radius: 22px 22px 0 0;
+        padding: 14px 12px 18px;
+      }
+
+      .floating-add .btn-main {
+        width: 100%;
+      }
+
 
       .hero h1 {
         font-size: 24px;
@@ -874,7 +1054,7 @@
             <option value="彈性|2">彈性｜2分</option>
             <option value="必做|5">必做｜5分</option>
           </select>
-          <button class="btn-main" id="addBtn" type="button">新增任務</button>
+          <div class="floating-add"><button class="btn-main" id="addBtn" type="button">新增任務</button></div>
         </div>
 
         <div class="section-box" style="margin-top: 0; margin-bottom: 12px;">
@@ -911,7 +1091,7 @@
 
         <div class="message-box">
           <div class="message-title">今晚的小結語</div>
-          <div id="messageText">先新增妳明天想做的事，明天完成後再來結算，成就感就會自己走進來。</div>
+          <div id="messageText">先新增你明天想做的事，明天完成後再來結算，成就感就會自己走進來。</div>
           <div class="progress"><div class="bar" id="progressBar"></div></div>
         </div>
 
@@ -943,16 +1123,18 @@
         <span class="version-arrow">▶</span>
       </summary>
       <div class="version-content">
-版本：V1.0
+版本：V1.1（V7 小升級版）
 名稱：明日挑戰
 
 創意發想：吳佩蓉
 APP互動介面與設計：吳佩芳
 技術協作：ChatGPT
 上線日期：2026.3.11
+更新日期：2026.3.12
 
 說明：
 這是一個每日任務與成長追蹤工具
+本次更新重點：手機操作優化、設定自動收合、備份改為提醒後手動下載
 資料僅儲存在使用者自己的瀏覽器
       </div>
     </details>
@@ -965,44 +1147,62 @@ APP互動介面與設計：吳佩芳
         <button class="modal-close" id="settingsCloseBtn" type="button" aria-label="關閉設定">✕</button>
       </div>
 
-      <div class="toolbar">
-        <button class="btn-soft" id="exportBackupBtn" type="button">匯出備份</button>
-        <button class="btn-soft" id="importBackupBtn" type="button">匯入備份</button>
-        <button class="btn-soft" id="toggleHiddenDoneBtn" type="button">打開隱藏完成項目</button>
-        <button class="btn-danger" id="resetAllBtn" type="button">重設設定</button>
+      <div class="settings-intro">
+        這裡集中放備份、常用任務與已完成項目整理。關閉設定時，展開中的區塊會自動收好，主畫面不會被干擾。
       </div>
 
-      <input id="importFileInput" type="file" accept="application/json" style="display:none;" />
+      <div class="settings-layout">
+        <div class="settings-group">
+          <div class="settings-group-title">備份與資料整理</div>
+          <div class="toolbar">
+            <button class="btn-soft" id="showBackupBoxBtn" type="button">提醒備份</button>
+            <button class="btn-soft" id="importBackupBtn" type="button">匯入備份</button>
+            <button class="btn-danger" id="resetAllBtn" type="button">重設設定</button>
+          </div>
+          <div class="settings-note">
+            建議每隔幾天，或在新增、修改多個任務後備份一次。系統會先提醒備份，再由你自行點擊下載備份檔，讓資料保存更穩定安心。
+          </div>
+          <div id="backupDownloadBox" class="download-box">
+            <div class="download-file-name" id="backupFileName">備份檔尚未準備</div>
+            <button class="btn-main" id="downloadBackupBtn" type="button">一鍵下載備份檔</button>
+          </div>
+          <input id="importFileInput" type="file" accept="application/json" style="display:none;" />
+        </div>
 
-      <div class="section-box" style="margin-top:18px;">
-        <button class="section-head" id="presetManageToggleBtn" type="button">
-          <span>管理常用任務</span>
-          <span class="arrow" id="presetManageArrow">▶</span>
-        </button>
-        <div class="section-content open" id="presetManagePanel">
-          
+        <div class="settings-group">
+            <div class="section-box">
+            <button class="section-head" id="presetManageToggleBtn" type="button">
+              <span>管理常用任務</span>
+              <span class="arrow" id="presetManageArrow">▶</span>
+            </button>
+            <div class="section-content" id="presetManagePanel">
+              <div class="form-grid-preset">
+                <input id="presetTitleInput" type="text" placeholder="新增常用任務，例如：喝水、運動" />
+                <select id="presetTypeInput">
+                  <option value="加分|3">加分｜3分</option>
+                  <option value="必做|4">必做｜4分</option>
+                  <option value="彈性|2">彈性｜2分</option>
+                  <option value="必做|3">必做｜3分</option>
+                  <option value="加分|2">加分｜2分</option>
+                </select>
+                <button class="btn-main" id="savePresetBtn" type="button">加入常用</button>
+              </div>
 
-          <div class="form-grid-preset">
-            <input id="presetTitleInput" type="text" placeholder="新增常用任務，例如：喝水、運動" />
-            <select id="presetTypeInput">
-              <option value="加分|3">加分｜3分</option>
-              <option value="必做|4">必做｜4分</option>
-              <option value="彈性|2">彈性｜2分</option>
-              <option value="必做|3">必做｜3分</option>
-              <option value="加分|2">加分｜2分</option>
-            </select>
-            <button class="btn-main" id="savePresetBtn" type="button">加入常用</button>
+              <div id="presetManageList" class="preset-manage-list"></div>
+            </div>
           </div>
 
-          <div id="presetManageList" class="preset-manage-list"></div>
+          <div class="section-box" style="margin-top:12px;">
+            <button class="section-head" id="hiddenDoneToggleBtn" type="button">
+              <span>查看隱藏已完成項目</span>
+              <span class="arrow" id="hiddenDoneArrow">▶</span>
+            </button>
+            <div class="section-content" id="hiddenDonePanel">
+              <div id="hiddenDoneList"></div>
+            </div>
+          </div>
         </div>
       </div>
-
-      <div id="hiddenDonePanel" style="display:none; margin-top:12px;">
-        <div class="sub" style="margin-bottom:8px;">這裡是今天先收起來的已完成項目。</div>
-        <div id="hiddenDoneList"></div>
-      </div>
-
       <div class="toolbar" style="margin-top:16px;">
         <button class="ghost-btn" id="settingsBottomCloseBtn" type="button">關閉設定</button>
       </div>
@@ -1012,7 +1212,7 @@ APP互動介面與設計：吳佩芳
   <div id="celebrateLayer" class="celebrate" aria-hidden="true">
     <div class="celebrate-card">
       <div class="celebrate-title" id="resultTitle">🎉 全數達標</div>
-      <div class="celebrate-sub" id="resultSub">今天不是撐過去，<br>是漂亮破關。<br>妳拿下今天了。</div>
+      <div class="celebrate-sub" id="resultSub">今天不是撐過去，<br>是漂亮破關。<br>你拿下今天了。</div>
       <div id="resultIcons" style="margin-top:12px; font-size:30px; letter-spacing:8px;">✨ ★ ✨ ★ ✨</div>
       <div class="celebrate-actions">
         <button class="btn-main" id="replayCelebrateBtn" type="button">再播放一次</button>
@@ -1027,11 +1227,11 @@ APP互動介面與設計：吳佩芳
 
       const dailyQuotes = [
         '今天先把自己安頓好，明天做事就不會像在追火車。',
-        '妳不是要一次變厲害，只要每天都比昨天更靠近一點點。',
+        '你不是要一次變厲害，只要每天都比昨天更靠近一點點。',
         '任務排好，不是為了綁住自己，是為了讓心有地方安放。',
         '把今天收好，明天的大腦才有空間發光。',
         '穩穩做完一件小事，比空想十件大事更有力量。',
-        '妳今天記下的每一分，都是未來安心感的存款。',
+        '你今天記下的每一分，都是未來安心感的存款。',
         '別急著完美，先讓自己持續前進，就很了不起。',
         '當生活有秩序，心也會慢慢長出底氣。'
       ];
@@ -1072,11 +1272,15 @@ APP互動介面與設計：吳佩芳
         settingsModal: document.getElementById('settingsModal'),
         settingsCloseBtn: document.getElementById('settingsCloseBtn'),
         settingsBottomCloseBtn: document.getElementById('settingsBottomCloseBtn'),
-        exportBackupBtn: document.getElementById('exportBackupBtn'),
+        showBackupBoxBtn: document.getElementById('showBackupBoxBtn'),
+        downloadBackupBtn: document.getElementById('downloadBackupBtn'),
+        backupFileName: document.getElementById('backupFileName'),
+        backupDownloadBox: document.getElementById('backupDownloadBox'),
         importBackupBtn: document.getElementById('importBackupBtn'),
-        toggleHiddenDoneBtn: document.getElementById('toggleHiddenDoneBtn'),
         resetAllBtn: document.getElementById('resetAllBtn'),
         importFileInput: document.getElementById('importFileInput'),
+        hiddenDoneToggleBtn: document.getElementById('hiddenDoneToggleBtn'),
+        hiddenDoneArrow: document.getElementById('hiddenDoneArrow'),
         hiddenDonePanel: document.getElementById('hiddenDonePanel'),
         hiddenDoneList: document.getElementById('hiddenDoneList'),
         presetManageToggleBtn: document.getElementById('presetManageToggleBtn'),
@@ -1146,7 +1350,8 @@ APP互動介面與設計：吳佩芳
       }
 
       let state = loadState();
-      
+      let pendingBackupUrl = '';
+      let pendingBackupName = '';
 
       function saveState() {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
@@ -1358,34 +1563,48 @@ function presetScorePlus(index) {
       }
 
       function resetAll() {
-        if (!confirm('確定要重設設定嗎？這會清空任務、常用任務與統計紀錄。')) return;
+        if (!confirm('確定要重設全部資料嗎？這會清空任務、常用任務、備份暫存與統計紀錄。')) return;
         localStorage.removeItem(STORAGE_KEY);
         state = clone(defaultState);
         saveState();
-        els.hiddenDonePanel.style.display = 'none';
         closeSettings();
         closeCelebration();
         render();
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
 
-      function exportBackup() {
+      function buildBackupFile() {
+        if (pendingBackupUrl) {
+          URL.revokeObjectURL(pendingBackupUrl);
+          pendingBackupUrl = '';
+        }
+
         const backupData = {
           appName: '明日挑戰',
-          version: 'V1.0',
+          version: 'V1.1',
           storageKey: STORAGE_KEY,
           exportedAt: new Date().toISOString(),
           data: state
         };
         const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
+        pendingBackupUrl = URL.createObjectURL(blob);
+        pendingBackupName = `mingri-tiaozhan-backup-${state.today}.json`;
+        els.backupFileName.textContent = `備份檔名：${pendingBackupName}`;
+        els.backupDownloadBox.classList.add('show');
+      }
+
+      function showBackupBox() {
+        buildBackupFile();
+      }
+
+      function downloadBackup() {
+        if (!pendingBackupUrl) buildBackupFile();
         const a = document.createElement('a');
-        a.href = url;
-        a.download = `mingri-tiaozhan-backup-${state.today}.json`;
+        a.href = pendingBackupUrl;
+        a.download = pendingBackupName || `mingri-tiaozhan-backup-${state.today}.json`;
         document.body.appendChild(a);
         a.click();
         a.remove();
-        URL.revokeObjectURL(url);
       }
 
       function importBackup() {
@@ -1416,12 +1635,17 @@ function presetScorePlus(index) {
                   ? imported.shownQuotesByDate
                   : {}
             };
+            if (pendingBackupUrl) {
+              URL.revokeObjectURL(pendingBackupUrl);
+              pendingBackupUrl = '';
+              pendingBackupName = '';
+            }
             saveState();
             render();
             closeSettings();
             alert('備份匯入完成。');
           } catch (err) {
-            alert('匯入失敗，請確認妳選的是正確的備份檔。');
+            alert('匯入失敗，請確認你選的是正確的備份檔。');
           }
         };
         reader.readAsText(file, 'utf-8');
@@ -1434,25 +1658,26 @@ function presetScorePlus(index) {
         document.body.style.overflow = 'hidden';
       }
 
+      function collapseSettingsPanels() {
+  els.hiddenDonePanel.classList.remove('open');
+  els.hiddenDoneArrow.classList.remove('open');
+  els.presetManagePanel.classList.remove('open');
+  els.presetManageArrow.classList.remove('open');
+}
+
       function closeSettings() {
   els.settingsModal.classList.remove('show');
   els.settingsModal.setAttribute('aria-hidden', 'true');
   document.body.style.overflow = '';
 
-  els.hiddenDonePanel.style.display = 'none';
-  els.presetManagePanel.classList.remove('open');
-  els.presetManageArrow.classList.remove('open');
+  collapseSettingsPanels();
+  els.backupDownloadBox.classList.remove('show');
 }
 
       function toggleHiddenDonePanel() {
-  const isOpen = els.hiddenDonePanel.style.display === 'block';
-
-  if (!isOpen) {
-    els.presetManagePanel.classList.remove('open');
-    els.presetManageArrow.classList.remove('open');
-  }
-
-  els.hiddenDonePanel.style.display = isOpen ? 'none' : 'block';
+  const isOpen = els.hiddenDonePanel.classList.contains('open');
+  els.hiddenDonePanel.classList.toggle('open', !isOpen);
+  els.hiddenDoneArrow.classList.toggle('open', !isOpen);
 
   if (!isOpen) renderHiddenDoneList();
 }
@@ -1462,20 +1687,19 @@ function presetScorePlus(index) {
           els.hiddenDoneList.innerHTML = '<div class="empty">目前沒有隱藏完成項目。</div>';
           return;
         }
-        els.hiddenDoneList.innerHTML = state.archivedDoneToday.map((item, index) => `
-  <div class="preset-manage-item">
-    <div class="preset-row1">
+        els.hiddenDoneList.innerHTML = `<div class="hidden-done-wrap">${state.archivedDoneToday.map((item, index) => `
+  <div class="hidden-done-card">
+    <div class="hidden-done-top">
       <div class="preset-title">${escapeHtml(item.title)}</div>
-      <div class="preset-score">+${item.point}</div>
+      <div class="hidden-done-badge">已完成 ＋${item.point}</div>
     </div>
 
-    <div class="preset-row2">
-      <div class="score-adjust"></div>
+    <div class="hidden-done-actions">
       <button class="mini" type="button" data-action="restore-hidden-done" data-index="${index}">放回今日</button>
-      <button class="preset-trash" type="button" data-action="delete-hidden-done" data-index="${index}">🗑</button>
+      <button class="preset-trash" type="button" title="刪除" data-action="delete-hidden-done" data-index="${index}">🗑</button>
     </div>
   </div>
-`).join('');
+`).join('')}</div>`;
       }
 
       function restoreHiddenDone(index) {
@@ -1595,7 +1819,7 @@ function presetScorePlus(index) {
       function showResult(kind = 'success') {
         if (kind === 'success') {
           els.resultTitle.textContent = '🎉 全數達標';
-          els.resultSub.innerHTML = '今天不是撐過去，<br>是漂亮破關。<br>妳拿下今天了。';
+          els.resultSub.innerHTML = '今天不是撐過去，<br>是漂亮破關。<br>你拿下今天了。';
           els.resultIcons.textContent = '✨ ★ ✨ ★ ✨';
           playJackpotGameSound();
           fireBurst('success');
@@ -1603,7 +1827,7 @@ function presetScorePlus(index) {
           setTimeout(() => fireBurst('success'), 1100);
         } else {
           els.resultTitle.textContent = '🌙 今天先收工';
-          els.resultSub.innerHTML = '今天還沒全達標，<br>但妳已經有在前進。<br>明天再漂亮接回來。';
+          els.resultSub.innerHTML = '今天還沒全達標，<br>但你已經有在前進。<br>明天再漂亮接回來。';
           els.resultIcons.textContent = '☁️ ✦ ☁️';
           playMissSound();
           fireBurst('fail');
@@ -1637,7 +1861,7 @@ function presetScorePlus(index) {
       function settleToday() {
         const { total, done, score, rate } = getSummaryData();
         if (total === 0) {
-          alert('妳今天還沒有任務可以結算。');
+          alert('你今天還沒有任務可以結算。');
           return;
         }
 
@@ -1807,7 +2031,7 @@ function presetScorePlus(index) {
             : done === 0
             ? '任務已經排好了。明天先從最小的一件開始。'
             : rate >= 100
-            ? '今天全數完成，這不是運氣，是妳真的有在收自己的人生節奏。'
+            ? '今天全數完成，這不是運氣，是你真的有在收自己的人生節奏。'
             : rate >= 80
             ? `今天完成率 ${rate}%，這種穩穩做完的感覺，比一時爆衝更厲害。`
             : rate >= 60
@@ -1854,14 +2078,22 @@ function presetScorePlus(index) {
         if (e.target === els.settingsModal) closeSettings();
       });
 
-      els.exportBackupBtn.addEventListener('click', exportBackup);
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') {
+          if (els.celebrateLayer.classList.contains('show')) closeCelebration();
+          if (els.settingsModal.classList.contains('show')) closeSettings();
+        }
+      });
+
+      els.showBackupBoxBtn.addEventListener('click', showBackupBox);
+      els.downloadBackupBtn.addEventListener('click', downloadBackup);
       els.importBackupBtn.addEventListener('click', importBackup);
-      els.toggleHiddenDoneBtn.addEventListener('click', toggleHiddenDonePanel);
       els.resetAllBtn.addEventListener('click', resetAll);
       els.importFileInput.addEventListener('change', handleImportFile);
       els.savePresetBtn.addEventListener('click', savePreset);
 
       els.presetManageToggleBtn.addEventListener('click', togglePresetManagePanel);
+      els.hiddenDoneToggleBtn.addEventListener('click', toggleHiddenDonePanel);
       els.quickAddToggleBtn.addEventListener('click', toggleQuickAddPanel);
 
       els.replayCelebrateBtn.addEventListener('click', () =>
