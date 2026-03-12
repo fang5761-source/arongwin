@@ -2431,7 +2431,7 @@ function presetScorePlus(index) {
       function showResult(kind = 'success', achievementText = '') {
         if (els.celebrateSky) els.celebrateSky.innerHTML = '';
         if (kind === 'success') {
-          els.resultTitle.textContent = '達標！';
+          els.resultTitle.textContent = '達標';
           els.resultTitle.classList.add('success-pop');
           els.resultTitle.classList.remove('fail-soft');
           els.resultSub.textContent = pickRandom(successMessages);
