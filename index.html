@@ -856,7 +856,7 @@
 
         <div class="section-box" style="margin-top: 0; margin-bottom: 12px;">
           <button class="section-head" id="quickAddToggleBtn" type="button">
-            <span style="font-size:22px; font-weight:900;">常用任務</span>
+            <span style="font-size:18px; font-weight:900;">常用任務</span>
             <span class="arrow" id="quickAddArrow">▶</span>
           </button>
           <div class="section-content" id="quickAddPanel">
@@ -870,7 +870,8 @@
         </div>
 
         <div class="today-section">
-          <div class="today-title">📒 今日工作行程</div>
+          <div class="today-title">📗 今日的小任務</div>
+          <div class="schedule-tip">按「＋」可將任務加入常用列表</div>
           <div id="taskList" class="task-list"></div>
         </div>
       </section>
@@ -950,13 +951,13 @@ APP互動介面與設計：吳佩芳
 
       <input id="importFileInput" type="file" accept="application/json" style="display:none;" />
 
-      <div class="section-box" style="margin-top:8px;">
+      <div class="section-box" style="margin-top:12px;">
         <button class="section-head" id="presetManageToggleBtn" type="button">
           <span>管理常用任務</span>
           <span class="arrow" id="presetManageArrow">▶</span>
         </button>
         <div class="section-content open" id="presetManagePanel">
-          <div class="sub" style="margin-top:10px;">可拖曳排列順序，也可刪除。</div>
+          
 
           <div class="form-grid-preset">
             <input id="presetTitleInput" type="text" placeholder="新增常用任務，例如：喝水、運動" />
