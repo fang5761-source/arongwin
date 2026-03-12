@@ -1068,16 +1068,22 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+      align-items: center;
       background: radial-gradient(circle at top, rgba(255,255,255,0.16) 0%, rgba(38,27,79,0.86) 58%, rgba(17,12,36,0.96) 100%);
       border: 1px solid rgba(255,255,255,0.15);
       box-shadow: 0 30px 90px rgba(10, 8, 26, 0.48);
       overflow: hidden;
+      position: relative;
+      isolation: isolate;
     }
 
     .celebrate-title {
+      width: 100%;
+      display: block;
+      text-align: center;
       font-size: clamp(54px, 12vw, 110px);
       line-height: 1;
-      margin-bottom: 18px;
+      margin: 0 auto 18px;
       color: #fff;
       text-shadow: 0 8px 30px rgba(255, 145, 64, 0.42), 0 0 18px rgba(255,255,255,0.28);
       animation: titlePop 0.6s cubic-bezier(.2,.8,.2,1.2);
@@ -1096,6 +1102,8 @@
     }
 
     .celebrate-sub {
+      width: 100%;
+      text-align: center;
       font-size: clamp(20px, 3.2vw, 28px);
       color: #fff7f0;
       font-weight: 800;
@@ -1123,6 +1131,44 @@
 
     .celebrate-actions {
       margin-top: 22px;
+    }
+
+    .celebrate-sky {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .celebrate-card > *:not(.celebrate-sky) {
+      position: relative;
+      z-index: 1;
+    }
+
+    .emoji-burst {
+      position: absolute;
+      left: 50%;
+      top: 56%;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      animation: emojiBurst 1.9s cubic-bezier(.18,.74,.2,1) forwards;
+      will-change: transform, opacity;
+      filter: drop-shadow(0 6px 14px rgba(0,0,0,.18));
+    }
+
+    @keyframes emojiBurst {
+      0% {
+        transform: translate(-50%, -50%) scale(.25) rotate(0deg);
+        opacity: 0;
+      }
+      12% {
+        opacity: 1;
+      }
+      100% {
+        transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(var(--s,1)) rotate(var(--r));
+        opacity: 0;
+      }
     }
 
     @keyframes titlePop {
@@ -1329,7 +1375,8 @@ APP互動介面與設計：吳佩芳
 
   <div id="celebrateLayer" class="celebrate" aria-hidden="true">
     <div class="celebrate-card">
-      <div class="celebrate-title success-pop" id="resultTitle">達標！</div>
+      <div id="celebrateSky" class="celebrate-sky"></div>
+      <div class="celebrate-title success-pop" id="resultTitle">達標</div>
       <div class="celebrate-sub" id="resultSub">今天不是撐過去，<br>是漂亮破關。<br>你拿下今天了。</div>
       <div id="resultIcons" style="margin-top:12px; font-size:30px; letter-spacing:8px;">✨ ★ ✨ ★ ✨</div>
       <div id="resultBadge" class="celebrate-badge"></div>
@@ -1734,6 +1781,7 @@ APP互動介面與設計：吳佩芳
         resultTitle: document.getElementById('resultTitle'),
         resultSub: document.getElementById('resultSub'),
         resultIcons: document.getElementById('resultIcons'),
+        celebrateSky: document.getElementById('celebrateSky'),
         addBtn: document.getElementById('addBtn'),
         clearDoneBtn: document.getElementById('clearDoneBtn'),
         resetTodayBtn: document.getElementById('resetTodayBtn'),
@@ -2330,6 +2378,27 @@ function presetScorePlus(index) {
         );
       }
 
+
+      function launchEmojiBurst(kind = 'success') {
+        if (!els.celebrateSky) return;
+        const pool = kind === 'success'
+          ? ['🎉','✨','⭐','💫','🌟','🥳']
+          : ['☁️','💙','🌙','✨'];
+        const count = kind === 'success' ? 26 : 14;
+        for (let i = 0; i < count; i++) {
+          const piece = document.createElement('span');
+          piece.className = 'emoji-burst';
+          piece.textContent = pool[Math.floor(Math.random() * pool.length)];
+          piece.style.fontSize = `${20 + Math.floor(Math.random() * (kind === 'success' ? 22 : 10))}px`;
+          piece.style.setProperty('--x', `${(Math.random() * (kind === 'success' ? 520 : 340) - (kind === 'success' ? 260 : 170)).toFixed(0)}px`);
+          piece.style.setProperty('--y', `${(Math.random() * (kind === 'success' ? 360 : 220) - (kind === 'success' ? 220 : 140)).toFixed(0)}px`);
+          piece.style.setProperty('--r', `${(Math.random() * 360 - 180).toFixed(0)}deg`);
+          piece.style.setProperty('--s', `${(0.9 + Math.random() * 0.8).toFixed(2)}`);
+          els.celebrateSky.appendChild(piece);
+          setTimeout(() => piece.remove(), 2100);
+        }
+      }
+
       function fireBurst(kind = 'success') {
         const colors =
           kind === 'success'
@@ -2360,12 +2429,13 @@ function presetScorePlus(index) {
       }
 
       function showResult(kind = 'success', achievementText = '') {
+        if (els.celebrateSky) els.celebrateSky.innerHTML = '';
         if (kind === 'success') {
           els.resultTitle.textContent = '達標！';
           els.resultTitle.classList.add('success-pop');
           els.resultTitle.classList.remove('fail-soft');
           els.resultSub.textContent = pickRandom(successMessages);
-          els.resultIcons.textContent = '🎉 ✨ ★ ✨ 🎉';
+          els.resultIcons.textContent = '🎉 ✨ ⭐ ✨ 🎉';
           if (achievementText) {
             els.resultBadge.textContent = achievementText;
             els.resultBadge.classList.add('show');
@@ -2374,9 +2444,13 @@ function presetScorePlus(index) {
             els.resultBadge.classList.remove('show');
           }
           playJackpotGameSound();
+          launchEmojiBurst('success');
+          setTimeout(() => launchEmojiBurst('success'), 280);
           fireBurst('success');
           setTimeout(() => fireBurst('success'), 380);
+          setTimeout(() => launchEmojiBurst('success'), 760);
           setTimeout(() => fireBurst('success'), 900);
+          setTimeout(() => launchEmojiBurst('success'), 1280);
           setTimeout(() => fireBurst('success'), 1450);
           if (navigator.vibrate) navigator.vibrate([120, 50, 140]);
         } else {
@@ -2384,10 +2458,11 @@ function presetScorePlus(index) {
           els.resultTitle.classList.remove('success-pop');
           els.resultTitle.classList.add('fail-soft');
           els.resultSub.textContent = pickRandom(failMessages);
-          els.resultIcons.textContent = '☁️ ✦ ☁️';
+          els.resultIcons.textContent = '☁️ ✨ 🌙 ✨ ☁️';
           els.resultBadge.textContent = '';
           els.resultBadge.classList.remove('show');
           playMissSound();
+          launchEmojiBurst('fail');
           fireBurst('fail');
           setTimeout(() => fireBurst('fail'), 500);
           if (navigator.vibrate) navigator.vibrate([80]);
@@ -2397,6 +2472,7 @@ function presetScorePlus(index) {
 
       function closeCelebration() {
         els.celebrateLayer.classList.remove('show');
+        if (els.celebrateSky) els.celebrateSky.innerHTML = '';
       }
 
       function getLevelTitle(rate, score) {
