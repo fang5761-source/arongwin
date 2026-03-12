@@ -381,6 +381,21 @@
       flex: 0 0 auto;
     }
 
+    .preset-main{
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+
+    .preset-score{
+    font-weight:700;
+    color:#2f6b48;
+    margin-left:6px;
+    white-space:nowrap;
+    }
+
+
+
     .task-title {
       flex: 1;
       font-weight: 700;
@@ -1420,38 +1435,47 @@ function presetScorePlus(index) {
       }
 
       function closeSettings() {
-        els.settingsModal.classList.remove('show');
-        els.settingsModal.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-      }
+  els.settingsModal.classList.remove('show');
+  els.settingsModal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+
+  els.hiddenDonePanel.style.display = 'none';
+  els.presetManagePanel.classList.remove('open');
+  els.presetManageArrow.classList.remove('open');
+}
 
       function toggleHiddenDonePanel() {
-        const isOpen = els.hiddenDonePanel.style.display === 'block';
-        els.hiddenDonePanel.style.display = isOpen ? 'none' : 'block';
-        if (!isOpen) renderHiddenDoneList();
-      }
+  const isOpen = els.hiddenDonePanel.style.display === 'block';
+
+  if (!isOpen) {
+    els.presetManagePanel.classList.remove('open');
+    els.presetManageArrow.classList.remove('open');
+  }
+
+  els.hiddenDonePanel.style.display = isOpen ? 'none' : 'block';
+
+  if (!isOpen) renderHiddenDoneList();
+}
 
       function renderHiddenDoneList() {
         if (!state.archivedDoneToday.length) {
           els.hiddenDoneList.innerHTML = '<div class="empty">目前沒有隱藏完成項目。</div>';
           return;
         }
-        els.hiddenDoneList.innerHTML = state.archivedDoneToday
-          .map(
-            (item, index) => `
-          <div class="preset-manage-item">
-            <div class="preset-main">
-              <div class="preset-title">${escapeHtml(item.title)}</div>
-              <div class="preset-score">+${item.point}</div>
-            </div>
-            <div class="toolbar-small">
-              <button class="mini" type="button" data-action="restore-hidden-done" data-index="${index}">放回今日</button>
-              <button class="mini danger" type="button" data-action="delete-hidden-done" data-index="${index}">刪除</button>
-            </div>
-          </div>
-        `
-          )
-          .join('');
+        els.hiddenDoneList.innerHTML = state.archivedDoneToday.map((item, index) => `
+  <div class="preset-manage-item">
+    <div class="preset-row1">
+      <div class="preset-title">${escapeHtml(item.title)}</div>
+      <div class="preset-score">+${item.point}</div>
+    </div>
+
+    <div class="preset-row2">
+      <div class="score-adjust"></div>
+      <button class="mini" type="button" data-action="restore-hidden-done" data-index="${index}">放回今日</button>
+      <button class="preset-trash" type="button" data-action="delete-hidden-done" data-index="${index}">🗑</button>
+    </div>
+  </div>
+`).join('');
       }
 
       function restoreHiddenDone(index) {
